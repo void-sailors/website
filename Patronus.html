@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="shortcut icon" href="assets/img/fac.png" type="image/png">
+
+    <!--=============== REMIXICONS ===============-->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="hhttps://nagoshiashumari.github.io/Rpg-Awesome/stylesheets/rpg-awesome.min.css" rel="stylesheet">
+    <!--=============== SWIPER CSS ===============-->
+    <link rel="stylesheet" href="assets/css/swiper-bundle.min.css">
+
+    <!--=============== CSS ===============-->
+    <link rel="stylesheet" href="assets/css/styles.css">
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <!--=============== googlefont ===============-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&display=swap" rel="stylesheet">
+
+    <title>Patronus | Harry Potter Verse &#x21AF;</title>
+</head>
+
+<body>
+    <style>
+        @import url("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
+        @import url("https://nagoshiashumari.github.io/Rpg-Awesome/stylesheets/rpg-awesome.min.css");
+    </style>
+    <header class="header" id="header">
+        <nav class="nav container">
+            <a href="index.html" class="nav__logo"><b>&#x21AF; Back</b></a>
+
+            <div class="nav__menu" id="nav-menu">
+                <ul class="nav__list">
+
+                    <li class="nav__item">
+                        <div class="dropdown">
+                            <button class="dropbtn">Features
+                                <i class="fa fa-caret-down"></i>
+                            </button>
+                            <div class="dropdown-content">
+                                <a href="sorting.html">Sorting Ceremony</a>
+                                <a href="wand.html">Find Wand</a>
+                                <a href="boggarts.html">Face Boggarts</a>
+                            </div>
+                        </div>
+
+                    </li>
+
+                    <li class="nav__item">
+                        <div class="dropdown">
+                            <button class="dropbtn">Explore
+                                <i class="fa fa-caret-down"></i>
+                            </button>
+                            
+                            <div class="dropdown-content">
+                                <a href="places.html">Iconic Locations</a>
+                                <a href="spells.html">Spells & Charms</a>
+                                <a href="creature.html">Magical Creatures</a>
+                                <a href="duels.html">Wizard Duels</a>
+                                <a href="movie.html">Movies</a>
+                                <a href="book.html">Books</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav__item">
+                        <div class="dropdown">
+                            <button class="dropbtn">Secrets
+                                <i class="fa fa-caret-down"></i>
+                            </button>
+                            <div class="dropdown-content">                                
+                                <a href="curses.html">Unforgivable Curses</a>
+                                <a href="deadly.html">Deadly Hallows</a>
+                                <a href="Army.html">Dumbeldore's Army </a>
+                                <a href="news.html">Daily Prophet</a>
+                            </div>
+                        </div>
+                    </li>
+
+                </ul>
+                <br>
+                
+                <div class="nav__dark">
+                    <!-- Theme change button -->
+                    <span class="change-theme-name">Gryffindor Theme</span>
+                    <i class="ra  ra-venomous-snake  ra-1x change-theme" id="theme-button"></i>
+                </div>
+
+                <i class="ri-close-line nav__close" id="nav-close"></i>
+            </div>
+
+            <div class="nav__toggle" id="nav-toggle">
+                <i class="ri-function-line"></i>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main">
+
+
+
+        <!--==================== Patronus ====================-->
+        <img src="assets/img/bg/BgPatronus.jpg" class="main__img"  style="opacity: 35%;">
+        <section class="discover section container" style="position: relative;">
+
+            <div class="lol ">
+                <h2 class="section__title ">Discover your Patronus</h2>
+
+                <img src="assets/img/PagesGifs/patronusHero.gif"
+                    style="margin: 50.64px 0px; border-radius: 10px;">
+            </div>
+            <p class="video__description container">The Patronus is the most famous defensive
+                charm. The aim is to produce a silvery-white guardian or protector, which takes the form of an animal.
+                The exact form of the Patronus will not be apparent until the spell has been successfully cast. One of
+                the most powerful defensive charms known to wizardkind, the Patronus can also be used as a messenger
+                between wizards. As a pure, protective magical concentration of happiness and hope it is the only spell effective against Dementors.
+                The majority of witches and wizards are unable to produce Patronuses and to do so is generally
+                considered a mark of superior magical ability.</p>
+            <br>
+            <br>
+            <br>
+
+            <div class="video__container container">
+                <form class="footer__data" id="animal">
+                        <strong>
+                          <h2>How would you describe yourself...</h2>
+                        </strong><br>
+                        <input type="radio" id="Average" name="describe" value="hyena">
+                        <label for="Average">Average Height</label><br><br>
+                        <input type="radio" id="Tall" name="describe" value="rareStag">
+                        <label for="Tall">Tall</label><br><br>
+                        <input type="radio" id="Short" name="describe" value="seal">
+                        <label for="Short">Short</label><br><br><br><br>
+                      
+                        <strong>
+                          <h2>What’s your wizard blood status...</h2>
+                        </strong><br>
+                        <input type="radio" id="PureBlood" name="blood" value="rarePhoenix">
+                        <label for="PureBlood">Pure Blood</label><br><br>
+                        <input type="radio" id="HalfBlood" name="blood" value="cat">
+                        <label for="HalfBlood">Half-Blood</label><br><br>
+                        <input type="radio" id="Squib" name="blood" value="snake">
+                        <label for="Squib">Squib</label><br><br>
+                        <input type="radio" id="Muggle" name="blood" value="orca">
+                        <label for="Muggle">Muggle</label><br><br><br><br>
+                      
+                        <strong>
+                          <h2>What kind of wood do you think your wand would be made out of...</h2>
+                        </strong><br>
+                        <input type="radio" id="Holly" name="wood" value="hippogriff">
+                        <label for="Holly">Holly</label><br><br>
+                        <input type="radio" id="Alder" name="wood" value="cat">
+                        <label for="Alder">Alder</label><br><br>
+                        <input type="radio" id="Vine" name="wood" value="occamy">
+                        <label for="Vine">Vine</label><br><br>
+                        <input type="radio" id="Willow" name="wood" value="legendaryDoe">
+                        <label for="Willow">Willow</label><br><br>
+                        <input type="radio" id="Ebony" name="wood" value="orca">
+                        <label for="Ebony">Ebony</label>
+                        <br><br><br><br>
+                      
+                        <strong>
+                          <h2>Which magical artifact would you choose...</h2>
+                        </strong><br>
+                        <input type="radio" id="Key" name="artifact" value="seal">
+                        <label for="Key">Mysterious Key</label><br><br>
+                        <input type="radio" id="Necklace" name="artifact" value="owl">
+                        <label for="Necklace">Old Necklace</label><br><br>
+                        <input type="radio" id="Mirror" name="artifact" value="moonOwl">
+                        <label for="Mirror">Gold Mirror</label><br><br>
+                        <input type="radio" id="Scroll" name="artifact" value="lion">
+                        <label for="Scroll">Bound Scroll</label><br><br>
+                        <input type="radio" id="Jewel" name="artifact" value="thestral">
+                        <label for="Jewel">Ancient Wand</label><br><br><br><br>
+                      
+                        <strong>
+                          <h2>What trait do you most value...</h2>
+                        </strong><br>
+                        <input type="radio" id="Intelligence" name="trait" value="owl">
+                        <label for="Intelligence">Intelligence</label><br><br>
+                        <input type="radio" id="Kindness" name="trait" value="rarePhoenix">
+                        <label for="Kindness">Kindness</label><br><br>
+                        <input type="radio" id="Optimism" name="trait" value="occamy">
+                        <label for="Optimism">Optimism</label><br><br>
+                        <input type="radio" id="Courage" name="trait" value="dragon">
+                        <label for="Courage">Courage</label><br><br>
+                        <input type="radio" id="Humor" name="trait" value="hippogriff">
+                        <label for="Humor">Humor</label>
+                        <br><br><br><br>
+                      
+                        <strong>
+                          <h2>What is your greatest fear...</h2>
+                        </strong><br>
+                        <input type="radio" id="Darkness" name="fear" value="moonOwl">
+                        <label for="Darkness">Darkness</label><br><br>
+                        <input type="radio" id="Isolation" name="fear" value="thestral">
+                        <label for="Isolation">Isolation</label><br><br> 
+                        <input type="radio" id="Fire" name="fear" value="lion">
+                        <label for="Fire">Fire</label><br><br>
+                        <input type="radio" id="Failure" name="fear" value="stag">
+                        <label for="Failure">Failure</label><br><br>
+                        <input type="radio" id="trapped" name="fear" value="rareStag">
+                        <label for="trapped">Being trapped</label>
+                        <br><br><br><br>
+                      
+                        <strong>
+                          <h2>Travelling alone down a deserted road, you reach
+                            a crossroads. Do you continue...</h2>
+                        </strong><br>
+                        <input type="radio" id="Castle" name="crossroads" value="dragon">
+                        <label for="Castle">Right Towards the castle</label><br><br>
+                        <input type="radio" id="Sea" name="crossroads" value="legendaryDoe">
+                        <label for="Sea">Left Towards the sea</label><br><br>
+                        <input type="radio" id="Forest" name="crossroads" value="snake">
+                        <label for="Forest">Straight Towards the forest</label><br><br>
+                        <input type="radio" id="Sky" name="crossroads" value="legendaryDoe">
+                        <label for="Sky">Up Towards the Sky</label><br><br>
+                        <input type="radio" id="Stay" name="crossroads" value="stag">
+                        <label for="Stay">Stay where you are</label><br><br>
+                      </form>
+                      
+                      <br><br>
+                <button class="Quizbutton" onclick="patronuss()">Expecto Patronus</button>
+
+            </div>
+            </div>
+        </section>
+
+        <div id="video-file">
+            <div id="video-button"></div>
+        </div>
+    </main>
+    <!--==================== FOOTER ====================-->
+    <footer class="footer section">
+        <div class="footer__container container grid">
+            <div class="footer__content grid">
+                <div class="footer__data">
+                    <h3 class="footer__title">Harry Potter Verse</h3>
+                    <img src="assets/img/signature.png">
+                    <p class="footer__description">A wizarding world for Potter Heads
+                    </p>
+                    <div>
+
+                        <a href="https://twitter.com/AkshatJalan13" target="_blank" class="footer__social">
+                            <i class="ri-twitter-fill"></i>
+                        </a>
+                        <a href="https://www.instagram.com/akshatxjalan/" target="_blank" class="footer__social">
+                            <i class="ri-instagram-fill"></i>
+                        </a>
+                        <a href="https://www.youtube.com/c/HaGGele" target="_blank" class="footer__social">
+                            <i class="ri-youtube-fill"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <hr>
+
+
+                <div class="footer__data">
+
+                    <h3 class="footer__subtitle">Navigate</h3>
+                    <ul>
+                        <li class="footer__item">
+                            <a href="index.html" class="footer__link">Home</a>
+                        </li>
+                        <li class="footer__item">
+                            <a href="book.html" class="footer__link">Books</a>
+                        </li>
+
+                        <li class="footer__item">
+                            <a href="movie.html" class="footer__link">Movies</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="footer__data">
+                    <h3 class="footer__subtitle">Other Work</h3>
+                    <ul>
+                        <li class="footer__item">
+                            <a href="https://akshatjalan.github.io/akshat/" class="footer__link">Portfolio</a>
+                        </li>
+                        <li class="footer__item">
+                            <a href="https://akshatjalan.github.io/haggele/" class="footer__link">HaGGele</a>
+                        </li>
+                        <li class="footer__item">
+                            <a href="https://ebook-akshat.netlify.app/" class="footer__link">Book Store</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer__rights container">
+                <p class="footer__copy">Copyright &copy; Akshat Jalan | 2025</p>
+            </div>
+    </footer>
+
+    <!--========== SCROLL UP ==========-->
+    <a href="#" class="scrollup" id="scroll-up">
+        <i class="ri-arrow-up-line scrollup__icon"></i>
+    </a>
+
+    <!--=============== SCROLL REVEAL===============-->
+    <script src="assets/js/scrollreveal.min.js"></script>
+
+    <!--=============== SWIPER JS ===============-->
+    <script src="assets/js/swiper-bundle.min.js"></script>
+
+    <!--=============== MAIN JS ===============-->
+    <script src="assets/js/main.js"></script>
+</body>
+
+</html>
