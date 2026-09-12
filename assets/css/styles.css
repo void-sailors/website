@@ -136,6 +136,30 @@ body.dark-theme {
   font-size: var(--small-font-size);
 }
 
+/* Hammer and sickle instead of RPG Awesome snake/lion */
+#theme-button::before,
+#theme-button.ra-venomous-snake::before,
+#theme-button.ra-lion::before {
+  content: "\262D";
+  font-family: "Segoe UI Symbol", "Noto Sans Symbols 2", "Apple Symbols", "Symbola", sans-serif !important;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+/* Default (void): white */
+#theme-button,
+#theme-button::before {
+  color: var(--white-color);
+}
+
+/* Crimson / Soviet theme: same gold as titles */
+body.dark-theme #theme-button,
+body.dark-theme #theme-button::before {
+  color: var(--title-color);
+}
+
 /*=============== BASE ===============*/
 * {
   box-sizing: border-box;
