@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://voidsailors.com/sitemap.xml

@@ -1,0 +1,138 @@
+/* VoidSailors — shared behaviour: theme, navigation, the living sky, reveals, trailer. */
+(() => {
+  const root = document.documentElement;
+  root.classList.remove("no-js");
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  /* ---------- Theme (☭ = Socialist crimson) ---------- */
+  const THEME_KEY = "vs-theme";
+  const store = {
+    get() { try { return localStorage.getItem(THEME_KEY); } catch (e) { return null; } },
+    set(v) { try { v ? localStorage.setItem(THEME_KEY, v) : localStorage.removeItem(THEME_KEY); } catch (e) { /* private mode */ } },
+  };
+  const toggles = document.querySelectorAll("[data-theme-toggle]");
+  const syncToggles = () => {
+    const on = root.dataset.theme === "socialists";
+    toggles.forEach((b) => b.setAttribute("aria-pressed", String(on)));
+  };
+  const setTheme = (name) => {
+    if (name && name !== "void") root.dataset.theme = name;
+    else delete root.dataset.theme;
+    store.set(name && name !== "void" ? name : null);
+    syncToggles();
+    document.dispatchEvent(new CustomEvent("vs:theme"));
+  };
+  window.VoidSailors = { setTheme };
+  toggles.forEach((b) => b.addEventListener("click", () => setTheme(root.dataset.theme === "socialists" ? null : "socialists")));
+  syncToggles();
+
+  /* ---------- Header + mobile menu ---------- */
+  const header = document.querySelector(".header");
+  const onScroll = () => header && header.classList.toggle("is-scrolled", window.scrollY > 21);
+  onScroll();
+  window.addEventListener("scroll", onScroll, { passive: true });
+
+  const navToggle = document.querySelector(".nav__toggle");
+  const menu = document.getElementById("nav-menu");
+  if (navToggle && menu) {
+    const close = () => { menu.classList.remove("is-open"); navToggle.setAttribute("aria-expanded", "false"); };
+    navToggle.addEventListener("click", () => {
+      const open = menu.classList.toggle("is-open");
+      navToggle.setAttribute("aria-expanded", String(open));
+    });
+    menu.addEventListener("click", (e) => { if (e.target.closest("a")) close(); });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape") close(); });
+  }
+
+  /* ---------- Reveal on scroll ---------- */
+  const reveals = document.querySelectorAll(".reveal");
+  if ("IntersectionObserver" in window && !reduceMotion.matches) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((en) => { if (en.isIntersecting) { en.target.classList.add("is-in"); io.unobserve(en.target); } });
+    }, { rootMargin: "0px 0px -8% 0px" });
+    reveals.forEach((el) => io.observe(el));
+  } else {
+    reveals.forEach((el) => el.classList.add("is-in"));
+  }
+
+  /* ---------- Trailer: load the file only on click ---------- */
+  document.querySelectorAll("[data-trailer]").forEach((box) => {
+    const btn = box.querySelector(".trailer__play");
+    btn.addEventListener("click", () => {
+      const v = document.createElement("video");
+      v.src = box.dataset.trailer;
+      v.controls = true;
+      v.playsInline = true;
+      v.setAttribute("aria-label", btn.getAttribute("aria-label") || "Trailer");
+      box.replaceChildren(v);
+      v.play().catch(() => {});
+      v.focus();
+    });
+  });
+
+  /* ---------- Stars that blink ---------- */
+  const canvas = document.querySelector(".sky canvas");
+  if (!canvas || !canvas.getContext) return;
+  const ctx = canvas.getContext("2d");
+  let stars = [], w = 0, h = 0, dpr = 1, raf = 0, last = 0, color = "238, 242, 248";
+
+  const readColor = () => { color = getComputedStyle(root).getPropertyValue("--star").trim() || color; };
+  const build = () => {
+    dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    w = canvas.clientWidth; h = canvas.clientHeight;
+    canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const count = Math.round(Math.min(160, Math.max(60, (w * h) / 9000)));
+    stars = Array.from({ length: count }, () => {
+      const blinker = Math.random() < 0.05;
+      return {
+        x: Math.random() * w,
+        y: Math.random() * h * 0.82,
+        r: Math.random() < 0.08 ? 1.6 : Math.random() < 0.4 ? 1.05 : 0.7,
+        base: 0.3 + Math.random() * 0.35,
+        period: blinker ? 12000 + Math.random() * 8000 : 4000 + Math.random() * 5000,
+        phase: Math.random() * Math.PI * 2,
+        blinker,
+      };
+    });
+  };
+  const draw = (t) => {
+    ctx.clearRect(0, 0, w, h);
+    for (const s of stars) {
+      let a;
+      if (s.blinker) {
+        // Mostly steady, then one sharp blink per cycle.
+        const p = ((t / s.period) + s.phase) % 1;
+        a = p < 0.04 ? 1 - Math.sin((p / 0.04) * Math.PI) * 0.9 : 0.85;
+      } else {
+        a = s.base + (1 - s.base) * (0.5 + 0.5 * Math.sin((t / s.period) * Math.PI * 2 + s.phase));
+      }
+      ctx.globalAlpha = a;
+      ctx.fillStyle = `rgb(${color})`;
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fill();
+      if (s.r > 1.5) {
+        ctx.globalAlpha = a * 0.18;
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r * 3.4, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+    ctx.globalAlpha = 1;
+  };
+  const loop = (t) => {
+    raf = requestAnimationFrame(loop);
+    if (t - last < 33) return; // ~30 fps is plenty for a slow twinkle
+    last = t;
+    draw(t);
+  };
+  const start = () => { cancelAnimationFrame(raf); if (reduceMotion.matches) draw(0); else raf = requestAnimationFrame(loop); };
+
+  readColor(); build(); start();
+  let resizeTimer;
+  window.addEventListener("resize", () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(() => { build(); start(); }, 200); });
+  document.addEventListener("visibilitychange", () => { if (document.hidden) cancelAnimationFrame(raf); else start(); });
+  document.addEventListener("vs:theme", () => { readColor(); if (reduceMotion.matches) draw(0); });
+  reduceMotion.addEventListener && reduceMotion.addEventListener("change", start);
+})();

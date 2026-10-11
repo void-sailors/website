@@ -1,423 +1,355 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" class="no-js">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="VoidSailors: Where Truth Lies is a GameLit novel set in a five-day in-game contest where factions, scarcity, and consequence shape survival. An original progression story by E.J. Perry.">
-
-    <meta name="author" content="E.J. Perry">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>VoidSailors: Where Truth Lies | GameLit Novel by E. J. Perry</title>
+    <meta name="description" content="VoidSailors: Where Truth Lies is a GameLit novel set in a five-day in-game contest where factions, scarcity, and consequence shape survival. An original progression story by E. J. Perry.">
+    <meta name="author" content="E. J. Perry">
     <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#0b0f1a">
+    <link rel="canonical" href="https://voidsailors.com/">
+
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="VoidSailors">
+    <meta property="og:title" content="VoidSailors: Where Truth Lies">
+    <meta property="og:description" content="Five days. Four factions. No second runs. A GameLit novel by E. J. Perry.">
+    <meta property="og:url" content="https://voidsailors.com/">
+    <meta property="og:image" content="https://voidsailors.com/assets/img/web/share-card.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
 
-    <link rel="shortcut icon" href="assets/img/fac.png" type="image/png">
+    <link rel="icon" href="assets/img/web/favicon-32.png" type="image/png" sizes="32x32">
+    <link rel="apple-touch-icon" href="assets/img/web/apple-touch-icon.png">
 
-    <!--=============== REMIXICONS ===============-->
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <link href="hhttps://nagoshiashumari.github.io/Rpg-Awesome/stylesheets/rpg-awesome.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet"/>
+    <script>try{var t=localStorage.getItem("vs-theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+    <link rel="preload" href="assets/fonts/cinzel.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="assets/fonts/bluu-next-titling.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" as="image" type="image/webp" imagesrcset="assets/img/web/cover-320.webp 320w, assets/img/web/cover-484.webp 484w" imagesizes="(min-width: 1100px) 400px, (min-width: 768px) 360px, 62vw">
+    <link rel="stylesheet" href="assets/css/site.css">
 
-    <!--=============== SWIPER CSS ===============-->
-    <link rel="stylesheet" href="assets/css/swiper-bundle.min.css">
-
-    <!--=============== CSS ===============-->
-    <link rel="stylesheet" href="assets/css/styles.css">
-    <!--=============== googlefont ===============-->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&display=swap" rel="stylesheet">
-
-    <title>VoidSailors: Where Truth Lies | GameLit Novel by E.J. Perry</title>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Book",
+        "name": "VoidSailors: Where Truth Lies",
+        "author": { "@type": "Person", "name": "E. J. Perry" },
+        "isbn": "979-8-89170-595-1",
+        "genre": ["GameLit", "Fantasy", "Young Adult"],
+        "inLanguage": "en",
+        "url": "https://voidsailors.com/",
+        "image": "https://voidsailors.com/assets/img/web/cover-484.webp"
+    }
+    </script>
 </head>
 
 <body>
+    <a class="skip" href="#main">Skip to content</a>
 
-    <style>
-        @import url("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
-        @import url("https://nagoshiashumari.github.io/Rpg-Awesome/stylesheets/rpg-awesome.min.css");
-    </style>
+    <!--==================== THE LIVING VOID ====================-->
+    <div class="sky" aria-hidden="true">
+        <canvas></canvas>
+        <svg width="0" height="0" style="position:absolute">
+            <symbol id="isle" viewBox="0 0 300 170">
+                <path style="fill:currentColor" d="M8 52C40 40 70 46 96 38c30-8 56 2 86-4 32-6 68 6 110 16l-10 12c-14 8-20 18-36 22-8 14-20 18-32 20-8 18-18 24-28 26-6 18-16 28-26 36-6-16-14-26-24-30-14-8-20-18-32-24-16-6-24-16-38-22-16-6-26-16-38-20C18 64 12 60 8 52z"/>
+                <path style="fill:var(--rim);opacity:.45" d="M118 37l6-15 6 15zm14 0l5-11 5 11zm60-3l4-10 4 10zm-128 8l5-12 5 12zm12-1l4-9 4 9z"/>
+                <path style="fill:none;stroke:var(--rim);stroke-width:1.5;stroke-linecap:round" d="M8 52C40 40 70 46 96 38c30-8 56 2 86-4 32-6 68 6 110 16"/>
+            </symbol>
+        </svg>
+        <svg class="isle isle--a" viewBox="0 0 300 170"><use href="#isle"/></svg>
+        <svg class="isle isle--b" viewBox="0 0 300 170" style="transform:scaleX(-1)"><use href="#isle"/></svg>
+        <svg class="isle isle--c" viewBox="0 0 300 170"><use href="#isle"/></svg>
+        <svg class="isle isle--d" viewBox="0 0 300 170"><use href="#isle"/></svg>
+        <div class="fog fog--1"></div>
+        <div class="fog fog--2"></div>
+    </div>
 
-    <header class="header" id="header">
-        <nav class="nav container">
-            <a href="index.html" class="nav__logo"><b>VoidSailors &trade;</b></a>
+    <!--==================== HEADER ====================-->
+    <header class="header">
+        <nav class="nav wrap" aria-label="Main">
+            <a href="index.html" class="brand" aria-label="VoidSailors home">
+                <img src="assets/img/web/logo-96.webp" alt="" width="34" height="34">
+                <span>VoidSailors<sup>&trade;</sup></span>
+            </a>
 
             <div class="nav__menu" id="nav-menu">
                 <ul class="nav__list">
-
-                    <li class="nav__item">
-                        <div class="dropdown">
-                            <button class="dropbtn">The Book
-                                <i class="fa fa-caret-down"></i>
-                            </button>
-                            <div class="dropdown-content">
-                                <a href="book.html">Where Treasure Lies</a>
-                                
-                                </div>
-                        </div>
-
-                    </li>
-
-                    <li class="nav__item">
-                        <div class="dropdown">
-                            <button class="dropbtn">Explore
-                                <i class="fa fa-caret-down"></i>
-                            </button>
-                            
-                            <div class="dropdown-content">
-                                <a href="#">Iconic Locations</a>
-                                
-                            </div>
-                        </div>
-                    </li>
-                    <li class="nav__item">
-                        <div class="dropdown">
-                            <button class="dropbtn">Secrets
-                                <i class="fa fa-caret-down"></i>
-                            </button>
-                            <div class="dropdown-content">                                
-                                <a href="#">The Tower</a>
-                                
-                            </div>
-                        </div>
-                    </li>
-
+                    <li><a class="nav__link" href="book.html">The Book</a></li>
+                    <li><a class="nav__link" href="gate.html">The Gate</a></li>
+                    <li><a class="nav__link" href="#world">The World</a></li>
+                    <li><a class="nav__link" href="#author">The Author</a></li>
                 </ul>
-                <br>
-                
-                <div class="nav__dark">
-                    <i class="ra  ra-venomous-snake  ra-1x change-theme" id="theme-button"></i>
-                </div>
-
-                <i class="ri-close-line nav__close" id="nav-close"></i>
-
+                <a class="btn btn--primary" href="#crew">Join the Crew</a>
             </div>
 
-            <div class="nav__toggle" id="nav-toggle">
-                <i class="ri-function-line"></i>
+            <div class="nav__tools">
+                <button class="icon-btn theme-toggle" type="button" data-theme-toggle aria-pressed="false" aria-label="Socialist theme" title="Socialist theme">&#9773;</button>
+                <button class="icon-btn nav__toggle" type="button" aria-controls="nav-menu" aria-expanded="false" aria-label="Menu">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+                </button>
             </div>
         </nav>
     </header>
 
-    <main class="main">
+    <main id="main">
 
-
-        <!--==================== HOME ====================-->
-        <section class="home">
-            <img src="assets/img/bg/bgMain.jpg" alt="" class="main__img">
-
-            <div class="home__container container grid">
-                <div class="home__data">
-                    <span class="home__data-subtitle">Welcome Adventurers</span>
-                    <h1 class="home__data-title right-line left-line">
-                        <h1>VoidSailors: Where Truth Lies — A Novel of Choice and Consequence</h1>
-                        </b></h1>
-                    <br>
-                    <a href="#about" class="button">Explore </a>
-                    
-
+        <!--==================== HERO ====================-->
+        <section class="hero" aria-labelledby="hero-title">
+            <div class="wrap hero__grid">
+                <div class="hero__copy">
+                    <p class="eyebrow">A GameLit novel by E. J. Perry</p>
+                    <h1 class="hero__title" id="hero-title">VoidSailors<sup>&trade;</sup></h1>
+                    <span class="hero__subtitle">Where Truth Lies</span>
+                    <p class="hero__hook">Five days. Four factions. No second runs.</p>
+                    <p class="hero__motto">An adventure that trades stats for consequence, inside a contest where every alliance has a price and death is permanent.</p>
+                    <div class="btn-row">
+                        <a class="btn btn--primary" href="gate.html">Face the Gate</a>
+                        <a class="btn btn--ghost" href="book.html">Discover the Book</a>
+                    </div>
+                    <p class="hero__meta">Release date coming soon &middot; Print and digital</p>
                 </div>
+                <div class="hero__cover">
+                    <img src="assets/img/web/cover-484.webp" srcset="assets/img/web/cover-320.webp 320w, assets/img/web/cover-484.webp 484w" sizes="(min-width: 1100px) 400px, (min-width: 768px) 360px, 62vw" width="484" height="720" alt="Cover of VoidSailors: Where Truth Lies by E. J. Perry, two sailing ships flying through a violet sky above floating islands" fetchpriority="high">
+                </div>
+            </div>
+            <a class="scroll-cue" href="#about">Enter the Void</a>
+        </section>
 
-                <div class="home__social container">
-                    <a href="https://www.instagram.com/ejperry_author/" target="_blank" class="home__social-link">
-                        <i class="ri-instagram-fill"></i>
+        <!--==================== PREMISE ====================-->
+        <section class="section" id="about" aria-labelledby="about-title">
+            <div class="wrap split split--rev">
+                <div class="reveal">
+                    <p class="eyebrow">The Premise</p>
+                    <h2 id="about-title">A contest with no second runs</h2>
+                    <hr class="rule">
+                    <p class="lede">For five days, players crew ships through an in-game contest where factions bargain and supplies run short.</p>
+                    <p>Every choice is permanent. Progress is measured less by numbers than by trust, attention, and the price of each alliance.</p>
+                    <a class="btn btn--ghost" href="book.html">Read the Overview</a>
+                </div>
+                <div class="portraits reveal" aria-hidden="true">
+                    <img src="assets/img/web/sailor-1-360.webp" width="360" height="540" alt="" loading="lazy" decoding="async">
+                    <img src="assets/img/web/sailor-2-360.webp" width="360" height="540" alt="" loading="lazy" decoding="async">
+                    <img src="assets/img/web/sailor-3-360.webp" width="360" height="540" alt="" loading="lazy" decoding="async">
+                </div>
+            </div>
+        </section>
+
+        <!--==================== MOSS ====================-->
+        <section class="quote reveal" aria-label="A word from Moss">
+            <div class="wrap">
+                <blockquote>
+                    <p>&ldquo;Luck equals opportunity times preparedness squandered.&rdquo;</p>
+                    <cite>Moss</cite>
+                </blockquote>
+            </div>
+        </section>
+
+        <!--==================== FACTIONS ====================-->
+        <section class="section" id="factions" aria-labelledby="factions-title">
+            <div class="wrap">
+                <div class="center measure reveal" style="text-align:center">
+                    <p class="eyebrow">Choose a Banner</p>
+                    <h2 id="factions-title">The Four Factions</h2>
+                    <hr class="rule center">
+                    <p>Power in VoidSailors comes from factions, not morality bars. Traders, fleets, pirates and drifters each run on their own economics. Alliances are temporary, incentives are visible, and every faction decision changes who gets resources, protection, and a chance to survive.</p>
+                </div>
+                <div class="factions">
+                    <a class="faction reveal" href="gate.html">
+                        <img src="assets/img/web/crest-pirates-240.webp" srcset="assets/img/web/crest-pirates-240.webp 240w, assets/img/web/crest-pirates-480.webp 480w" sizes="200px" width="240" height="360" alt="Pirate crest: a compass rose over crossed sabres" loading="lazy" decoding="async">
+                        <h3>Pirates</h3>
+                        <p>Independence &middot; Freedom</p>
                     </a>
-                    <a href="https://www.tiktok.com/@ejperry_author" target="_blank" class="home__social-link">
-                        <i class="ri-tiktok-line"></i>
+                    <a class="faction reveal" href="gate.html">
+                        <img src="assets/img/web/crest-cats-240.webp" srcset="assets/img/web/crest-cats-240.webp 240w, assets/img/web/crest-cats-480.webp 480w" sizes="200px" width="240" height="360" alt="C.A.T. crest: a green cat beside stacked gold coins" loading="lazy" decoding="async">
+                        <h3>C.A.T.s</h3>
+                        <p>Corporate Alliance of Trade</p>
                     </a>
-                    <a href="https://www.youtube.com/@voidsailors" target="_blank" class="home__social-link">
-                        <i class="ri-youtube-fill"></i>
+                    <a class="faction reveal" href="gate.html">
+                        <img src="assets/img/web/crest-socialists-240.webp" srcset="assets/img/web/crest-socialists-240.webp 240w, assets/img/web/crest-socialists-480.webp 480w" sizes="200px" width="240" height="360" alt="Socialist crest: three raised fists over a gear" loading="lazy" decoding="async">
+                        <h3>Socialists</h3>
+                        <p>Direction &middot; Unity &middot; Efficiency</p>
+                    </a>
+                    <a class="faction reveal" href="gate.html">
+                        <img src="assets/img/web/crest-nomads-240.webp" srcset="assets/img/web/crest-nomads-240.webp 240w, assets/img/web/crest-nomads-480.webp 480w" sizes="200px" width="240" height="360" alt="Nomad crest: a hooded wanderer in silver" loading="lazy" decoding="async">
+                        <h3>Nomads</h3>
+                        <p>Every man for himself</p>
                     </a>
                 </div>
-
-            </div>
-        </section>
-
-        <!--==================== ABOUT ====================-->
-        <section class="about section" id="about">
-            <div class="container grid">
-                <div class="about__data">
-                    <h2 class="section__title about__title container  right-line left-line">About VoidSailors</h2>
-                    <p class="about__description">VoidSailors is a fantasy novel set during a five-day competitive event where factions, 
-                        ideological tensions, and irreversible consequences define survival.</p>
-                </div>
-
-                <div class="about__img">
-                    <div class="about__img-overlay">
-                        <img src="assets/img/main/2.jpeg" alt="" class="about__img-one">
-                    </div>
-
-                    <div class="about__img-overlay">
-                        <img src="assets/img/main/1.jpg" alt="" class="about__img-two">
-                    </div>
-                    <div class="about__img-overlay">
-                        <img src="assets/img/main/3.png" alt="" class="about__img-one">
-                    </div>
+                <div class="center reveal" style="text-align:center">
+                    <p class="muted">Not sure where you belong? Let the Gatekeeper decide.</p>
+                    <a class="btn btn--primary" href="gate.html">Begin Triage by the Gate</a>
                 </div>
             </div>
         </section>
 
-
-        <section class=" about section" id="list">
-            <div class="container grid">
-            <div class="about__data">
-            <h2  class="section__title about__title container right-line left-line" >Sailor's Inventory</h2>
-                <p class="about__description">Inventory in VoidSailors is finite, visible, and meaningful. 
-                    What you carry affects what you can do, who you can help, and what you must abandon. 
-                    Items represent labor, trade, or sacrifice—turning inventory management into a strategic and moral choice rather than a background mechanic.
-                </p>
-            </div>
-
-            <div class="about__data">
-            <div class="checklist-container ">
-                <a href='#'> 
-              <div class="checklist-item">
-                <img src="assets/img/option1.png" alt="Get Sorted">
-                <button class="checklistButton">Shards</button>
-              </div>
-              </a>
-              <a href='#'> 
-              <div class="checklist-item">
-                <img src="assets/img/option2.png" alt="Find Your Patronus">
-                <button class="checklistButton">Magic Cannon Balls</button>
-              </div>
-              </a>
-              <a href='#'> 
-              <div class="checklist-item wand-section">
-                <img src="assets/img/option3.png" alt="Your Wand">
-                <button class="checklistButton">Bundle of Twigs</button>
-              </div>
-              </a>
-              <a href='#'> 
-              <div class="checklist-item">
-                <img src="assets/img/option4.png" alt="Create Your Portrait">
-                <button class="checklistButton">The Scroll</button>
-              </div>
-              </a>
-            </div>
-            </div>
-          </section>
-
-
-        <!--==================== Factions ====================-->
-        <section class="video section" style="position: relative;">
-            <h2 class="section__title container right-line left-line">The Factions</h2>
-            <p class="video__description container">Power in VoidSailors is shaped by factions, not morality bars. 
-                Corporate traders, socialist fleets, pirates, and nomads each operate under distinct economic and ideological systems. 
-                Alliances are temporary, incentives are visible, and every faction decision alters access to resources, protection, and survival itself.
-            </p>
-            <br>
-
-            <div class="video__description container">
-                <a href='#'> <button class="button">Discover Your Faction</button></a>
-                <br><br>
-            </div>
-                <div class="row1-container">
-                    <div class="box box-down ">
-                        <h2>Pirates</h2>
-                        <br>
-                        <img src="assets/img/crest/g4.png" alt="">
-                    </div>
-
-                    <div class="box ">
-                        <h2>C.A.T.s</h2>
-                        <br>
-                        <img src="assets/img/crest/g1.png" alt="">
-                    </div>
-
-                    <div class="box box-down ">
-                        <h2>Socialists</h2>
-                        <br>
-                        <img src="assets/img/crest/g3.png" alt="">
-                    </div>
+        <!--==================== FIVE DAYS ====================-->
+        <section class="section" aria-labelledby="days-title">
+            <div class="wrap split split--rev">
+                <div class="reveal">
+                    <p class="eyebrow">The Contest</p>
+                    <h2 id="days-title">Five Days in the Void</h2>
+                    <hr class="rule">
+                    <p>The clock starts at the Armada Gate. Every day carries its own name, and each one costs something.</p>
                 </div>
-                <div class="row2-container">
-                    <div class="box ">
-                        <h2>Nomads</h2>
-                        <br>
-                        <img src="assets/img/crest/g2.png" alt="">
-                    </div>
+                <ol class="days reveal">
+                    <li><b>Day One</b><span>The Sign in the Ruins</span></li>
+                    <li><b>Day Two</b><span>The Taste of Freedom</span></li>
+                    <li><b>Day Three</b><span>Nothing You Can Take</span></li>
+                    <li><b>Day Four</b><span>The Warmth of Strangers</span></li>
+                    <li><b>Day Five</b><span>The Shorter Crossing</span></li>
+                </ol>
+            </div>
+        </section>
+
+        <!--==================== HEROES ====================-->
+        <section class="section" id="heroes" aria-labelledby="heroes-title">
+            <div class="wrap">
+                <div class="reveal">
+                    <p class="eyebrow">Crew and Rivals</p>
+                    <h2 id="heroes-title">The Heroes</h2>
+                    <hr class="rule">
+                    <p class="measure">Picking the right ally can matter more than picking the right weapon. Here, heroes are defined by trust, shared risk, and loyalty in a world that never resets. Friends open paths. The wrong ones close them forever.</p>
+                </div>
+                <div class="rail" tabindex="0" role="region" aria-label="Characters, scroll sideways for more">
+                    <figure class="card">
+                        <img src="assets/img/web/hero-moss-360.webp" srcset="assets/img/web/hero-moss-360.webp 360w, assets/img/web/hero-moss-640.webp 640w" sizes="260px" width="360" height="540" alt="Moss, a stout pirate with a smoking pipe" loading="lazy" decoding="async">
+                        <figcaption><h3>Moss</h3><p>Lucky-Smoky</p></figcaption>
+                    </figure>
+                    <figure class="card">
+                        <img src="assets/img/web/hero-alys-360.webp" srcset="assets/img/web/hero-alys-360.webp 360w, assets/img/web/hero-alys-640.webp 640w" sizes="260px" width="360" height="540" alt="&Auml;lys in a crimson naval uniform" loading="lazy" decoding="async">
+                        <figcaption><h3>&Auml;lys</h3><p>It&rsquo;s not a game</p></figcaption>
+                    </figure>
+                    <figure class="card">
+                        <img src="assets/img/web/hero-gatekeeper-360.webp" srcset="assets/img/web/hero-gatekeeper-360.webp 360w, assets/img/web/hero-gatekeeper-640.webp 640w" sizes="260px" width="360" height="540" alt="The Gatekeeper, a robed elder with a glowing staff" loading="lazy" decoding="async">
+                        <figcaption><h3>The Gatekeeper</h3><p>When a name is spoken&hellip;</p></figcaption>
+                    </figure>
+                    <figure class="card">
+                        <img src="assets/img/web/hero-spag-360.webp" srcset="assets/img/web/hero-spag-360.webp 360w, assets/img/web/hero-spag-640.webp 640w" sizes="260px" width="360" height="540" alt="Spag, leaning on coiled rope in a wide-brimmed hat" loading="lazy" decoding="async">
+                        <figcaption><h3>Spag</h3><p>&rsquo;Bout Time</p></figcaption>
+                    </figure>
+                    <figure class="card">
+                        <img src="assets/img/web/hero-markus-360.webp" srcset="assets/img/web/hero-markus-360.webp 360w, assets/img/web/hero-markus-640.webp 640w" sizes="260px" width="360" height="540" alt="Markus Dark, dressed in black, holding a violet orb on a night deck" loading="lazy" decoding="async">
+                        <figcaption><h3>Markus Dark</h3><p>Unhappy Quartermaster</p></figcaption>
+                    </figure>
+                    <figure class="card">
+                        <img src="assets/img/web/hero-axer-360.webp" srcset="assets/img/web/hero-axer-360.webp 360w, assets/img/web/hero-axer-640.webp 640w" sizes="260px" width="360" height="540" alt="Axer Justice in a green cloak" loading="lazy" decoding="async">
+                        <figcaption><h3>Axer Justice</h3><p>The Captain</p></figcaption>
+                    </figure>
                 </div>
             </div>
         </section>
 
-        <!--==================== The Heroes ====================-->
-        <section class="discover section" style="position: relative;">
-            <h2 class="section__title container right-line left-line">The Heroes</h2>
-            <p class="video__description container">In VoidSailors, choosing the right ally can matter more than choosing the right weapon. 
-                Heroes are defined by trust, shared risk, and the consequences of loyalty in a world that doesn’t reset. 
-                Friends open paths. The wrong ones close them forever.
-            </p>
-            <div class="discover__container container swiper-container" >
-                <div class="swiper-wrapper">
-
-                    <!--==================== DISCOVER 1 ====================-->
-                    <div class="discover__card swiper-slide">
-                        <img src="assets/img/dark/d2.png" alt="" class="discover__img">
-                        <div class="discover__data">
-                            <h2 class="discover__title">Moss</h2>
-                            <span class="discover__description">Lucky-Smoky</span>
-                        </div>
-                    </div>
-
-                    <!--==================== DISCOVER 2 ====================-->
-                    <div class="discover__card swiper-slide">
-                        <img src="assets/img/dark/d3.jpg" alt="" class="discover__img">
-                        <div class="discover__data">
-                            <h2 class="discover__title">Alys </h2>
-                            <span class="discover__description">It's not a game</span>
-                        </div>
-                    </div>
-
-                    <!--==================== DISCOVER 3 ====================-->
-                    <div class="discover__card swiper-slide">
-                        <img src="assets/img/dark/d4.jpg" alt="" class="discover__img">
-                        <div class="discover__data">
-                            <h2 class="discover__title">The Gatekeeper</h2>
-                            <span class="discover__description">When a name is spoken...</span>
-                        </div>
-                    </div>
-
-                    <!--==================== Dark 1 ====================-->
-                    <div class="discover__card swiper-slide">
-                        <img src="assets/img/dark/d6.jpg" alt="" class="discover__img">
-                        <div class="discover__data">
-                            <h2 class="discover__title">Spag</h2>
-                            <span class="discover__description">'Bout Time </span>
-                        </div>
-                    </div>
-                    <!--==================== Dark 1 ====================-->
-                    <div class="discover__card swiper-slide">
-                        <img src="assets/img/dark/d1.jpg" alt="" class="discover__img">
-                        <div class="discover__data">
-                            <h2 class="discover__title">Markus</h2>
-                            <span class="discover__description">Unhappy Quartermaster</span>
-                        </div>
-                    </div>
-                    <!--==================== DISCOVER 4 ====================-->
-                    <div class="discover__card swiper-slide">
-                        <img src="assets/img/dark/d9.jpg" alt="" class="discover__img">
-                        <div class="discover__data">
-                            <h2 class="discover__title">Axer Justice</h2>
-                            <span class="discover__description">
-                                The Captain</span>
-                        </div>
-                    </div>
+        <!--==================== INVENTORY ====================-->
+        <section class="section" id="inventory" aria-labelledby="inventory-title">
+            <div class="wrap split split--rev">
+                <div class="reveal">
+                    <p class="eyebrow">What You Carry</p>
+                    <h2 id="inventory-title">Sailor&rsquo;s Inventory</h2>
+                    <hr class="rule">
+                    <p>Inventory in VoidSailors is finite, visible, and meaningful. Cargo decides what you can do, who you can help, and what you must abandon.</p>
+                    <p class="muted">Every item stands for labor, trade, or sacrifice, which turns packing the hold into a strategic and moral choice rather than a background mechanic.</p>
+                </div>
+                <div class="items reveal">
+                    <figure class="item"><img src="assets/img/web/item-shards-320.webp" width="320" height="213" alt="A cluster of pale blue crystal shards" loading="lazy" decoding="async"><figcaption>Shards</figcaption></figure>
+                    <figure class="item"><img src="assets/img/web/item-cannonballs-320.webp" width="320" height="213" alt="An open chest of glowing magic cannonballs" loading="lazy" decoding="async"><figcaption>Magic Cannonballs</figcaption></figure>
+                    <figure class="item"><img src="assets/img/web/item-twigs-320.webp" width="320" height="213" alt="A bundle of twigs tied with cord" loading="lazy" decoding="async"><figcaption>Bundle of Twigs</figcaption></figure>
+                    <figure class="item"><img src="assets/img/web/item-scroll-320.webp" width="320" height="213" alt="A rolled parchment scroll with handwritten lines" loading="lazy" decoding="async"><figcaption>The Scroll</figcaption></figure>
                 </div>
             </div>
         </section>
 
-
-        <!--==================== VIDEO ====================-->
-        <section class="video section" style="position: relative;">
-            <h2 class="section__title container right-line left-line">About the Ships</h2>
-
-            <div class="video__container container">
-                <p class="video__description container">The Battle for Survaval.
-                </p>
-
-                <div class="video__content">
-                    <video id="video-file">
-                        <source src="assets/video/trailer.mp4" type="video/mp4">
-                    </video>
-
-                    <button class="button button--flex video__button" id="video-button">
-                        <i class="ri-play-line video__button-icon" id="video-icon"></i>
-                    </button>
+        <!--==================== WORLD ====================-->
+        <section class="section" id="world" aria-labelledby="world-title">
+            <div class="wrap split split--rev">
+                <div class="reveal">
+                    <p class="eyebrow">The World</p>
+                    <h2 id="world-title">Islands Above the Great Deep</h2>
+                    <hr class="rule">
+                    <blockquote class="lore">
+                        <p>&ldquo;Magic is not fire. Magic is the sea.&rdquo;</p>
+                        <footer>From LORE, a hand-lettered volume</footer>
+                    </blockquote>
+                    <p>Trade routes, contested gates and drifting hover-sail ships connect the islands. Travel, logistics and crew decide who holds power, so movement itself becomes strategy.</p>
+                </div>
+                <div class="reveal">
+                    <div class="trailer" data-trailer="assets/video/trailer-web.mp4">
+                        <img src="assets/img/web/trailer-poster.webp" width="960" height="540" alt="" loading="lazy" decoding="async">
+                        <button class="trailer__play" type="button" aria-label="Play the VoidSailors trailer">
+                            <span><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg></span>
+                        </button>
+                    </div>
+                    <p class="muted" style="margin-top:var(--s3);font-size:var(--t-small)">The battle for survival &middot; Trailer</p>
                 </div>
             </div>
         </section>
 
+        <!--==================== AUTHOR ====================-->
+        <section class="section" id="author" aria-labelledby="author-title">
+            <div class="wrap author reveal">
+                <p class="eyebrow">The Author</p>
+                <h2 id="author-title" class="sr-only">E. J. Perry</h2>
+                <img src="assets/img/web/signature-240.webp" width="240" height="160" alt="Signature of E. J. Perry" loading="lazy" decoding="async">
+                <p class="measure">E. J. Perry writes GameLit that trades stats for consequence inside broken systems.</p>
+            </div>
+        </section>
+
+        <!--==================== CREW ====================-->
+        <section class="section" id="crew" aria-labelledby="crew-title">
+            <div class="wrap">
+                <div class="panel center reveal" style="text-align:center;max-width:760px">
+                    <p class="eyebrow">Join the Crew</p>
+                    <h2 id="crew-title">Be first to hear the release date</h2>
+                    <p class="measure center">Follow along for cover reveals, Gate results, and the day the ships launch.</p>
+                    <ul class="socials">
+                        <li><a href="https://www.instagram.com/ejperry_author/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.3"/></svg>Instagram</a></li>
+                        <li><a href="https://www.tiktok.com/@ejperry_author" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 3c.4 2.3 1.9 3.8 4 4v3c-1.5 0-2.9-.5-4-1.3V15a6 6 0 1 1-6-6v3a3 3 0 1 0 3 3V3h3z"/></svg>TikTok</a></li>
+                        <li><a href="https://www.youtube.com/@voidsailors" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="4"/><path d="M10 9l5 3-5 3z" style="fill:var(--void)"/></svg>YouTube</a></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
     </main>
 
     <!--==================== FOOTER ====================-->
-    <footer class="footer section">
-        <div class="footer__container container grid">
-            <div class="footer__content grid">
-                <div class="footer__data">
-                    <h3 class="footer__title">VoidSailors Universe</h3>
-                    <img src="assets/img/signature.png">
-                    <p class="footer__description">An Adventure world for VoidSailors
-                        
-                    </p>
-
-                    <div>
-
-                        <a href="https://twitter.com/" target="_blank" class="footer__social">
-                            <i class="ri-twitter-fill"></i>
-                        </a>
-                        <a href="https://www.instagram.com/ejperry_author/" target="_blank" class="footer__social">
-                            <i class="ri-instagram-fill"></i>
-                        </a>
-                        <a href="https://www.youtube.com/@voidsailors" target="_blank" class="footer__social">
-                            <i class="ri-youtube-fill"></i>
-                        </a>
+    <footer class="footer">
+        <div class="wrap">
+            <div class="footer__grid">
+                <div>
+                    <div class="footer__brand">
+                        <img src="assets/img/web/logo-96.webp" alt="" width="55" height="55" loading="lazy">
+                        <span>VoidSailors</span>
                     </div>
+                    <p class="muted">Five days. Four factions. No second runs.</p>
                 </div>
-
-                <hr>
-
-
-                <div class="footer__data">
-
-                    <h3 class="footer__subtitle">Navigate</h3>
+                <div>
+                    <h2>Navigate</h2>
                     <ul>
-                        <li class="footer__item">
-                            <a href="#" class="footer__link">Faction Assigning Ceremony</a>
-                        </li>
-                        <li class="footer__item">
-                            <a href="book.html" class="footer__link">About the Book</a>
-                        </li>
-
-                        <li class="footer__item">
-                            <a href="#" class="footer__link">About the Author</a>
-                        </li>
+                        <li><a href="book.html">About the Book</a></li>
+                        <li><a href="gate.html">Triage by the Gate</a></li>
+                        <li><a href="index.html#world">The World</a></li>
+                        <li><a href="index.html#author">About the Author</a></li>
                     </ul>
                 </div>
-
-                <div class="footer__data">
-                    <h3 class="footer__subtitle">Other Work</h3>
+                <div>
+                    <h2>Follow</h2>
                     <ul>
-                        <li class="footer__item">
-                            <a href="https://void-sailors.github.io" class="footer__link">Portfolio</a>
-                        </li>
-                        <li class="footer__item">
-                            <a href="https://void-sailors.github.io" class="footer__link">Projects</a>
-                        </li>
-                        <li class="footer__item">
-                            <a href="https://voidsailors.com" class="footer__link">Book Store</a>
-                        </li>
+                        <li><a href="https://www.instagram.com/ejperry_author/" target="_blank" rel="noopener">Instagram</a></li>
+                        <li><a href="https://www.tiktok.com/@ejperry_author" target="_blank" rel="noopener">TikTok</a></li>
+                        <li><a href="https://www.youtube.com/@voidsailors" target="_blank" rel="noopener">YouTube</a></li>
                     </ul>
                 </div>
             </div>
-            <div class="footer__rights container">
+            <div class="footer__legal">
                 <p class="footer__copy">VoidSailors &trade; | <script type="text/javascript">
                     document.write(new Date().getFullYear());
                   </script></p>
+                <p>VoidSailors&trade; and the VoidSailors logo are trademarks of E. J. Perry. All rights reserved.</p>
+                <p>VoidSailors is an original work of fiction and is not affiliated with, endorsed by, or sponsored by the VOID SAILS video game or its developers/publisher.</p>
             </div>
-            <div class="footer__rights container">
-                <p class="about__description">VoidSailors is an original work of fiction and is not affiliated with, 
-                    endorsed by, or sponsored by the VOID SAILS video game or its developers/publisher.</p>
-            </div>
+        </div>
     </footer>
 
-
-    <!--========== SCROLL UP ==========-->
-    <a href="#" class="scrollup" id="scroll-up">
-        <i class="ri-arrow-up-line scrollup__icon"></i>
-    </a>
-
-    <!--=============== SCROLL REVEAL===============-->
-    <script src="assets/js/scrollreveal.min.js"></script>
-
-    <!--=============== SWIPER JS ===============-->
-    <script src="assets/js/swiper-bundle.min.js"></script>
-
-    <!--=============== MAIN JS ===============-->
-    <script src="assets/js/main.js"></script>
-
-
+    <script src="assets/js/site.js" defer></script>
 </body>
-
 </html>
