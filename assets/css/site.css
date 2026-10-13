@@ -501,7 +501,10 @@ p { margin: 0 0 var(--s4); }
    Plain stacking (halo z 0, cover z 1) and plain transforms only, so every engine,
    Safari included, paints it the same way. */
 .halo { position: absolute; inset: -21% -34%; z-index: 0; pointer-events: none; }
-.hero__cover > img { z-index: 1; filter: drop-shadow(0 0 8px rgba(var(--glow), .9)) drop-shadow(0 0 34px rgba(var(--glow), .55)) drop-shadow(0 34px 55px rgba(0, 0, 0, .6)); }
+.hero__cover img { z-index: 1; filter: drop-shadow(0 0 8px rgba(var(--glow), .9)) drop-shadow(0 0 34px rgba(var(--glow), .55)) drop-shadow(0 34px 55px rgba(0, 0, 0, .6)); transition: filter .4s var(--ease); }
+.hero__buy { position: relative; z-index: 1; display: block; border-radius: 4px; }
+.hero__buy:hover img, .hero__buy:focus-visible img { filter: drop-shadow(0 0 13px rgba(var(--glow), 1)) drop-shadow(0 0 55px rgba(var(--glow), .7)) drop-shadow(0 34px 55px rgba(0, 0, 0, .6)); }
+.hero__buy:focus-visible { outline: 2px solid var(--brass); outline-offset: 8px; }
 .halo__glow, .halo__rays, .halo__spark { position: absolute; top: 0; right: 0; bottom: 0; left: 0; }
 .halo__glow {
   background:
@@ -618,6 +621,8 @@ button.item:not([data-state="locked"]):hover, button.item:not([data-state="locke
 .trial__status[data-tone="lose"] { color: #ff8a7a; }
 .trial__actions { justify-content: center; }
 .trial__actions:empty { display: none; }
+.launch__cover { width: 96px; height: auto; margin: 0 auto var(--s4); filter: drop-shadow(0 10px 21px rgba(var(--glow), .45)); }
+.launch .crew-form { margin-bottom: 0; }
 @media (prefers-reduced-motion: reduce) { .item.is-denied, .trial[open] { animation: none; } }
 
 /* I. Cannonballs */
