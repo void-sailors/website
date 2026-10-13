@@ -70,6 +70,38 @@
     });
   });
 
+  /* ---------- Join the Crew mailing list ----------
+     Set data-endpoint on the form to a provider's form URL to switch it on.
+     Until then nothing leaves the browser. */
+  document.querySelectorAll(".crew-form").forEach((form) => {
+    const status = form.querySelector(".crew-form__status");
+    const email = form.querySelector('input[type="email"]');
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (form.elements.website && form.elements.website.value) return; // bot trap
+      if (!email.checkValidity()) {
+        status.textContent = "Please enter a valid email address.";
+        email.focus();
+        return;
+      }
+      const endpoint = form.dataset.endpoint;
+      if (!endpoint) {
+        status.textContent = "The mailing list opens soon. Until then, catch the news on the channels below.";
+        return;
+      }
+      const body = new FormData();
+      body.append(form.dataset.field || "email", email.value.trim());
+      status.textContent = "Sending…";
+      try {
+        await fetch(endpoint, { method: "POST", body, mode: "no-cors" });
+        status.textContent = "Welcome aboard. Check your inbox to confirm.";
+        form.reset();
+      } catch (err) {
+        status.textContent = "That didn’t go through. Please try again.";
+      }
+    });
+  });
+
   /* ---------- Stars that blink ---------- */
   const canvas = document.querySelector(".sky canvas");
   if (!canvas || !canvas.getContext) return;

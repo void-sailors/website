@@ -104,12 +104,21 @@
                     <p class="hero__hook">Five days. Four factions. No second runs.</p>
                     <p class="hero__motto">An adventure that trades stats for consequence, inside a contest where every alliance has a price and death is permanent.</p>
                     <div class="btn-row">
-                        <a class="btn btn--primary" href="gate.html">Face the Gate</a>
+                        <a class="btn btn--gate" href="gate.html"><svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 21V10a7 7 0 0 1 14 0v11M9 21v-8a3 3 0 0 1 6 0v8M3 21h18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Face the Gate</a>
                         <a class="btn btn--ghost" href="book.html">Discover the Book</a>
                     </div>
                     <p class="hero__meta">Release date coming soon &middot; Print and digital</p>
                 </div>
                 <div class="hero__cover">
+                    <div class="halo" aria-hidden="true">
+                        <span class="halo__glow"></span>
+                        <span class="halo__rays"></span>
+                        <span class="halo__frame"></span>
+                        <span class="halo__spark" style="--a:20deg;--d:9s"></span>
+                        <span class="halo__spark" style="--a:140deg;--d:12s"></span>
+                        <span class="halo__spark" style="--a:250deg;--d:10s"></span>
+                        <span class="halo__spark" style="--a:320deg;--d:14s"></span>
+                    </div>
                     <img src="assets/img/web/cover-484.webp" srcset="assets/img/web/cover-320.webp 320w, assets/img/web/cover-484.webp 484w" sizes="(min-width: 1100px) 400px, (min-width: 768px) 360px, 62vw" width="484" height="720" alt="Cover of VoidSailors: Where Truth Lies by E. J. Perry, two sailing ships flying through a violet sky above floating islands" fetchpriority="high">
                 </div>
             </div>
@@ -178,7 +187,7 @@
                 </div>
                 <div class="center reveal" style="text-align:center">
                     <p class="muted">Not sure where you belong? Let the Gatekeeper decide.</p>
-                    <a class="btn btn--primary" href="gate.html">Begin Triage by the Gate</a>
+                    <a class="btn btn--gate" href="gate.html"><svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 21V10a7 7 0 0 1 14 0v11M9 21v-8a3 3 0 0 1 6 0v8M3 21h18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Begin Triage by the Gate</a>
                 </div>
             </div>
         </section>
@@ -300,7 +309,18 @@
                 <div class="panel center reveal" style="text-align:center;max-width:760px">
                     <p class="eyebrow">Join the Crew</p>
                     <h2 id="crew-title">Be first to hear the release date</h2>
-                    <p class="measure center">Follow along for cover reveals, Gate results, and the day the ships launch.</p>
+                    <p class="measure center">One email when launch day is set, plus cover reveals and news from the Void. No spam, and you can unsubscribe anytime.</p>
+                    <!-- Mailing list: paste your provider's form URL into data-endpoint (and set the
+                         field name in data-field if it isn't "email"). Until then, nothing is sent. -->
+                    <form class="crew-form" data-endpoint="" data-field="email" method="post" novalidate>
+                        <label class="sr-only" for="crew-email">Email address</label>
+                        <input id="crew-email" type="email" name="email" autocomplete="email" inputmode="email" placeholder="you@example.com" required>
+                        <input class="sr-only" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+                        <button class="btn btn--primary" type="submit">Join the Crew</button>
+                        <p class="crew-form__note">You must be 13 or older to subscribe.</p>
+                        <p class="crew-form__status" role="status" aria-live="polite"></p>
+                    </form>
+                    <p class="muted crew-follow">Or follow along now</p>
                     <ul class="socials">
                         <li><a href="https://www.instagram.com/ejperry_author/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.3"/></svg>Instagram</a></li>
                         <li><a href="https://www.tiktok.com/@ejperry_author" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 3c.4 2.3 1.9 3.8 4 4v3c-1.5 0-2.9-.5-4-1.3V15a6 6 0 1 1-6-6v3a3 3 0 1 0 3 3V3h3z"/></svg>TikTok</a></li>
