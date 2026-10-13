@@ -96,7 +96,7 @@
       }
       const endpoint = form.dataset.endpoint;
       if (!endpoint) {
-        status.textContent = "The mailing list opens soon. Until then, catch the news on the channels below.";
+        status.textContent = "Mailing in a Bottle opens soon. Until then, catch the news on the socials.";
         return;
       }
       const body = new FormData();
@@ -104,7 +104,7 @@
       status.textContent = "Sending…";
       try {
         await fetch(endpoint, { method: "POST", body, mode: "no-cors" });
-        status.textContent = "Welcome aboard. Check your inbox to confirm.";
+        status.textContent = "Welcome aboard. Your first bottle is on its way, so check your inbox to confirm.";
         form.reset();
       } catch (err) {
         status.textContent = "That didn’t go through. Please try again.";
