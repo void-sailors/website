@@ -339,6 +339,9 @@ p { margin: 0 0 var(--s4); }
 .panel { background: color-mix(in srgb, var(--deep) 72%, transparent); border: 1px solid var(--line); border-radius: calc(var(--radius) * 1.618); padding: var(--s5); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); }
 
 .portraits { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s3); align-items: start; }
+.helm-mark { display: flex; align-items: center; gap: var(--s3); justify-content: center; margin: 0 0 var(--s4); }
+.helm-mark::before, .helm-mark::after { content: ""; flex: 1; max-width: 72px; height: 1px; background: linear-gradient(90deg, transparent, var(--brass)); }
+.helm-mark::after { transform: scaleX(-1); }
 .portrait { margin: 0; text-align: center; }
 .portrait img { width: 100%; aspect-ratio: 2 / 3; object-fit: cover; border-radius: var(--radius); border: 1px solid var(--line); }
 .portrait:not(.portrait--lead) { margin-top: var(--s5); } /* the lead stands a head taller */
