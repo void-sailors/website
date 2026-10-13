@@ -20,8 +20,13 @@
       const state = i < won ? "won" : i === won ? "open" : "locked";
       btn.dataset.state = state;
       btn.setAttribute("aria-disabled", String(state === "locked"));
-      const note = btn.querySelector(".item__state");
-      note.textContent = state === "won" ? "Won" : state === "open" ? "Play the trial" : "Locked";
+      if (state === "locked") {
+        btn.dataset.hint = `Unlocks after ${NAMES[ORDER[i - 1]]}`;
+        btn.setAttribute("aria-label", `${NAMES[btn.dataset.game]}. ${btn.dataset.hint}`);
+      } else {
+        delete btn.dataset.hint;
+        btn.removeAttribute("aria-label");
+      }
     });
   };
 
@@ -49,7 +54,7 @@
     ui.status.dataset.tone = "win";
     const next = ORDER[i + 1];
     ui.actions.replaceChildren(next
-      ? button(`Open ${NAMES[next]}`, "btn--gate", () => open(next))
+      ? button(`Open ${NAMES[next]}`, "btn--primary", () => open(next))
       : button("Close the Hold", "btn--ghost", () => dialog.close()));
   };
   const lose = (message, retryLabel) => {
@@ -71,6 +76,7 @@
     /* I. Like Mines: sixteen spheres, three cursed, a new layout every round. */
     cannonballs() {
       const SIZE = 16, CURSED = 3, NEED = 5;
+      const HUES = [205, 230, 265, 290, 320, 175, 45, 140]; // blue, indigo, violet, purple, magenta, teal, amber, green
       reset(`Sixteen cannonballs sit in the crate and ${CURSED} of them are cursed. Lift ${NEED} sound ones to pass. Touch a cursed ball and it blows.`);
       const cursed = new Set(shuffle([...Array(SIZE).keys()]).slice(0, CURSED));
       let found = 0, over = false;
@@ -79,6 +85,7 @@
       count.textContent = `Sound: 0 of ${NEED}`;
       for (let i = 0; i < SIZE; i++) {
         const orb = el("button", "orb");
+        orb.style.setProperty("--h", HUES[rand(HUES.length)]);
         orb.type = "button";
         orb.setAttribute("aria-label", `Cannonball ${i + 1}`);
         orb.addEventListener("click", () => {
@@ -202,7 +209,7 @@
       };
       form.append(field("Cannonball", "c"), field("Twig", "t", "11"), field("Shard", "s"));
       ui.board.appendChild(form);
-      const unseal = button("Unseal the Scroll", "btn--gate", () => form.requestSubmit());
+      const unseal = button("Unseal the Scroll", "btn--primary", () => form.requestSubmit());
       const hint = button("Ask Moss for a Hint", "btn--ghost", () => {
         ui.status.textContent = "Moss: “Set the twig aside first. Then count the shard as two cannonballs.”";
         delete ui.status.dataset.tone;
@@ -230,6 +237,8 @@
   items.forEach((btn) => btn.addEventListener("click", () => {
     if (btn.dataset.state === "locked") {
       btn.classList.remove("is-denied"); void btn.offsetWidth; btn.classList.add("is-denied");
+      clearTimeout(btn.hintTimer);
+      btn.hintTimer = setTimeout(() => btn.classList.remove("is-denied"), 2600);
       return;
     }
     open(btn.dataset.game);
