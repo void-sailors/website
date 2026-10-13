@@ -63,6 +63,9 @@
 .page__text p { margin: 0; text-indent: 1.3em; }
 .page__text p.is-cont, .page__text p.is-first, .page__text .sys + p, .page__text p.is-top { text-indent: 0; }
 .page__text p.is-first::first-line { font-variant: small-caps; letter-spacing: .04em; }
+/* Chapter opening, book style: a two-line drop cap in the faction's brass, then small caps. */
+.page__text p.is-first::first-letter, .chapter__text > p:first-child::first-letter {
+  float: left; margin: .07em .09em 0 0; font-family: var(--font-display); font-weight: 600; font-size: 3.55em; line-height: .82; color: var(--page-acc, var(--brass)); }
 .page__text .sys { margin: .55em 0; text-indent: 0; text-align: center; font-size: .78em; line-height: 1.5; letter-spacing: .08em; }
 .sys--plate span { display: inline-block; padding: .15em .9em; border: 1px solid currentColor; border-radius: 4px; color: var(--page-sys); }
 .page__text .sys--clock { color: var(--page-sys); }
