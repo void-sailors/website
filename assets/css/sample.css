@@ -31,6 +31,18 @@
 .reader { --page-ink: var(--mist); --page-head: var(--heading); --page-dim: var(--mist-dim); --paper: color-mix(in srgb, var(--deep) 88%, rgb(var(--glow))); --paper-2: var(--deep); --page-acc: var(--brass); --page-sys: rgb(var(--glow)); --page-alert: #ff5a6e;
   display: grid; justify-items: center; align-content: start; gap: var(--s3); padding: var(--s3) 16px var(--s4); min-height: calc(100svh - var(--s7)); }
 .reader.is-paper { --page-ink: #2b2219; --page-head: #2b2219; --page-dim: #7b6a55; --paper: #f4ecdb; --paper-2: #e9dcc2; --page-acc: #9a7428; --page-sys: #3d6fb8; --page-alert: #b3182d; }
+/* Switching Paper on or off: one calm cross-fade of the page colours, never a flash.
+   Registering the colours lets the browser blend them; browsers without @property simply swap. */
+@property --page-ink { syntax: "<color>"; inherits: true; initial-value: #c9d3e3; }
+@property --page-head { syntax: "<color>"; inherits: true; initial-value: #ffffff; }
+@property --page-dim { syntax: "<color>"; inherits: true; initial-value: #8f9bb1; }
+@property --paper { syntax: "<color>"; inherits: true; initial-value: #141a28; }
+@property --paper-2 { syntax: "<color>"; inherits: true; initial-value: #0f1420; }
+@property --page-acc { syntax: "<color>"; inherits: true; initial-value: #d4a757; }
+@property --page-sys { syntax: "<color>"; inherits: true; initial-value: #96b4ff; }
+@property --page-alert { syntax: "<color>"; inherits: true; initial-value: #ff5a6e; }
+.reader.is-fading { transition: --page-ink .7s ease-in-out, --page-head .7s ease-in-out, --page-dim .7s ease-in-out, --paper .7s ease-in-out,
+  --paper-2 .7s ease-in-out, --page-acc .7s ease-in-out, --page-sys .7s ease-in-out, --page-alert .7s ease-in-out; }
 
 .reader__bar { width: var(--bw, 100%); display: flex; align-items: center; justify-content: space-between; gap: var(--s3); }
 .reader__title { margin: 0; font-family: var(--font-display); font-size: .8rem; letter-spacing: .18em; text-transform: uppercase; color: var(--brass); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
