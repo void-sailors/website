@@ -29,7 +29,7 @@
 .reader:not([hidden]) ~ .chapter { display: none; }
 /* Pages wear the site's colours, so they follow the faction theme; Paper switches to a light parchment. */
 .reader { --page-ink: var(--mist); --page-head: var(--heading); --page-dim: var(--mist-dim); --paper: color-mix(in srgb, var(--deep) 88%, rgb(var(--glow))); --paper-2: var(--deep); --page-acc: var(--brass); --page-sys: rgb(var(--glow)); --page-alert: #ff5a6e;
-  display: grid; justify-items: center; align-content: start; gap: var(--s3); padding: var(--s3) 16px var(--s4); min-height: calc(100svh - var(--s7)); }
+  display: grid; grid-template-columns: minmax(0, 1fr); justify-items: center; align-content: start; gap: var(--s3); padding: var(--s3) 16px var(--s4); min-height: calc(100svh - var(--s7)); }
 .reader.is-paper { --page-ink: #2b2219; --page-head: #2b2219; --page-dim: #7b6a55; --paper: #f4ecdb; --paper-2: #e9dcc2; --page-acc: #9a7428; --page-sys: #3d6fb8; --page-alert: #b3182d; }
 /* Switching Paper on or off: one calm cross-fade of the page colours, never a flash.
    Registering the colours lets the browser blend them; browsers without @property simply swap. */
@@ -111,6 +111,13 @@
 @media (prefers-reduced-motion: reduce) { .reader__nudge { animation: none; } }
 .sample-intro [hidden] { display: none; }
 @media (max-width: 479px) { .reader__title { visibility: hidden; } }
+/* Phones: tighter frame around the page so each one holds more lines. */
+@media (max-width: 599px) {
+  .reader { gap: var(--s2); padding-block: var(--s2); scroll-margin-top: calc(69px - var(--s7)); } /* opens flush under the 69px header */
+  .page__text { top: 34px; bottom: 34px; line-height: 1.5; }
+  .page__head { top: 12px; }
+  .page__folio { bottom: 9px; }
+}
 
 /* After the cliffhanger: one question, then the author's socials as round icons. */
 .chapter__ask { margin: var(--s4) 0 var(--s2); font-style: italic; }

@@ -244,16 +244,20 @@
     const vh = innerHeight;
     size = { w: vw, h: vh };
     spread = vw >= 960 && vh >= 620;
-    // Header room (the page's scroll padding), the bar, the page controls, gaps, and room for the nudge line.
-    const top = parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 76;
-    const chrome = top + 13 + reader.querySelector(".reader__bar").offsetHeight + reader.querySelector(".reader__nav").offsetHeight + 26 + 21 + 37;
-    const bh = Math.round(Math.max(420, Math.min(vh - chrome, spread ? 860 : 900)));
+    // Phones give every spare pixel to the page; the nudge line can sit below the fold there.
+    const phone = !spread && vw < 600;
+    // Header room (the page's scroll padding), the bar, the page controls, the reader's gaps and padding, and room for the nudge line.
+    const rs = getComputedStyle(reader);
+    const top = (parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 76) + (parseFloat(rs.scrollMarginTop) || 0);
+    const chrome = top + parseFloat(rs.paddingTop) + reader.querySelector(".reader__bar").offsetHeight + reader.querySelector(".reader__nav").offsetHeight
+      + 2 * (parseFloat(rs.rowGap) || 13) + parseFloat(rs.paddingBottom) + (phone ? 0 : 37);
+    const bh = Math.round(Math.max(phone ? 340 : 420, Math.min(vh - chrome, spread ? 860 : 900)));
     const bw = Math.round(spread ? Math.min(vw - 64, 1180, bh * 1.5) : Math.min(vw - 32, 600));
     const pw = spread ? bw / 2 : bw;
     reader.style.setProperty("--bw", bw + "px");
     reader.style.setProperty("--bh", bh + "px");
     reader.style.setProperty("--pw", pw + "px");
-    reader.style.setProperty("--pad", Math.round(Math.max(18, Math.min(56, pw * 0.09))) + "px");
+    reader.style.setProperty("--pad", Math.round(Math.max(18, Math.min(56, pw * (phone ? 0.06 : 0.09)))) + "px");
     reader.style.setProperty("--fs", SIZES[sizeIx] + "px");
     book.classList.toggle("is-spread", spread);
     book.classList.toggle("is-short", bh < 560);
@@ -335,7 +339,7 @@
     clearTimeout(timer);
     timer = setTimeout(() => {
       // Phones resize the height as the address bar slides; only a real change re-lays the pages.
-      if (document.documentElement.clientWidth !== size.w || Math.abs(innerHeight - size.h) > 120) layout();
+      if (document.documentElement.clientWidth !== size.w || Math.abs(innerHeight - size.h) > 60) layout();
     }, 180);
   });
 
