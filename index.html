@@ -186,8 +186,8 @@
                     </a>
                 </div>
                 <div class="center reveal" style="text-align:center">
-                    <p class="muted">Not sure where you belong? Let the Gatekeeper decide.</p>
-                    <a class="btn btn--gate" href="gate.html"><svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 21V10a7 7 0 0 1 14 0v11M9 21v-8a3 3 0 0 1 6 0v8M3 21h18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Begin Triage by the Gate</a>
+                    <p class="muted">Not sure where you belong? Triage by the Gate decides.</p>
+                    <a class="btn btn--gate" href="gate.html"><svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 21V10a7 7 0 0 1 14 0v11M9 21v-8a3 3 0 0 1 6 0v8M3 21h18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Find Your Faction</a>
                 </div>
             </div>
         </section>
@@ -258,12 +258,29 @@
                     <hr class="rule">
                     <p>Inventory in VoidSailors is finite, visible, and meaningful. Cargo decides what you can do, who you can help, and what you must abandon.</p>
                     <p class="muted">Every item stands for labor, trade, or sacrifice, which turns packing the hold into a strategic and moral choice rather than a background mechanic.</p>
+                    <p class="hold__invite">Each item hides a trial. Win one and the next unlocks. Start with the cannonballs.</p>
                 </div>
-                <div class="items reveal">
-                    <figure class="item"><img src="assets/img/web/item-shards-320.webp" width="320" height="213" alt="A cluster of pale blue crystal shards" loading="lazy" decoding="async"><figcaption>Shards</figcaption></figure>
-                    <figure class="item"><img src="assets/img/web/item-cannonballs-320.webp" width="320" height="213" alt="An open chest of glowing magic cannonballs" loading="lazy" decoding="async"><figcaption>Magic Cannonballs</figcaption></figure>
-                    <figure class="item"><img src="assets/img/web/item-twigs-320.webp" width="320" height="213" alt="A bundle of twigs tied with cord" loading="lazy" decoding="async"><figcaption>Bundle of Twigs</figcaption></figure>
-                    <figure class="item"><img src="assets/img/web/item-scroll-320.webp" width="320" height="213" alt="A rolled parchment scroll with handwritten lines" loading="lazy" decoding="async"><figcaption>The Scroll</figcaption></figure>
+                <div class="items reveal" data-hold>
+                    <button class="item" type="button" data-game="cannonballs" data-state="locked">
+                        <img src="assets/img/web/item-cannonballs-320.webp" width="320" height="213" alt="An open chest of glowing magic cannonballs" loading="lazy" decoding="async">
+                        <span class="item__name">Magic Cannonballs</span>
+                        <span class="item__state">Trial I</span>
+                    </button>
+                    <button class="item" type="button" data-game="twigs" data-state="locked">
+                        <img src="assets/img/web/item-twigs-320.webp" width="320" height="213" alt="A bundle of twigs tied with cord" loading="lazy" decoding="async">
+                        <span class="item__name">Bundle of Twigs</span>
+                        <span class="item__state">Trial II</span>
+                    </button>
+                    <button class="item" type="button" data-game="shards" data-state="locked">
+                        <img src="assets/img/web/item-shards-320.webp" width="320" height="213" alt="A cluster of pale blue crystal shards" loading="lazy" decoding="async">
+                        <span class="item__name">Shards</span>
+                        <span class="item__state">Trial III</span>
+                    </button>
+                    <button class="item" type="button" data-game="scroll" data-state="locked">
+                        <img src="assets/img/web/item-scroll-320.webp" width="320" height="213" alt="A rolled parchment scroll with handwritten lines" loading="lazy" decoding="async">
+                        <span class="item__name">The Scroll</span>
+                        <span class="item__state">Trial IV</span>
+                    </button>
                 </div>
             </div>
         </section>
@@ -306,30 +323,57 @@
         <!--==================== CREW ====================-->
         <section class="section" id="crew" aria-labelledby="crew-title">
             <div class="wrap">
-                <div class="panel center reveal" style="text-align:center;max-width:760px">
+                <div class="center measure reveal" style="text-align:center">
                     <p class="eyebrow">Join the Crew</p>
-                    <h2 id="crew-title">Be first to hear the release date</h2>
-                    <p class="measure center">One email when launch day is set, plus cover reveals and news from the Void. No spam, and you can unsubscribe anytime.</p>
-                    <!-- Mailing list: paste your provider's form URL into data-endpoint (and set the
-                         field name in data-field if it isn't "email"). Until then, nothing is sent. -->
-                    <form class="crew-form" data-endpoint="" data-field="email" method="post" novalidate>
-                        <label class="sr-only" for="crew-email">Email address</label>
-                        <input id="crew-email" type="email" name="email" autocomplete="email" inputmode="email" placeholder="you@example.com" required>
-                        <input class="sr-only" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
-                        <button class="btn btn--primary" type="submit">Join the Crew</button>
-                        <p class="crew-form__note">You must be 13 or older to subscribe.</p>
-                        <p class="crew-form__status" role="status" aria-live="polite"></p>
-                    </form>
-                    <p class="muted crew-follow">Or follow along now</p>
-                    <ul class="socials">
-                        <li><a href="https://www.instagram.com/ejperry_author/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.3"/></svg>Instagram</a></li>
-                        <li><a href="https://www.tiktok.com/@ejperry_author" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 3c.4 2.3 1.9 3.8 4 4v3c-1.5 0-2.9-.5-4-1.3V15a6 6 0 1 1-6-6v3a3 3 0 1 0 3 3V3h3z"/></svg>TikTok</a></li>
-                        <li><a href="https://www.youtube.com/@voidsailors" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="4"/><path d="M10 9l5 3-5 3z" style="fill:var(--void)"/></svg>YouTube</a></li>
-                    </ul>
+                    <h2 id="crew-title">Two Ways Aboard</h2>
+                    <hr class="rule center">
+                    <p>Readers who sign on hear the release date first. Choose your inbox, the deck, or both.</p>
                 </div>
+                <div class="crew">
+                    <div class="panel crew__card reveal">
+                        <p class="crew__kicker">By Letter</p>
+                        <h3>The Mailing List</h3>
+                        <p class="muted">One email when launch day is set, plus cover reveals and news from the Void. No spam, and you can unsubscribe anytime.</p>
+                        <!-- Mailing list: paste your provider's form URL into data-endpoint (and set the
+                             field name in data-field if it isn't "email"). Until then, nothing is sent. -->
+                        <form class="crew-form" data-endpoint="" data-field="email" method="post" novalidate>
+                            <label class="sr-only" for="crew-email">Email address</label>
+                            <input id="crew-email" type="email" name="email" autocomplete="email" inputmode="email" placeholder="you@example.com" required>
+                            <input class="sr-only" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+                            <button class="btn btn--primary" type="submit">Join the Crew</button>
+                            <p class="crew-form__note">You must be 13 or older to subscribe.</p>
+                            <p class="crew-form__status" role="status" aria-live="polite"></p>
+                        </form>
+                    </div>
+                    <div class="panel crew__card reveal">
+                        <p class="crew__kicker">On Deck</p>
+                        <h3>Socials</h3>
+                        <p class="muted">Art, trailers and behind-the-scenes notes from E. J. Perry.</p>
+                        <ul class="socials">
+                            <li><a href="https://www.instagram.com/ejperry_author/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.3"/></svg>Instagram</a></li>
+                            <li><a href="https://www.tiktok.com/@ejperry_author" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 3c.4 2.3 1.9 3.8 4 4v3c-1.5 0-2.9-.5-4-1.3V15a6 6 0 1 1-6-6v3a3 3 0 1 0 3 3V3h3z"/></svg>TikTok</a></li>
+                            <li><a href="https://www.youtube.com/@voidsailors" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="4"/><path d="M10 9l5 3-5 3z" style="fill:var(--void)"/></svg>YouTube</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="crew__aside reveal">Looking for your faction instead? That is settled at <a href="gate.html">the Gate</a>.</p>
             </div>
         </section>
     </main>
+
+    <!--==================== TRIALS OF THE HOLD ====================-->
+    <dialog class="trial" id="trial" aria-labelledby="trial-title">
+        <button class="icon-btn trial__close" type="button" data-close aria-label="Close">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+        <p class="eyebrow trial__step"></p>
+        <h2 class="trial__title" id="trial-title"></h2>
+        <p class="trial__rule"></p>
+        <div class="trial__board"></div>
+        <p class="trial__count" aria-live="polite"></p>
+        <p class="trial__status" role="status" aria-live="polite"></p>
+        <div class="btn-row trial__actions"></div>
+    </dialog>
 
     <!--==================== FOOTER ====================-->
     <footer class="footer">
@@ -371,5 +415,6 @@
     </footer>
 
     <script src="assets/js/site.js" defer></script>
+    <script src="assets/js/hold.js" defer></script>
 </body>
 </html>

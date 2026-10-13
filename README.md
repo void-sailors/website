@@ -3,8 +3,10 @@
 The official site for *VoidSailors: Where Truth Lies*, a GameLit novel by E. J. Perry. Static HTML, CSS and JavaScript served by GitHub Pages; no build step.
 
 - `index.html` home, `book.html` the book, `gate.html` Triage by the Gate, `404.html`
-- `assets/css/site.css` all styles and the five themes (default Void Night, plus Socialists, Pirates, C.A.T.s and Nomads)
-- `assets/js/site.js` theme toggle, menu, star field, trailer; `assets/js/gate.js` the faction ceremony
+- `assets/css/site.css` all styles and the themes: default Void Night, the ☭ crimson `socialists`, and the colours earned at the Gate (`pirates`, `cats`, `nomads`, and `socialists-earned`, a redder crimson)
+- `assets/js/site.js` theme toggle, menu, star field, trailer; `assets/js/gate.js` the faction ceremony; `assets/js/hold.js` the four inventory trials (cannonballs, twigs, shards, scroll), each unlocking the next
+- Browser storage: `vs-theme` is the theme on screen, `vs-earned` the colours won at the Gate (☭ borrows the screen and hands it back), `vs-hold` how many trials are won
+- `assets/fonts/pinyon-script.woff2` (SIL OFL, licence beside it) writes the Gatekeeper's lines
 - `assets/img/web/` web-sized images. Regenerate them from the originals with `python3 tools/optimize_images.py`
 
 ## Turning on the mailing list

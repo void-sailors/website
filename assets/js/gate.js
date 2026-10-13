@@ -12,7 +12,7 @@
       creed: "To you, every contract is an opportunity, not an obligation.",
     },
     socialists: {
-      name: "Socialists", theme: "socialists", crest: "assets/img/web/crest-socialists-480.webp",
+      name: "Socialists", theme: "socialists-earned", crest: "assets/img/web/crest-socialists-480.webp",
       motto: "Direction · Unity · Efficiency",
       creed: "One fleet, one heading. No ship gets left behind while you hold a station.",
     },
@@ -90,16 +90,28 @@
   };
   const shuffle = (arr) => arr.map((v) => [Math.random(), v]).sort((x, y) => x[0] - y[0]).map((p) => p[1]);
 
-  // The Gatekeeper's line appears letter by letter.
-  const line = $("#gate-line");
-  if (line && !reduceMotion) {
-    const text = line.textContent;
-    line.setAttribute("aria-label", text);
-    line.textContent = "";
-    let i = 0;
-    const tick = () => { line.textContent = text.slice(0, ++i); if (i < text.length) setTimeout(tick, 55); };
-    setTimeout(tick, 400);
-  }
+  // Lines from the Gatekeeper are written in ink, one unhurried letter at a time, like a diary answering back.
+  const inkWrite = (el, start = 0) => {
+    if (!el) return;
+    const text = el.dataset.ink || el.textContent;
+    el.dataset.ink = text;
+    el.setAttribute("aria-label", text);
+    if (reduceMotion) { el.textContent = text; return; }
+    let t = start;
+    const frag = document.createDocumentFragment();
+    for (const ch of text) {
+      const span = document.createElement("span");
+      span.className = "ink";
+      span.setAttribute("aria-hidden", "true");
+      span.textContent = ch;
+      span.style.setProperty("--d", `${t}ms`);
+      frag.appendChild(span);
+      // Linger between words and over the trailing ellipsis, as a hand would.
+      t += ch === " " ? 260 : ch === "…" ? 520 : 110;
+    }
+    el.replaceChildren(frag);
+  };
+  inkWrite($("#gate-line"), 700);
 
   const input = $("#sailor-name");
   if (sailor) input.value = sailor;
@@ -145,7 +157,8 @@
     $(".progress span").style.width = "100%";
     if (reduceMotion) return renderVerdict();
     show("weighing");
-    setTimeout(renderVerdict, 3000);
+    inkWrite($(".weighing .gate__line"), 200);
+    setTimeout(renderVerdict, 3400);
   }
 
   function renderVerdict() {
@@ -158,14 +171,30 @@
     $(".verdict__card .motto").textContent = f.motto;
     $(".verdict__creed").textContent = f.creed;
     store.set("vs-faction", result);
+    // The ceremony previews the faction colours; "Keep These Colors" makes them stick.
+    preview(f.theme);
+    keepBtn.disabled = false;
+    keepBtn.lastChild.textContent = "Keep These Colors";
     $(".verdict .eyebrow").focus?.();
   }
+
+  const root = document.documentElement;
+  const keepBtn = document.querySelector('[data-action="colors"]');
+  const preview = (theme) => {
+    if (theme && theme !== "void") root.dataset.theme = theme; else delete root.dataset.theme;
+    document.dispatchEvent(new CustomEvent("vs:theme"));
+  };
+  const restore = () => preview(store.get("vs-theme"));
 
   document.querySelector(".verdict").addEventListener("click", (e) => {
     const action = e.target.closest("[data-action]")?.dataset.action;
     if (!action) return;
-    if (action === "colors") window.VoidSailors?.setTheme(FACTIONS[result].theme);
-    if (action === "again") { show("intro"); input.focus(); }
+    if (action === "colors") {
+      window.VoidSailors?.setTheme(FACTIONS[result].theme, { earned: true });
+      keepBtn.disabled = true;
+      keepBtn.lastChild.textContent = "Colors Kept";
+    }
+    if (action === "again") { restore(); show("intro"); input.focus(); }
     if (action === "download") downloadCard();
   });
 
