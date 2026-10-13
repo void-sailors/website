@@ -78,8 +78,20 @@
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(syncToggles);
 
   /* ---------- Header + mobile menu ---------- */
+  // Up button: shown once the visitor is a screen and a half down.
+  const up = document.createElement("button");
+  up.type = "button";
+  up.className = "icon-btn to-top";
+  up.setAttribute("aria-label", "Back to top");
+  up.title = "Back to top";
+  up.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>';
+  up.addEventListener("click", () => { window.scrollTo({ top: 0 }); document.querySelector(".brand")?.focus({ preventScroll: true }); });
+  document.body.appendChild(up);
   const header = document.querySelector(".header");
-  const onScroll = () => header && header.classList.toggle("is-scrolled", window.scrollY > 21);
+  const onScroll = () => {
+    if (header) header.classList.toggle("is-scrolled", window.scrollY > 21);
+    up.classList.toggle("is-shown", window.scrollY > window.innerHeight * 1.5);
+  };
   onScroll();
   window.addEventListener("scroll", onScroll, { passive: true });
 
