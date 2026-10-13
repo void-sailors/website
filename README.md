@@ -17,4 +17,6 @@ The **Join the Crew** form on the home page (`#crew` in `index.html`) is ready f
 2. In `index.html`, set `data-endpoint="<that URL>"` on the `<form class="crew-form">`.
 3. If the provider expects a field name other than `email` (Mailchimp uses `EMAIL`), set `data-field` to match.
 
-Button styles have fixed jobs: brass (`btn--primary`) is only for Join the Crew, and the glowing portal style (`btn--gate`) is only for the Gate.
+Buttons follow one rule everywhere: the main action of a block is brass (`btn--primary`), and the second is bordered (`btn--ghost`). Links to the Gate from other pages are always bordered, so they never look like Join the Crew.
+
+When you change `site.css` or any script, bump the `?v=` value on its `<link>`/`<script>` tags in every page so returning visitors get the new file instead of a cached copy.
