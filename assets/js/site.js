@@ -136,12 +136,12 @@
   /* ---------- Join the Crew mailing list ----------
      Set data-endpoint on the form to a provider's form URL to switch it on.
      Until then nothing leaves the browser. */
-  /* ---------- Amazon button ----------
-     With a store URL it goes straight to Amazon; without one it opens the "coming soon" window. */
+  /* ---------- Amazon links (book page button, home page cover) ----------
+     Launch day: paste the Amazon URL here. Until then the links open the "coming soon" window. */
+  const STORE_URL = "";
   const launch = document.getElementById("launch");
   document.querySelectorAll("[data-launch-open]").forEach((link) => {
-    const url = link.dataset.storeUrl;
-    if (url) { link.href = url; link.target = "_blank"; link.rel = "noopener"; return; }
+    if (STORE_URL) { link.href = STORE_URL; link.target = "_blank"; link.rel = "noopener"; return; }
     if (!launch || typeof launch.showModal !== "function") return; // falls back to the newsletter section
     link.addEventListener("click", (e) => { e.preventDefault(); launch.showModal(); });
   });

@@ -27,7 +27,7 @@
     <link rel="preload" href="assets/fonts/cinzel.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="assets/fonts/bluu-next-titling.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" as="image" type="image/webp" imagesrcset="assets/img/web/cover-320.webp 320w, assets/img/web/cover-484.webp 484w" imagesizes="(min-width: 1100px) 400px, (min-width: 768px) 360px, 62vw">
-    <link rel="stylesheet" href="assets/css/site.css?v=20261013n">
+    <link rel="stylesheet" href="assets/css/site.css?v=20261013o">
 
     <script type="application/ld+json">
     {
@@ -114,9 +114,9 @@
                     <span class="hero__subtitle">Where Truth Lies</span>
                     <p class="lede">A fantasy GameLit novel set during a five-day competitive event, where players navigate faction politics, scarce resources, and choices that cannot be undone.</p>
                     <div class="btn-row">
-                        <!-- Amazon: paste the book's store URL into data-store-url once it is live.
+                        <!-- Amazon: set STORE_URL in assets/js/site.js once the book is live (one edit covers this button and the home-page cover).
                              Until then the button opens the "coming soon" window below. -->
-                        <a class="btn btn--primary" href="index.html#crew" data-store-url="" data-launch-open>Get It on Amazon</a>
+                        <a class="btn btn--primary" href="index.html#crew" data-launch-open>Get It on Amazon</a>
                         <a class="btn btn--ghost" href="gate.html">Face the Gate</a>
                     </div>
                 </div>
@@ -172,7 +172,7 @@
         <p class="eyebrow">Coming Soon to Amazon</p>
         <h2 class="trial__title" id="launch-title">Not in Port Yet</h2>
         <p class="trial__rule">VoidSailors is still at sea. Leave your email with Mailing in a Bottle and we&rsquo;ll send word the day it lands.</p>
-        <!-- Same mailing list as the home page: give this form the same data-endpoint. -->
+        <!-- Same mailing list as the home page: give this form the same data-endpoint (index.html has two forms). -->
         <form class="crew-form" data-endpoint="" data-field="email" method="post" novalidate>
             <label class="sr-only" for="launch-email">Email address</label>
             <input id="launch-email" type="email" name="email" autocomplete="email" inputmode="email" placeholder="you@example.com" required>
@@ -221,6 +221,6 @@
         </div>
     </footer>
 
-    <script src="assets/js/site.js?v=20261013n" defer></script>
+    <script src="assets/js/site.js?v=20261013o" defer></script>
 </body>
 </html>
