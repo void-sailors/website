@@ -133,23 +133,29 @@
     });
   });
 
-  /* ---------- Join the Crew mailing list ----------
-     Set data-endpoint on the form to a provider's form URL to switch it on.
-     Until then nothing leaves the browser. */
-  /* ---------- Amazon links (book page button, home page cover) ----------
-     Launch day: paste the Amazon URL here. Until then the links open the "coming soon" window. */
+  /* ---------- Amazon links (book page button, home page cover, sample's last page) ----------
+     Launch day: paste the Amazon URL here. Until then the links open the "coming soon" window.
+     Clicks are delegated so links drawn later (the sample reader's pages) behave the same. */
   const STORE_URL = "";
   const launch = document.getElementById("launch");
-  document.querySelectorAll("[data-launch-open]").forEach((link) => {
-    if (STORE_URL) { link.href = STORE_URL; link.target = "_blank"; link.rel = "noopener"; return; }
+  const toStore = (link) => { link.href = STORE_URL; link.target = "_blank"; link.rel = "noopener"; };
+  if (STORE_URL) document.querySelectorAll("[data-launch-open]").forEach(toStore);
+  document.addEventListener("click", (e) => {
+    const link = e.target.closest && e.target.closest("[data-launch-open]");
+    if (!link) return;
+    if (STORE_URL) { toStore(link); return; }
     if (!launch || typeof launch.showModal !== "function") return; // falls back to the newsletter section
-    link.addEventListener("click", (e) => { e.preventDefault(); launch.showModal(); });
+    e.preventDefault();
+    launch.showModal();
   });
   if (launch) {
     launch.querySelector("[data-close]").addEventListener("click", () => launch.close());
     launch.addEventListener("click", (e) => { if (e.target === launch) launch.close(); });
   }
 
+  /* ---------- Join the Crew mailing list ----------
+     Set data-endpoint on the form to a provider's form URL to switch it on.
+     Until then nothing leaves the browser. */
   document.querySelectorAll(".crew-form").forEach((form) => {
     const status = form.querySelector(".crew-form__status");
     const email = form.querySelector('input[type="email"]');
