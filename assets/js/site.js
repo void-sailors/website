@@ -153,9 +153,47 @@
     launch.addEventListener("click", (e) => { if (e.target === launch) launch.close(); });
   }
 
+  /* ---------- Join the Crew window ----------
+     The header's Join the Crew button and mail icon open this signup window instead of scrolling
+     down the page. It is built here once so every page has it; without JavaScript the links still go to #crew. */
+  const crewPop = document.createElement("dialog");
+  crewPop.className = "trial launch";
+  crewPop.id = "crew-pop";
+  crewPop.setAttribute("aria-labelledby", "crew-pop-title");
+  crewPop.innerHTML = `
+    <button class="icon-btn trial__close" type="button" data-close aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    <p class="eyebrow">Join the Crew</p>
+    <h2 class="trial__title" id="crew-pop-title">Mailing in a Bottle</h2>
+    <p class="trial__rule">One email when launch day is set, plus cover reveals and news from the Void. No spam, and you can unsubscribe anytime.</p>
+    <form class="crew-form" data-endpoint="" data-field="email" method="post" novalidate>
+      <label class="sr-only" for="crew-pop-email">Email address</label>
+      <input id="crew-pop-email" type="email" name="email" autocomplete="email" inputmode="email" placeholder="you@example.com" required>
+      <input class="sr-only" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <button class="btn btn--primary" type="submit">Sign On</button>
+      <p class="crew-form__note">You must be 13 or older to subscribe.</p>
+      <p class="crew-form__status" role="status" aria-live="polite"></p>
+    </form>
+    <p class="crew-pop__or">Or follow the voyage</p>
+    <ul class="round-socials">
+      <li><a href="https://www.instagram.com/ejperry_author/" target="_blank" rel="noopener" aria-label="E. J. Perry on Instagram" title="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.3"/></svg></a></li>
+      <li><a href="https://www.tiktok.com/@ejperry_author" target="_blank" rel="noopener" aria-label="E. J. Perry on TikTok" title="TikTok"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 3c.4 2.3 1.9 3.8 4 4v3c-1.5 0-2.9-.5-4-1.3V15a6 6 0 1 1-6-6v3a3 3 0 1 0 3 3V3h3z"/></svg></a></li>
+      <li><a href="https://www.youtube.com/@voidsailors" target="_blank" rel="noopener" aria-label="VoidSailors on YouTube" title="YouTube"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="4"/><path class="round-socials__play" d="M10 9l5 3-5 3z"/></svg></a></li>
+    </ul>`;
+  if (typeof crewPop.showModal === "function") {
+    document.body.append(crewPop);
+    crewPop.querySelector("[data-close]").addEventListener("click", () => crewPop.close());
+    crewPop.addEventListener("click", (e) => { if (e.target === crewPop) crewPop.close(); });
+    document.addEventListener("click", (e) => {
+      if (!e.target.closest || !e.target.closest("[data-crew-open]")) return;
+      e.preventDefault();
+      crewPop.showModal();
+    });
+  }
+
   /* ---------- Join the Crew mailing list ----------
-     Set data-endpoint on the form to a provider's form URL to switch it on.
-     Until then nothing leaves the browser. */
+     Launch the mailing list by pasting the provider's form URL into MAIL_ENDPOINT: every signup form
+     on the site uses it (a form's own data-endpoint wins if set). Until then nothing leaves the browser. */
+  const MAIL_ENDPOINT = "";
   document.querySelectorAll(".crew-form").forEach((form) => {
     const status = form.querySelector(".crew-form__status");
     const email = form.querySelector('input[type="email"]');
@@ -167,7 +205,7 @@
         email.focus();
         return;
       }
-      const endpoint = form.dataset.endpoint;
+      const endpoint = form.dataset.endpoint || MAIL_ENDPOINT;
       if (!endpoint) {
         status.textContent = "Mailing in a Bottle opens soon. Until then, catch the news on the socials.";
         return;

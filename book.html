@@ -27,7 +27,7 @@
     <link rel="preload" href="assets/fonts/cinzel.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="assets/fonts/bluu-next-titling.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" as="image" type="image/webp" imagesrcset="assets/img/web/cover-320.webp 320w, assets/img/web/cover-484.webp 484w" imagesizes="(min-width: 1100px) 400px, (min-width: 768px) 360px, 62vw">
-    <link rel="stylesheet" href="assets/css/site.css?v=20261013t">
+    <link rel="stylesheet" href="assets/css/site.css?v=20261013u">
 
     <script type="application/ld+json">
     {
@@ -80,11 +80,11 @@
                     <li><a class="nav__link" href="index.html#world">The World</a></li>
                     <li><a class="nav__link" href="index.html#author">The Author</a></li>
                 </ul>
-                <a class="btn btn--primary" href="index.html#crew">Join the Crew</a>
+                <a class="btn btn--primary" href="index.html#crew" data-crew-open>Join the Crew</a>
             </div>
 
             <div class="nav__tools">
-                <a class="icon-btn mail-btn" href="index.html#crew" aria-label="Mailing in a Bottle newsletter" title="Mailing in a Bottle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="m3.8 7 8.2 6 8.2-6"/></svg></a>
+                <a class="icon-btn mail-btn" href="index.html#crew" data-crew-open aria-label="Mailing in a Bottle newsletter" title="Mailing in a Bottle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="m3.8 7 8.2 6 8.2-6"/></svg></a>
                 <button class="icon-btn theme-toggle" type="button" data-theme-toggle aria-label="Change faction colors" title="Change faction colors"><span class="theme-toggle__icon" aria-hidden="true">&#9873;</span></button>
                 <button class="icon-btn nav__toggle" type="button" aria-controls="nav-menu" aria-expanded="false" aria-label="Menu">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
@@ -172,7 +172,7 @@
         <p class="eyebrow">Coming Soon to Amazon</p>
         <h2 class="trial__title" id="launch-title">Not in Port Yet</h2>
         <p class="trial__rule">VoidSailors is still on its voyage. Leave your email with Mailing in a Bottle and we&rsquo;ll send word the day it lands.</p>
-        <!-- Same mailing list as the home page: give this form the same data-endpoint (index.html has two forms). -->
+        <!-- Same mailing list as every other form: set MAIL_ENDPOINT in assets/js/site.js. -->
         <form class="crew-form" data-endpoint="" data-field="email" method="post" novalidate>
             <label class="sr-only" for="launch-email">Email address</label>
             <input id="launch-email" type="email" name="email" autocomplete="email" inputmode="email" placeholder="you@example.com" required>
@@ -221,6 +221,6 @@
         </div>
     </footer>
 
-    <script src="assets/js/site.js?v=20261013t" defer></script>
+    <script src="assets/js/site.js?v=20261013u" defer></script>
 </body>
 </html>
