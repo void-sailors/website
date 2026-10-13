@@ -1,0 +1,98 @@
+/* VoidSailors: the free chapter reader (sample.html only). */
+
+/* ---------- Intro ---------- */
+.sample-intro { padding-top: calc(68px + var(--s6)); padding-bottom: var(--s5); }
+.sample-intro__grid { display: grid; gap: var(--s5); align-items: center; justify-items: center; text-align: center; }
+.sample-intro__cover { width: min(46vw, 200px); height: auto; filter: drop-shadow(0 0 8px rgba(var(--glow), .8)) drop-shadow(0 0 34px rgba(var(--glow), .45)) drop-shadow(0 21px 34px rgba(0, 0, 0, .6)); }
+.sample-intro h1 { font-family: var(--font-mark); font-weight: 400; font-size: clamp(2rem, 1.4rem + 2.6vw, 3.4rem); line-height: 1.05; margin-bottom: var(--s4); }
+.sample-intro__setup { font-size: 1.15rem; max-width: 30em; margin: 0 auto; color: var(--mist); }
+.sample-intro .hero__meta { margin-bottom: var(--s5); }
+.sample-intro .btn-row { justify-content: center; }
+.sample-intro .btn-row .btn { width: min(100%, 320px); }
+@media (min-width: 900px) {
+  .sample-intro__grid { grid-template-columns: auto 1fr; justify-items: start; text-align: left; gap: var(--s6); }
+  .sample-intro__cover { width: 260px; }
+  .sample-intro__setup { margin: 0; }
+  .sample-intro .btn-row { justify-content: flex-start; }
+}
+
+/* ---------- Chapter as a plain page (no JavaScript, and for screen readers) ---------- */
+.chapter { padding-block: var(--s5) var(--s7); }
+.chapter .wrap { max-width: 40em; }
+.chapter__title { text-align: center; }
+.chapter__text p { margin: 0 0 var(--s3); font-size: 1.1rem; line-height: 1.65; }
+.chapter__end { margin-top: var(--s6); text-align: center; }
+.chapter__end .btn-row { justify-content: center; }
+.sys { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; letter-spacing: .06em; text-align: center; }
+
+/* ---------- Reader ---------- */
+.reader:not([hidden]) ~ .chapter { display: none; }
+/* Pages wear the site's colours, so they follow the faction theme; Paper switches to a light parchment. */
+.reader { --page-ink: var(--mist); --page-head: var(--heading); --page-dim: var(--mist-dim); --paper: color-mix(in srgb, var(--deep) 88%, rgb(var(--glow))); --paper-2: var(--deep); --page-acc: var(--brass); --page-sys: rgb(var(--glow)); --page-alert: #ff5a6e;
+  display: grid; justify-items: center; align-content: start; gap: var(--s3); padding: var(--s3) 16px var(--s4); min-height: calc(100svh - var(--s7)); }
+.reader.is-paper { --page-ink: #2b2219; --page-head: #2b2219; --page-dim: #7b6a55; --paper: #f4ecdb; --paper-2: #e9dcc2; --page-acc: #9a7428; --page-sys: #3d6fb8; --page-alert: #b3182d; }
+
+.reader__bar { width: var(--bw, 100%); display: flex; align-items: center; justify-content: space-between; gap: var(--s3); }
+.reader__title { margin: 0; font-family: var(--font-display); font-size: .8rem; letter-spacing: .18em; text-transform: uppercase; color: var(--brass); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.reader__tools { display: flex; gap: var(--s2); flex: none; }
+.reader__tool { min-width: 44px; height: 36px; padding: 0 var(--s3); border: 1px solid var(--line); border-radius: 18px; background: transparent; color: var(--mist); font: 600 .85rem/1 var(--font-text); cursor: pointer; transition: border-color .2s, color .2s; }
+.reader__tool:hover, .reader__tool[aria-pressed="true"] { border-color: var(--brass); color: var(--heading); }
+.reader__tool:disabled { opacity: .35; cursor: default; }
+
+/* The book: one page on phones, an open spread on wide screens. */
+.book { position: relative; width: var(--bw); height: var(--bh); perspective: 2200px; user-select: none; -webkit-user-select: none; touch-action: pan-y; cursor: pointer;
+  filter: drop-shadow(0 0 21px rgba(var(--glow), .28)) drop-shadow(0 21px 34px rgba(0, 0, 0, .55)); }
+.book__slot, .leaf { position: absolute; top: 0; height: 100%; width: var(--pw); }
+.book__slot--l { left: 0; }
+.book__slot--r { right: 0; }
+.book:not(.is-spread) .book__slot--r { display: none; }
+.leaf { z-index: 3; transform-style: preserve-3d; will-change: transform; }
+.leaf__face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.leaf__face--back { transform: rotateY(180deg); }
+.leaf__shade { position: absolute; inset: 0; pointer-events: none; opacity: 0; border-radius: inherit; }
+
+.page { position: absolute; inset: 0; overflow: hidden; color: var(--page-ink); border-radius: 3px;
+  background: linear-gradient(180deg, var(--paper), var(--paper-2)); box-shadow: inset 0 0 0 1px var(--line); }
+.book.is-spread .page--l { border-radius: 4px 0 0 4px; box-shadow: inset -34px 0 34px -21px rgba(0, 0, 0, .28); }
+.book.is-spread .page--r { border-radius: 0 4px 4px 0; box-shadow: inset 34px 0 34px -21px rgba(0, 0, 0, .28); }
+.page__head, .page__folio { position: absolute; left: 0; right: 0; text-align: center; font-family: var(--font-display); font-size: .62rem; letter-spacing: .22em; text-transform: uppercase; color: var(--page-dim); }
+.page__head { top: 16px; }
+.page__folio { bottom: 14px; font-family: var(--font-text); font-size: .8rem; letter-spacing: .05em; }
+.page__text { position: absolute; top: 44px; bottom: 44px; left: var(--pad); right: var(--pad); overflow: hidden;
+  font-family: var(--font-text); font-size: var(--fs); line-height: 1.58; text-align: left; }
+.page__text p { margin: 0; text-indent: 1.3em; }
+.page__text p.is-cont, .page__text p.is-first, .page__text .sys + p, .page__text p.is-top { text-indent: 0; }
+.page__text p.is-first::first-line { font-variant: small-caps; letter-spacing: .04em; }
+.page__text .sys { margin: .55em 0; text-indent: 0; text-align: center; font-size: .78em; line-height: 1.5; letter-spacing: .08em; }
+.sys--plate span { display: inline-block; padding: .15em .9em; border: 1px solid currentColor; border-radius: 4px; color: var(--page-sys); }
+.page__text .sys--clock { color: var(--page-sys); }
+.page__text .sys--alert { color: var(--page-alert); font-weight: 700; }
+.page__opener { text-align: center; padding-top: 8%; margin-bottom: 1.2em; }
+.page__opener .eyebrow { color: var(--page-acc); margin-bottom: .6em; font-size: .62rem; }
+.page__opener h2 { font-size: 1.45em; color: var(--page-head); margin: 0; line-height: 1.2; }
+.page__opener h2::after { content: "\2726"; display: block; margin-top: .55em; font-size: .5em; color: var(--page-acc); }
+
+/* The last page: the hook and the way aboard. */
+.page--end .page__text { display: flex; flex-direction: column; text-align: center; }
+.page__endbox { margin: auto 0; } /* centred, but never clipped at the top on a short page */
+.book.is-short .page--end .launch__cover { display: none; }
+.page--end .launch__cover { width: 72px; height: auto; margin: 0 auto 1em; filter: drop-shadow(0 8px 13px rgba(0, 0, 0, .35)); }
+.page--end .eyebrow { color: var(--page-acc); font-size: .62rem; margin-bottom: .4em; }
+.page--end h2 { color: var(--page-head); font-size: 1.35em; margin-bottom: .6em; }
+.page--end p { text-indent: 0; margin: 0 0 .8em; font-size: .92em; line-height: 1.5; }
+.page--end .chapter__hook { font-style: italic; }
+.page--end .btn-row { flex-direction: column; align-items: center; gap: 10px; margin-top: .6em; }
+.page--end .btn { width: min(100%, 260px); }
+.page--end .btn--ghost { color: var(--page-head); }
+
+.reader__nav { width: var(--bw, 100%); display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: var(--s3); }
+.reader__turn:disabled { opacity: .3; cursor: default; }
+.reader__progress { display: grid; gap: 6px; justify-items: center; }
+.reader__track { width: 100%; height: 3px; border-radius: 2px; background: var(--line); overflow: hidden; }
+.reader__fill { display: block; height: 100%; width: 0; background: var(--brass); transition: width .4s var(--ease); }
+.reader__count { font-size: .8rem; letter-spacing: .08em; color: var(--mist-dim); }
+.reader__nudge { margin: 0; font-size: .95rem; color: var(--mist-dim); text-align: center; animation: rise .6s var(--ease) both; }
+.reader__nudge a { color: var(--brass); }
+@media (prefers-reduced-motion: reduce) { .reader__nudge { animation: none; } }
+.sample-intro [hidden] { display: none; }
+@media (max-width: 479px) { .reader__title { visibility: hidden; } }
