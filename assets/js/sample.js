@@ -14,7 +14,7 @@
   const nudge = reader.querySelector(".reader__nudge");
   const prevBtn = reader.querySelector('[data-turn="-1"]');
   const nextBtn = reader.querySelector('[data-turn="1"]');
-  const nightBtn = reader.querySelector("[data-night]");
+  const paperBtn = reader.querySelector("[data-paper]");
   const sizeBtns = reader.querySelectorAll("[data-size]");
   const resumeBtn = document.querySelector("[data-sample-resume]");
   const TITLE = chapter.querySelector(".chapter__title").textContent.trim();
@@ -36,7 +36,7 @@
   const SIZES = [16, 17, 18, 19, 20, 22, 24];
   let sizeIx = parseInt(store.get("vs-sample-size"), 10);
   if (!(sizeIx >= 0 && sizeIx < SIZES.length)) sizeIx = innerWidth >= 960 ? 3 : 2;
-  let night = store.get("vs-sample-night") === "1";
+  let paper = store.get("vs-sample-paper") === "1";
   let pages = [];
   let cur = 0;
   let spread = false;
@@ -279,13 +279,13 @@
     layout();
   }));
 
-  function setNight(on) {
-    night = on;
-    reader.classList.toggle("is-night", on);
-    nightBtn.setAttribute("aria-pressed", String(on));
-    store.set("vs-sample-night", on ? "1" : "0");
+  function setPaper(on) {
+    paper = on;
+    reader.classList.toggle("is-paper", on);
+    paperBtn.setAttribute("aria-pressed", String(on));
+    store.set("vs-sample-paper", on ? "1" : "0");
   }
-  nightBtn.addEventListener("click", () => setNight(!night));
+  paperBtn.addEventListener("click", () => setPaper(!paper));
 
   // Swipe, or tap the right or left half of the book.
   let x0 = null;
@@ -334,7 +334,7 @@
 
   /* ---------- Start ---------- */
   reader.hidden = false;
-  setNight(night);
+  setPaper(paper);
   const fonts = document.fonts ? document.fonts.ready : Promise.resolve();
   const saved = savedPos(); // read before layout() records page one
   fonts.then(() => {
