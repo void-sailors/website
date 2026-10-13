@@ -264,11 +264,14 @@ p { margin: 0 0 var(--s4); }
 .hero__motto { color: var(--mist); max-width: 30em; margin-bottom: var(--s5); }
 .hero__meta { margin-top: var(--s4); font-size: var(--t-small); letter-spacing: .14em; text-transform: uppercase; color: var(--mist-dim); }
 .hero__cover { position: relative; justify-self: center; width: min(61.8vw, 320px); }
-.hero__cover img { position: relative; width: 100%; filter: drop-shadow(0 34px 55px rgba(0, 0, 0, .65)); animation: cover-in 1.2s var(--ease) both, float 13s ease-in-out 1.2s infinite; }
+.hero__cover img { position: relative; width: 100%; filter: drop-shadow(0 34px 55px rgba(0, 0, 0, .65)); animation: cover-in .6s var(--ease) both, float 13s ease-in-out .6s infinite; }
 @keyframes cover-in { from { opacity: 0; transform: translateY(13px) scale(.97); } to { opacity: 1; transform: none; } }
 
 @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 
+/* Hero calls to action: stacked, equal width, the book first and the Gate below it. */
+.hero .btn-row { flex-direction: column; align-items: flex-start; }
+.hero .btn-row .btn { width: min(100%, 320px); }
 .scroll-cue { position: absolute; left: 50%; bottom: var(--s5); transform: translateX(-50%); color: var(--mist-dim); font-size: var(--t-small); letter-spacing: .2em; text-transform: uppercase; text-decoration: none; }
 
 @media (max-width: 767px) {
@@ -276,8 +279,8 @@ p { margin: 0 0 var(--s4); }
   .hero__grid { text-align: center; }
   .hero__cover { order: -1; width: min(61.8vw, 260px); }
   .hero__motto, .hero__copy .lede { margin-inline: auto; }
-  .hero .btn-row { justify-content: center; }
-  .hero .btn { flex: 1 1 100%; }
+  .hero .btn-row { align-items: center; }
+  .hero .btn-row .btn { width: min(100%, 360px); }
   .scroll-cue { display: none; }
 }
 /* Golden split: copy in 38.2, art in 61.8 */
@@ -443,7 +446,7 @@ p { margin: 0 0 var(--s4); }
   background:
     radial-gradient(ellipse 34% 32% at 50% 50%, rgba(255, 255, 255, .9), rgba(var(--glow), .85) 50%, rgba(var(--glow), 0) 100%),
     radial-gradient(ellipse 48% 44% at 50% 50%, rgba(var(--glow), .7), rgba(var(--glow), .3) 55%, rgba(var(--glow), 0) 100%);
-  animation: halo-in 1.8s var(--ease) both, halo-pulse 7s ease-in-out 1.8s infinite;
+  animation: halo-in 1.2s var(--ease) both, halo-pulse 7s ease-in-out 1.2s infinite;
 }
 .halo__rays {
   background: conic-gradient(from 0deg,
@@ -460,7 +463,7 @@ p { margin: 0 0 var(--s4); }
   position: absolute; left: 23%; top: 21%; width: 54%; height: 58%;
   border: 1.5px solid rgba(var(--glow), .85); border-radius: 5px;
   box-shadow: 0 0 8px rgba(var(--glow), .9), 0 0 34px rgba(var(--glow), .5), inset 0 0 21px rgba(var(--glow), .4);
-  animation: frame-in 1.6s var(--ease) .5s both, frame-breathe 6s ease-in-out 2.1s infinite;
+  animation: frame-in 1s var(--ease) .2s both, frame-breathe 6s ease-in-out 1.2s infinite;
 }
 .halo__spark { transform: rotate(var(--a, 0deg)); animation: orbit-spark var(--d, 30s) linear infinite; }
 .halo__spark::before {
