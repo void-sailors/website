@@ -20,7 +20,9 @@
      then back to the earned colours (or the default Void). Manual picks are softer cousins of the
      earned palettes; the icon turns yellow only while earned colours are on screen. */
   const CYCLE = ["socialists", "nomads-pick", "pirates-pick", "cats-pick"];
+  // The default Void flies a plain flag: a ship's "colours" are both its faction and its palette.
   const ICONS = {
+    void: "\u2691",
     socialists: "\u262D", "socialists-earned": "\u262D",
     "nomads-pick": "\u{1F462}", nomads: "\u{1F462}",
     "pirates-pick": "\u2620\uFE0E", pirates: "\u2620\uFE0E",
@@ -54,7 +56,7 @@
     const label = `Faction colors: ${manual ? LABELS[current] : earned ? "earned" : "default"}. Next: ${LABELS[next] || (earnedTheme() ? "your earned colors" : "default")}`;
     toggles.forEach((b) => {
       const icon = b.querySelector(".theme-toggle__icon");
-      icon.textContent = ICONS[current] || ICONS.socialists;
+      icon.textContent = ICONS[current] || ICONS.void;
       fitIcon(icon);
       b.dataset.mode = earned ? "earned" : manual ? "manual" : "";
       b.setAttribute("aria-label", label);
