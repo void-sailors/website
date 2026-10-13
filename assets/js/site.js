@@ -4,26 +4,36 @@
   root.classList.remove("no-js");
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-  /* ---------- Theme (☭ = Socialist crimson) ---------- */
+  /* ---------- Theme (☭ = Socialist crimson) ----------
+     vs-theme is what the page wears now. vs-earned is the faction colour won at the Gate,
+     kept apart so the ☭ toggle can borrow the screen and hand it back untouched. */
   const THEME_KEY = "vs-theme";
+  const EARNED_KEY = "vs-earned";
   const store = {
-    get() { try { return localStorage.getItem(THEME_KEY); } catch (e) { return null; } },
-    set(v) { try { v ? localStorage.setItem(THEME_KEY, v) : localStorage.removeItem(THEME_KEY); } catch (e) { /* private mode */ } },
+    get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+    set(k, v) { try { v ? localStorage.setItem(k, v) : localStorage.removeItem(k); } catch (e) { /* private mode */ } },
   };
+  // Sailors who earned colours before vs-earned existed keep them.
+  const FACTION_THEMES = ["pirates", "cats", "nomads", "socialists-earned"];
+  if (!store.get(EARNED_KEY) && FACTION_THEMES.includes(store.get(THEME_KEY))) store.set(EARNED_KEY, store.get(THEME_KEY));
   const toggles = document.querySelectorAll("[data-theme-toggle]");
   const syncToggles = () => {
     const on = root.dataset.theme === "socialists";
     toggles.forEach((b) => b.setAttribute("aria-pressed", String(on)));
   };
-  const setTheme = (name) => {
+  const setTheme = (name, opts = {}) => {
     if (name && name !== "void") root.dataset.theme = name;
     else delete root.dataset.theme;
-    store.set(name && name !== "void" ? name : null);
+    store.set(THEME_KEY, name && name !== "void" ? name : null);
+    if (opts.earned) store.set(EARNED_KEY, name);
     syncToggles();
     document.dispatchEvent(new CustomEvent("vs:theme"));
   };
-  window.VoidSailors = { setTheme };
-  toggles.forEach((b) => b.addEventListener("click", () => setTheme(root.dataset.theme === "socialists" ? null : "socialists")));
+  const earnedTheme = () => store.get(EARNED_KEY);
+  window.VoidSailors = { setTheme, earnedTheme };
+  toggles.forEach((b) => b.addEventListener("click", () => {
+    setTheme(root.dataset.theme === "socialists" ? earnedTheme() : "socialists");
+  }));
   syncToggles();
 
   /* ---------- Header + mobile menu ---------- */
@@ -67,6 +77,38 @@
       box.replaceChildren(v);
       v.play().catch(() => {});
       v.focus();
+    });
+  });
+
+  /* ---------- Join the Crew mailing list ----------
+     Set data-endpoint on the form to a provider's form URL to switch it on.
+     Until then nothing leaves the browser. */
+  document.querySelectorAll(".crew-form").forEach((form) => {
+    const status = form.querySelector(".crew-form__status");
+    const email = form.querySelector('input[type="email"]');
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (form.elements.website && form.elements.website.value) return; // bot trap
+      if (!email.checkValidity()) {
+        status.textContent = "Please enter a valid email address.";
+        email.focus();
+        return;
+      }
+      const endpoint = form.dataset.endpoint;
+      if (!endpoint) {
+        status.textContent = "The mailing list opens soon. Until then, catch the news on the channels below.";
+        return;
+      }
+      const body = new FormData();
+      body.append(form.dataset.field || "email", email.value.trim());
+      status.textContent = "Sending…";
+      try {
+        await fetch(endpoint, { method: "POST", body, mode: "no-cors" });
+        status.textContent = "Welcome aboard. Check your inbox to confirm.";
+        form.reset();
+      } catch (err) {
+        status.textContent = "That didn’t go through. Please try again.";
+      }
     });
   });
 
