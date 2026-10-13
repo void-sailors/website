@@ -618,6 +618,8 @@ button.item:not([data-state="locked"]):hover, button.item:not([data-state="locke
 .trial__status[data-tone="lose"] { color: #ff8a7a; }
 .trial__actions { justify-content: center; }
 .trial__actions:empty { display: none; }
+.launch__cover { width: 96px; height: auto; margin: 0 auto var(--s4); filter: drop-shadow(0 10px 21px rgba(var(--glow), .45)); }
+.launch .crew-form { margin-bottom: 0; }
 @media (prefers-reduced-motion: reduce) { .item.is-denied, .trial[open] { animation: none; } }
 
 /* I. Cannonballs */

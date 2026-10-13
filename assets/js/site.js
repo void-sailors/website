@@ -136,6 +136,20 @@
   /* ---------- Join the Crew mailing list ----------
      Set data-endpoint on the form to a provider's form URL to switch it on.
      Until then nothing leaves the browser. */
+  /* ---------- Amazon button ----------
+     With a store URL it goes straight to Amazon; without one it opens the "coming soon" window. */
+  const launch = document.getElementById("launch");
+  document.querySelectorAll("[data-launch-open]").forEach((link) => {
+    const url = link.dataset.storeUrl;
+    if (url) { link.href = url; link.target = "_blank"; link.rel = "noopener"; return; }
+    if (!launch || typeof launch.showModal !== "function") return; // falls back to the newsletter section
+    link.addEventListener("click", (e) => { e.preventDefault(); launch.showModal(); });
+  });
+  if (launch) {
+    launch.querySelector("[data-close]").addEventListener("click", () => launch.close());
+    launch.addEventListener("click", (e) => { if (e.target === launch) launch.close(); });
+  }
+
   document.querySelectorAll(".crew-form").forEach((form) => {
     const status = form.querySelector(".crew-form__status");
     const email = form.querySelector('input[type="email"]');
