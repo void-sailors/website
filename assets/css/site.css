@@ -509,6 +509,7 @@ p { margin: 0 0 var(--s4); }
 .crew__kicker { font-family: var(--font-display); font-size: var(--t-small); letter-spacing: .24em; text-transform: uppercase; color: var(--brass); margin: 0 0 var(--s2); }
 .crew__card .crew-form { justify-content: flex-start; margin: var(--s4) 0 0; max-width: none; }
 .crew__card .socials { justify-content: flex-start; margin-top: auto; padding-top: var(--s4); }
+.crew__kicker abbr { text-decoration: none; border-bottom: 1px dotted currentColor; cursor: help; }
 .crew__aside { text-align: center; margin: var(--s6) auto 0; font-size: var(--t-small); color: var(--mist-dim); }
 .crew__aside a { color: rgb(var(--glow)); }
 
