@@ -33,6 +33,19 @@
     const i = CYCLE.indexOf(root.dataset.theme);
     return i === -1 ? CYCLE[0] : CYCLE[i + 1] || earnedTheme() || null;
   };
+  // Glyphs come from different fonts (☭ and ☠ from text fonts, the boot and cat from the emoji font),
+  // so measure each one's drawn size and scale it to the same 18px box.
+  const measure = document.createElement("canvas").getContext("2d");
+  const fitIcon = (icon) => {
+    if (!measure || !measure.measureText) return;
+    const cs = getComputedStyle(icon);
+    measure.font = `${cs.fontSize} ${cs.fontFamily}`;
+    const m = measure.measureText(icon.textContent);
+    const w = (m.actualBoundingBoxLeft || 0) + (m.actualBoundingBoxRight || 0);
+    const h = (m.actualBoundingBoxAscent || 0) + (m.actualBoundingBoxDescent || 0);
+    const size = Math.max(w, h);
+    icon.style.setProperty("--fit", size > 0 ? Math.min(2, 18 / size).toFixed(3) : 1);
+  };
   const syncToggles = () => {
     const current = root.dataset.theme || "";
     const earned = !!current && current === earnedTheme();
@@ -40,7 +53,9 @@
     const next = nextTheme();
     const label = `Faction colors: ${manual ? LABELS[current] : earned ? "earned" : "default"}. Next: ${LABELS[next] || (earnedTheme() ? "your earned colors" : "default")}`;
     toggles.forEach((b) => {
-      b.querySelector(".theme-toggle__icon").textContent = ICONS[current] || ICONS.socialists;
+      const icon = b.querySelector(".theme-toggle__icon");
+      icon.textContent = ICONS[current] || ICONS.socialists;
+      fitIcon(icon);
       b.dataset.mode = earned ? "earned" : manual ? "manual" : "";
       b.setAttribute("aria-label", label);
       b.title = label;
@@ -58,6 +73,7 @@
   toggles.forEach((b) => b.addEventListener("click", () => setTheme(nextTheme())));
   document.addEventListener("vs:theme", syncToggles); // the Gate previews colours without saving them
   syncToggles();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(syncToggles);
 
   /* ---------- Header + mobile menu ---------- */
   const header = document.querySelector(".header");

@@ -112,14 +112,14 @@
 
 /* Manual picks from the faction button: softer cousins of the earned palettes. */
 :root[data-theme="pirates-pick"] {
-  --void: #0f0d0b; --deep: #201b15; --deep-2: #2d261d;
-  --mist: #e4dccd; --mist-dim: #a49a86; --heading: #f8f3e8;
-  --brass: #c99a52; --brass-ink: #201b15; --tide: #c99a52; --accent: #c99a52;
-  --line: rgba(228, 220, 205, 0.15);
-  --nebula-1: rgba(201, 154, 82, 0.10); --nebula-2: rgba(110, 80, 50, 0.14);
-  --land: #1c1813; --rim: rgba(201, 154, 82, 0.5);
-  --fog: 228, 220, 205; --star: 250, 242, 226; --scrim: rgba(15, 13, 11, 0.62);
-  --glow: 235, 190, 130;
+  --void: #0c0b09; --deep: #1b1913; --deep-2: #29261b;
+  --mist: #ece3cf; --mist-dim: #ada186; --heading: #fdf8ea;
+  --brass: #f0c45c; --brass-ink: #1b1913; --tide: #f0c45c; --accent: #f0c45c;
+  --line: rgba(236, 227, 207, 0.15);
+  --nebula-1: rgba(240, 196, 92, 0.16); --nebula-2: rgba(170, 130, 50, 0.12);
+  --land: #19160f; --rim: rgba(240, 196, 92, 0.6);
+  --fog: 236, 227, 207; --star: 255, 247, 224; --scrim: rgba(12, 11, 9, 0.62);
+  --glow: 255, 215, 120;
 }
 :root[data-theme="cats-pick"] {
   --void: #081210; --deep: #10201c; --deep-2: #172c27;
@@ -226,7 +226,7 @@ p { margin: 0 0 var(--s4); }
 }
 .icon-btn:hover { color: var(--heading); border-color: var(--brass); }
 /* Icons are drawn as one-colour silhouettes (emoji included) so they match the header. */
-.theme-toggle__icon { color: transparent; text-shadow: 0 0 0 var(--icon, var(--mist)); font-size: 1.15rem; line-height: 1; }
+.theme-toggle__icon { display: inline-block; color: transparent; text-shadow: 0 0 0 var(--icon, var(--mist)); font-size: 20px; line-height: 1; transform: scale(var(--fit, 1)); }
 .theme-toggle:hover .theme-toggle__icon { --icon: var(--heading); }
 .theme-toggle[data-mode="manual"] { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 18%, transparent); }
 .theme-toggle[data-mode="manual"] .theme-toggle__icon { --icon: #fff; }
