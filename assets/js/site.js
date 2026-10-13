@@ -4,9 +4,9 @@
   root.classList.remove("no-js");
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-  /* ---------- Theme (☭ = Socialist crimson) ----------
+  /* ---------- Theme ----------
      vs-theme is what the page wears now. vs-earned is the faction colour won at the Gate,
-     kept apart so the ☭ toggle can borrow the screen and hand it back untouched. */
+     kept apart so the faction button can borrow the screen and hand it back untouched. */
   const THEME_KEY = "vs-theme";
   const EARNED_KEY = "vs-earned";
   const store = {
@@ -16,10 +16,35 @@
   // Sailors who earned colours before vs-earned existed keep them.
   const FACTION_THEMES = ["pirates", "cats", "nomads", "socialists-earned"];
   if (!store.get(EARNED_KEY) && FACTION_THEMES.includes(store.get(THEME_KEY))) store.set(EARNED_KEY, store.get(THEME_KEY));
+  /* The faction button cycles through manual picks: ☭ Socialists, boot Nomads, skull Pirates, cat C.A.T.s,
+     then back to the earned colours (or the default Void). Manual picks are softer cousins of the
+     earned palettes; the icon turns yellow only while earned colours are on screen. */
+  const CYCLE = ["socialists", "nomads-pick", "pirates-pick", "cats-pick"];
+  const ICONS = {
+    socialists: "\u262D", "socialists-earned": "\u262D",
+    "nomads-pick": "\u{1F462}", nomads: "\u{1F462}",
+    "pirates-pick": "\u2620\uFE0E", pirates: "\u2620\uFE0E",
+    "cats-pick": "\u{1F408}", cats: "\u{1F408}",
+  };
+  const LABELS = { socialists: "Socialists", "nomads-pick": "Nomads", "pirates-pick": "Pirates", "cats-pick": "C.A.T.s" };
   const toggles = document.querySelectorAll("[data-theme-toggle]");
+  const earnedTheme = () => store.get(EARNED_KEY);
+  const nextTheme = () => {
+    const i = CYCLE.indexOf(root.dataset.theme);
+    return i === -1 ? CYCLE[0] : CYCLE[i + 1] || earnedTheme() || null;
+  };
   const syncToggles = () => {
-    const on = root.dataset.theme === "socialists";
-    toggles.forEach((b) => b.setAttribute("aria-pressed", String(on)));
+    const current = root.dataset.theme || "";
+    const earned = !!current && current === earnedTheme();
+    const manual = CYCLE.includes(current);
+    const next = nextTheme();
+    const label = `Faction colors: ${manual ? LABELS[current] : earned ? "earned" : "default"}. Next: ${LABELS[next] || (earnedTheme() ? "your earned colors" : "default")}`;
+    toggles.forEach((b) => {
+      b.querySelector(".theme-toggle__icon").textContent = ICONS[current] || ICONS.socialists;
+      b.dataset.mode = earned ? "earned" : manual ? "manual" : "";
+      b.setAttribute("aria-label", label);
+      b.title = label;
+    });
   };
   const setTheme = (name, opts = {}) => {
     if (name && name !== "void") root.dataset.theme = name;
@@ -29,11 +54,9 @@
     syncToggles();
     document.dispatchEvent(new CustomEvent("vs:theme"));
   };
-  const earnedTheme = () => store.get(EARNED_KEY);
   window.VoidSailors = { setTheme, earnedTheme };
-  toggles.forEach((b) => b.addEventListener("click", () => {
-    setTheme(root.dataset.theme === "socialists" ? earnedTheme() : "socialists");
-  }));
+  toggles.forEach((b) => b.addEventListener("click", () => setTheme(nextTheme())));
+  document.addEventListener("vs:theme", syncToggles); // the Gate previews colours without saving them
   syncToggles();
 
   /* ---------- Header + mobile menu ---------- */
