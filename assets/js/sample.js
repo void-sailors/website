@@ -285,7 +285,14 @@
     paperBtn.setAttribute("aria-pressed", String(on));
     store.set("vs-sample-paper", on ? "1" : "0");
   }
-  paperBtn.addEventListener("click", () => setPaper(!paper));
+  // The fade runs only on a tap (not on page load), and taps wait for it to finish, so quick repeats can't flicker.
+  let fading = 0;
+  paperBtn.addEventListener("click", () => {
+    if (fading) return;
+    reader.classList.add("is-fading");
+    setPaper(!paper);
+    fading = setTimeout(() => { reader.classList.remove("is-fading"); fading = 0; }, 750);
+  });
 
   // Swipe, or tap the right or left half of the book.
   let x0 = null;
