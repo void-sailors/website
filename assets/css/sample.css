@@ -114,14 +114,9 @@
 
 /* After the cliffhanger: one question, then the author's socials as round icons. */
 .chapter__ask { margin: var(--s4) 0 var(--s2); font-style: italic; }
-.chapter__socials { display: flex; justify-content: center; gap: 12px; list-style: none; margin: 0; padding: 0; }
-.chapter__socials a { display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid var(--brass); border-radius: 50%; color: var(--heading); transition: transform .3s var(--ease), box-shadow .3s var(--ease); }
-.chapter__socials a:hover, .chapter__socials a:focus-visible { transform: translateY(-2px); box-shadow: 0 8px 21px -8px var(--brass); }
-.chapter__socials svg { width: 19px; height: 19px; fill: currentColor; }
-.chapter__socials-play { fill: var(--void); }
 .page--end .chapter__ask { margin: .9em 0 .5em; }
-.page--end .chapter__socials a { color: var(--page-head); border-color: var(--page-acc); }
-.page--end .chapter__socials-play { fill: var(--paper); }
+.page--end .round-socials a { color: var(--page-head); border-color: var(--page-acc); }
+.page--end .round-socials__play { fill: var(--paper); }
 /* Short pages (small phones, low laptop screens): keep the hook, the button and the socials; the window behind the button repeats the rest. */
 .book.is-short .page--end .eyebrow, .book.is-short .page--end .chapter__status { display: none; }
 .book.is-short .page--end h2 { font-size: 1.2em; margin-bottom: .4em; }
