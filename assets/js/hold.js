@@ -134,32 +134,33 @@
 
     /* III. Make 173: pick shards, then add a number of your own. */
     shards() {
-      const TARGET = 173;
-      reset(`Five shards hum with numbers. Choose any of them, then add your own number from 1 to 99. Make exactly ${TARGET} to pass.`);
+      const TARGET = 173, MAX_OWN = 20;
+      reset(`Five shards hum with round numbers. Choose some of them, then add your own number from 1 to ${MAX_OWN}. Make exactly ${TARGET} to pass.`);
       // Roll until some choice of shards leaves a gap your own number can fill.
       let values;
       const reachable = (vals) => {
         for (let mask = 1; mask < 32; mask++) {
           const sum = vals.reduce((t, v, k) => t + (mask & (1 << k) ? v : 0), 0);
           const gap = TARGET - sum;
-          if (gap >= 1 && gap <= 99) return true;
+          if (gap >= 1 && gap <= MAX_OWN) return true;
         }
         return false;
       };
-      do { values = Array.from({ length: 5 }, () => 12 + rand(57)); } while (!reachable(values));
+      // Shards carry tens (10 to 90), so the sums stay easy to do in your head.
+      do { values = shuffle([1, 2, 3, 4, 5, 6, 7, 8, 9]).slice(0, 5).map((n) => n * 10); } while (!reachable(values));
 
       ui.board.classList.add("shards");
       const picked = new Set();
       const field = el("label", "shard shard--own");
       const own = el("input");
-      Object.assign(own, { type: "number", min: 1, max: 99, inputMode: "numeric", placeholder: "?" });
-      own.setAttribute("aria-label", "Your number, 1 to 99");
+      Object.assign(own, { type: "number", min: 1, max: MAX_OWN, inputMode: "numeric", placeholder: "?" });
+      own.setAttribute("aria-label", `Your number, 1 to ${MAX_OWN}`);
       field.append(own);
       const total = ui.count;
       let over = false;
       const check = () => {
         const mine = Number(own.value);
-        const valid = Number.isInteger(mine) && mine >= 1 && mine <= 99;
+        const valid = Number.isInteger(mine) && mine >= 1 && mine <= MAX_OWN;
         const sum = [...picked].reduce((t, k) => t + values[k], 0) + (valid ? mine : 0);
         total.textContent = `Total: ${sum} of ${TARGET}`;
         if (!over && valid && picked.size > 0 && sum === TARGET) {
