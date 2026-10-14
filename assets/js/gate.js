@@ -180,6 +180,10 @@
 
   const root = document.documentElement;
   const keepBtn = document.querySelector('[data-action="colors"]');
+  try {
+    const probe = new File([""], "crest.png", { type: "image/png" });
+    if (navigator.canShare?.({ files: [probe] })) document.querySelector('[data-action="download"]').textContent = "Share Crest Card";
+  } catch (e) { /* older browsers keep "Save Crest Card" */ }
   const preview = (theme) => {
     if (theme && theme !== "void") root.dataset.theme = theme; else delete root.dataset.theme;
     document.dispatchEvent(new CustomEvent("vs:theme"));
@@ -232,12 +236,15 @@
     img.onload = () => {
       const iw = 620, ih = iw * 1.5;
       g.drawImage(img, (W - iw) / 2, 380, iw, ih);
+      g.fillStyle = v("--mist");
+      g.font = "500 40px Cinzel, Georgia, serif";
+      g.fillText("SAILS WITH THE", W / 2, 1375);
       g.fillStyle = v("--heading");
       g.font = "700 96px Cinzel, Georgia, serif";
-      g.fillText(f.name, W / 2, 1450);
+      g.fillText(f.name, W / 2, 1475);
       g.fillStyle = v("--brass");
       g.font = "500 40px Cinzel, Georgia, serif";
-      g.fillText(f.motto.toUpperCase(), W / 2, 1530);
+      g.fillText(f.motto.toUpperCase(), W / 2, 1550);
       g.fillStyle = v("--mist");
       g.font = "48px 'Bluu Next Titling', Cinzel, Georgia, serif";
       g.fillText("VoidSailors", W / 2, 1740);
@@ -245,11 +252,22 @@
       g.fillText("voidsailors.com", W / 2, 1795);
       c.toBlob((blob) => {
         if (!blob) return;
-        const a = document.createElement("a");
-        a.href = URL.createObjectURL(blob);
-        a.download = `voidsailors-${result}-crest.png`;
-        document.body.appendChild(a); a.click(); a.remove();
-        setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+        const fileName = `voidsailors-${result}-crest.png`;
+        const save = () => {
+          const a = document.createElement("a");
+          a.href = URL.createObjectURL(blob);
+          a.download = fileName;
+          document.body.appendChild(a); a.click(); a.remove();
+          setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+        };
+        // Phones open the share sheet; everything else saves the image.
+        const file = new File([blob], fileName, { type: "image/png" });
+        if (!navigator.canShare?.({ files: [file] })) return save();
+        navigator.share({
+          files: [file],
+          title: "VoidSailors",
+          text: `${sailor} sails with the ${f.name}. Find your faction at https://voidsailors.com/gate.html`,
+        }).catch((e) => { if (e.name !== "AbortError") save(); });
       }, "image/png");
     };
     img.src = f.crest;
