@@ -11,11 +11,17 @@ The official site for *VoidSailors: Where Truth Lies*, a GameLit novel by E. J. 
 
 ## Turning on the mailing list
 
-The **Join the Crew** form on the home page (`#crew` in `index.html`) is ready for any email provider (Buttondown, Mailchimp, ConvertKit/Kit, MailerLite). Until it is connected, it only shows a "coming soon" note and sends nothing.
+Every signup form (the Join the Crew section, the Join the Crew window, and the Amazon "coming soon" window) reads one setting. Until it is set, the forms only show a "coming soon" note and send nothing.
 
-1. In your provider, create an embedded signup form and copy its form **action URL**.
-2. In `index.html`, set `data-endpoint="<that URL>"` on the `<form class="crew-form">`.
-3. If the provider expects a field name other than `email` (Mailchimp uses `EMAIL`), set `data-field` to match.
+1. In your provider (Buttondown, Mailchimp, Kit, MailerLite), create an embedded signup form and copy its form **action URL**.
+2. In `assets/js/site.js`, paste it into `MAIL_ENDPOINT`.
+3. If the provider expects a field name other than `email` (Mailchimp uses `EMAIL`), set `data-field` on the forms to match.
+
+## Search engines and AI
+
+- `robots.txt` welcomes every crawler, AI crawlers by name, and points to `sitemap.xml`. Update `<lastmod>` in the sitemap when a page changes.
+- `llms.txt` is a plain-text summary of the book and the site for AI assistants. Keep it in step with the release date, store links and pages.
+- `index.html`, `book.html` and `sample.html` carry schema.org data (Book, Person, WebSite, Chapter). When the book launches, add `datePublished` and an `offers` link to the Book.
 
 Buttons follow one rule everywhere: the main action of a block is brass (`btn--primary`), and the second is bordered (`btn--ghost`). Links to the Gate from other pages are always bordered, so they never look like Join the Crew.
 
