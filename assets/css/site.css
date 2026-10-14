@@ -358,11 +358,18 @@ p { margin: 0 0 var(--s4); }
 .helm-mark::after { transform: scaleX(-1); }
 .portrait { margin: 0; text-align: center; }
 .portrait img { width: 100%; aspect-ratio: 2 / 3; object-fit: cover; border-radius: var(--radius); border: 1px solid var(--line); }
-.portrait:not(.portrait--lead) { margin-top: var(--s5); } /* the lead stands a head taller */
-.portrait--lead img { border-color: var(--brass); box-shadow: 0 18px 40px -22px rgba(var(--glow), 0.8); }
+.portrait:nth-child(odd) { margin-top: var(--s5); } /* the middle one stands a head taller */
+.helm-note { margin: calc(var(--s3) * -1) 0 var(--s4); text-align: center; font-size: var(--t-small); color: var(--mist-dim); letter-spacing: .06em; }
 .portrait figcaption { padding-top: var(--s2); }
 .portrait h3 { margin: 0; color: var(--brass); font-size: clamp(0.95rem, 0.7rem + 1vw, 1.25rem); letter-spacing: 0.02em; }
-.portrait p { margin: 2px 0 0; font-style: italic; color: var(--mist-dim); font-size: clamp(0.72rem, 0.62rem + 0.4vw, 0.9rem); line-height: 1.3; }
+.portrait p { margin: 3px 0 0; font-family: var(--font-display); letter-spacing: .04em; color: var(--mist-dim); font-size: clamp(0.68rem, 0.6rem + 0.35vw, 0.84rem); line-height: 1.35; }
+
+/* ---------- Protagonist ---------- */
+.protag__art { margin: 0; justify-self: center; width: min(52vw, 340px); }
+.protag__art img { width: 100%; aspect-ratio: 2 / 3; object-fit: cover; border-radius: calc(var(--radius) * 1.618); border: 1px solid var(--brass); box-shadow: 0 34px 60px -30px rgba(var(--glow), .85), 0 20px 50px -20px rgba(0, 0, 0, .7); }
+.protag h2 { margin-bottom: var(--s1); }
+.protag__title { font-family: var(--font-display); font-size: clamp(1rem, .9rem + .5vw, 1.3rem); letter-spacing: .08em; color: var(--brass); margin-bottom: var(--s3); }
+.protag .lede { color: var(--heading); }
 
 /* ---------- Quote band ---------- */
 .quote { text-align: center; padding-block: var(--s7); }
@@ -394,7 +401,7 @@ p { margin: 0 0 var(--s4); }
 .card:hover img { transform: scale(1.04); }
 .card figcaption { position: absolute; inset: auto 0 0; padding: var(--s6) var(--s4) var(--s4); background: linear-gradient(transparent, color-mix(in srgb, var(--void) 92%, transparent) 55%); }
 .card h3 { font-size: 1.25rem; margin: 0 0 var(--s1); }
-.card p { margin: 0; font-style: italic; color: var(--mist); font-size: 1rem; }
+.card p { margin: 0; font-family: var(--font-display); letter-spacing: .04em; color: var(--mist); font-size: .9rem; line-height: 1.35; }
 @media (min-width: 1100px) { .rail { grid-auto-columns: calc((var(--wrap) - var(--s5) * 2 - var(--s4) * 3) / 4); } }
 
 /* ---------- Inventory ---------- */
@@ -418,6 +425,16 @@ p { margin: 0 0 var(--s4); }
 /* ---------- Author & crew ---------- */
 .author { display: grid; gap: var(--s4); align-items: center; justify-items: center; text-align: center; }
 .author img { width: 240px; filter: drop-shadow(0 0 13px color-mix(in srgb, var(--accent) 35%, transparent)); }
+.author__head { display: grid; justify-items: center; gap: var(--s3); max-width: 38em; }
+.author__head h2 { margin: 0; }
+.author__head .lede { color: var(--heading); margin: 0; }
+.author__head p { margin: 0; }
+.pillars { list-style: none; margin: var(--s4) 0 0; padding: 0; display: grid; gap: var(--s4); width: 100%; text-align: left; }
+@media (min-width: 900px) { .pillars { grid-template-columns: repeat(3, 1fr); } }
+.pillars li { padding: var(--s4); border-top: 1px solid var(--brass); background: color-mix(in srgb, var(--deep) 60%, transparent); border-radius: 0 0 var(--radius) var(--radius); }
+.pillars h3 { font-size: 1.1rem; color: var(--brass); margin: 0 0 var(--s2); letter-spacing: .03em; }
+.pillars p { margin: 0; color: var(--mist); }
+.author__close { margin: var(--s2) 0 0; font-style: italic; color: var(--mist-dim); }
 .socials { display: flex; flex-wrap: wrap; gap: var(--s3); justify-content: center; list-style: none; padding: 0; margin: 0; }
 .socials a { display: inline-flex; align-items: center; gap: var(--s2); min-height: 48px; padding: var(--s2) var(--s4); border: 1px solid var(--line); border-radius: 999px; color: var(--heading); text-decoration: none; font-family: var(--font-display); font-size: .85rem; letter-spacing: .12em; text-transform: uppercase; transition: border-color .3s, transform .3s var(--ease); }
 .socials a:hover { border-color: var(--brass); transform: translateY(-2px); }
