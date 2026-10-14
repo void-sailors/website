@@ -18,10 +18,48 @@
     <meta property="og:image" content="https://voidsailors.com/assets/img/web/share-card.jpg">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="VoidSailors: Where Truth Lies, a GameLit novel by E. J. Perry">
     <meta name="twitter:card" content="summary_large_image">
 
     <link rel="icon" href="assets/img/web/favicon-32.png" type="image/png" sizes="32x32">
     <link rel="apple-touch-icon" href="assets/img/web/apple-touch-icon.png">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+        {
+            "@type": "Chapter",
+            "name": "Appointment in the Storm",
+            "description": "A free chapter of VoidSailors: Where Truth Lies. A half-built ship, a crew still missing its captain, and a server clock running down.",
+            "url": "https://voidsailors.com/sample.html",
+            "isAccessibleForFree": true,
+            "timeRequired": "PT7M",
+            "isPartOf": { "@id": "https://voidsailors.com/#book" },
+            "author": { "@id": "https://voidsailors.com/#author" }
+        },
+        {
+            "@type": "Book",
+            "@id": "https://voidsailors.com/#book",
+            "name": "VoidSailors: Where Truth Lies",
+            "description": "A fantasy GameLit novel set during a five-day competitive event, where players navigate faction politics, scarce resources, and choices that cannot be undone.",
+            "author": { "@id": "https://voidsailors.com/#author" },
+            "isbn": "979-8-89170-595-1",
+            "genre": ["GameLit", "Fantasy", "Young Adult"],
+            "keywords": "GameLit, LitRPG, fantasy, young adult, factions, hover-sail ships, permadeath",
+            "inLanguage": "en",
+            "url": "https://voidsailors.com/book.html",
+            "image": "https://voidsailors.com/assets/img/web/cover-484.webp"
+        },
+        {
+            "@type": "Person",
+            "@id": "https://voidsailors.com/#author",
+            "name": "E. J. Perry",
+            "url": "https://voidsailors.com/#author",
+            "sameAs": ["https://www.instagram.com/ejperry_author/", "https://www.tiktok.com/@ejperry_author", "https://www.youtube.com/@voidsailors"]
+        }
+        ]
+    }
+    </script>
 
     <script>try{var t=localStorage.getItem("vs-theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
     <link rel="preload" href="assets/fonts/cinzel.woff2" as="font" type="font/woff2" crossorigin>
