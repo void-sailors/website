@@ -29,8 +29,10 @@
       x.img.alt = hidden ? "A sailor not yet met" : x.alt;
     });
   };
+  const loreLink = document.querySelector("[data-lore-link]");
   const paint = () => {
     paintHeroes();
+    if (loreLink) loreLink.hidden = won < ORDER.length;
     items.forEach((btn) => {
       const i = ORDER.indexOf(btn.dataset.game);
       const state = i < won ? "won" : i === won ? "open" : "locked";
@@ -70,9 +72,10 @@
     ui.status.textContent = met ? `${message} ${met.name} now sails among The Heroes.` : message;
     ui.status.dataset.tone = "win";
     const next = ORDER[i + 1];
-    ui.actions.replaceChildren(next
-      ? button(`Open ${NAMES[next]}`, "btn--primary", () => open(next))
-      : button("Close the Hold", "btn--ghost", () => dialog.close()));
+    if (next) return ui.actions.replaceChildren(button(`Open ${NAMES[next]}`, "btn--primary", () => open(next)));
+    const lore = el("a", "btn btn--primary", "Read the Lore");
+    lore.href = "lore.html";
+    ui.actions.replaceChildren(lore, button("Close the Hold", "btn--ghost", () => dialog.close()));
   };
   const lose = (message, retryLabel) => {
     ui.status.textContent = message;
@@ -241,7 +244,7 @@
           const order = el("ol", "riddle-order");
           [["Twig", 11], ["Cannonball", 54], ["Shard", 108]].forEach(([n, v]) => order.append(el("li", null, `${n} · ${v}`)));
           ui.board.appendChild(order);
-          win("The scroll unrolls. Every trial is won, Sailor, and the hold is yours.");
+          win("The scroll unrolls. Every trial is won, Sailor, and the lore it kept is yours to read.");
         } else {
           ui.status.textContent = c + 11 + s === 173
             ? "Those add to 173, but the shard must weigh twice the cannonball."
