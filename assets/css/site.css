@@ -722,25 +722,36 @@ button.item:not([data-state="locked"]):hover, button.item:not([data-state="locke
 .riddle-order li:nth-child(2) { animation-delay: .15s; } .riddle-order li:nth-child(3) { animation-delay: .3s; }
 
 /* ---------- LORE: the page the Scroll unseals ---------- */
-.volume { --ink: #2b2219; --ink-dim: #6e5c45; --rust: #8a3a1e; max-width: 40rem; margin: 0 auto; padding: clamp(2rem, 1.2rem + 4vw, 4.2rem) clamp(1.3rem, .8rem + 3vw, 3.6rem);
-  color: var(--ink); background: radial-gradient(ellipse at 50% 0%, #f8f1e2, #efe3c8 60%, #e4d3b0); border-radius: 6px;
-  box-shadow: 0 0 0 1px rgba(154, 116, 40, .45), 0 0 0 7px rgba(244, 236, 219, .06), 0 34px 89px rgba(0, 0, 0, .55); font-family: var(--font-text); font-size: clamp(1.05rem, 1rem + .25vw, 1.18rem); line-height: 1.75; }
+/* Same choices as the chapter reader: the page wears the site's colours by default, Paper switches to parchment,
+   and A− / A+ change the type size. Both settings are shared with the reader (vs-sample-paper, vs-sample-size). */
+.volume { --ink: var(--mist); --ink-head: var(--heading); --ink-dim: var(--mist-dim); --acc: var(--brass); --mark: var(--brass);
+  --sheet: color-mix(in srgb, var(--deep) 88%, rgb(var(--glow))); --sheet-2: var(--deep);
+  max-width: 40rem; margin: 0 auto; padding: clamp(2rem, 1.2rem + 4vw, 4.2rem) clamp(1.3rem, .8rem + 3vw, 3.6rem);
+  color: var(--ink); background: radial-gradient(ellipse at 50% 0%, var(--sheet), var(--sheet-2)); border-radius: 6px;
+  box-shadow: 0 0 0 1px var(--line), 0 34px 89px rgba(0, 0, 0, .55); font-family: var(--font-text); font-size: var(--lore-size, 1.125rem); line-height: 1.75;
+  transition: color .5s ease, box-shadow .5s ease; }
+.lore-paper .volume { --ink: #2b2219; --ink-head: #2b2219; --ink-dim: #6e5c45; --acc: #9a7428; --mark: #8a3a1e; --sheet: #f8f1e2; --sheet-2: #e4d3b0;
+  box-shadow: 0 0 0 1px rgba(154, 116, 40, .45), 0 34px 89px rgba(0, 0, 0, .55); }
+.volume-bar { max-width: 40rem; margin: 0 auto var(--s3); display: flex; align-items: center; justify-content: space-between; gap: var(--s3); }
+.volume-bar__title { margin: 0; font-family: var(--font-display); font-size: .8rem; letter-spacing: .18em; text-transform: uppercase; color: var(--brass); }
+.volume-bar__tools { display: flex; gap: var(--s2); }
+.volume-bar button { min-width: 44px; height: 36px; padding: 0 var(--s3); border: 1px solid var(--line); border-radius: 18px; background: transparent; color: var(--mist); font: 600 .85rem/1 var(--font-text); cursor: pointer; transition: border-color .2s, color .2s; }
+.volume-bar button:hover, .volume-bar button[aria-pressed="true"] { border-color: var(--brass); color: var(--heading); }
+.volume-bar button:disabled { opacity: .35; cursor: default; }
 .volume__head { text-align: center; margin-bottom: var(--s5); }
-.volume .eyebrow { color: #9a7428; }
-.volume__title { font-family: var(--font-mark); color: var(--ink); font-size: clamp(2.8rem, 2rem + 4vw, 4.6rem); letter-spacing: .18em; margin: var(--s2) 0 0; text-shadow: none; }
-.volume__sub { font-family: var(--font-ink); font-size: clamp(1.6rem, 1.3rem + 1.4vw, 2.3rem); color: var(--rust); margin: 0; line-height: 1.2; }
-:where(.volume) p { margin: 0 0 .9em; font-style: normal; font-size: inherit; color: var(--ink); }
-.volume__first::first-letter { font-family: var(--font-mark); font-size: 2.6em; line-height: 1; padding-right: .04em; color: var(--rust); }
+.volume .eyebrow { color: var(--acc); }
+.volume__title { font-family: var(--font-mark); color: var(--ink-head); font-size: clamp(2.8rem, 2rem + 4vw, 4.6rem); letter-spacing: .18em; margin: var(--s2) 0 0; text-shadow: none; }
+.volume__sub { font-family: var(--font-ink); font-size: clamp(1.6rem, 1.3rem + 1.4vw, 2.3rem); color: var(--mark); margin: 0; line-height: 1.2; }
+:where(.volume) p { margin: 0 0 .9em; font-style: normal; font-size: inherit; color: var(--ink); transition: color .5s ease; }
+.volume__first::first-letter { font-family: var(--font-mark); font-size: 2.6em; line-height: 1; padding-right: .04em; color: var(--mark); }
 .lore-page { padding-top: var(--s5); }
-.volume__law { font-family: var(--font-display); font-weight: 600; text-align: center; font-size: 1.12em; line-height: 1.45; letter-spacing: .04em; color: var(--rust); margin: 1.4em 0 !important; }
-.volume__break { text-align: center; color: #9a7428; font-size: 1.3rem; letter-spacing: .6em; margin: 1.6em 0 !important; }
+.volume__law { font-family: var(--font-display); font-weight: 600; text-align: center; font-size: 1.12em; line-height: 1.45; letter-spacing: .04em; color: var(--mark); margin: 1.4em 0 !important; }
+.volume__break { text-align: center; color: var(--acc); font-size: 1.3rem; letter-spacing: .6em; margin: 1.6em 0 !important; }
 .volume__margin { font-family: var(--font-ink); font-size: 1.55em; line-height: 1.3; color: var(--ink-dim); text-align: right; transform: rotate(-2deg); margin: 2.2em 0 0 !important; }
-.volume__margin em { font-style: normal; }
-.volume__word { font-family: var(--font-text); font-size: .72em; color: var(--ink); }
-.volume__end { text-align: center; margin-top: var(--s6); padding-top: var(--s5); border-top: 1px solid rgba(154, 116, 40, .4); }
+.volume__end { text-align: center; margin-top: var(--s6); padding-top: var(--s5); border-top: 1px solid color-mix(in srgb, var(--acc) 45%, transparent); }
 .volume__end .muted { color: var(--ink-dim); }
 .volume__end .btn-row { justify-content: center; }
-.volume__end .btn--ghost { color: var(--ink); }
+.lore-paper .volume__end .btn--ghost { color: var(--ink); }
 .lore-seal { max-width: 34rem; margin: 0 auto; padding-top: var(--s5); text-align: center; }
 .lore-seal__mark { font-family: var(--font-display); font-size: 5rem; line-height: 1; color: rgba(201, 211, 227, .75); margin: 0 0 var(--s3); }
 .lore-seal .btn-row { justify-content: center; }

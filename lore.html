@@ -25,10 +25,11 @@
     <link rel="apple-touch-icon" href="assets/img/web/apple-touch-icon.png">
 
     <script>try{var t=localStorage.getItem("vs-theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+    <script>try{var d=document.documentElement,z=[16,17,18,19,20,22,24],i=parseInt(localStorage.getItem("vs-sample-size"),10);if(localStorage.getItem("vs-sample-paper")==="1")d.classList.add("lore-paper");if(i>=0&&i<z.length)d.style.setProperty("--lore-size",z[i]+"px")}catch(e){}</script>
     <link rel="preload" href="assets/fonts/cinzel.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="assets/fonts/bluu-next-titling.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" as="image" type="image/webp" imagesrcset="assets/img/web/cover-320.webp 320w, assets/img/web/cover-484.webp 484w" imagesizes="(min-width: 1100px) 400px, (min-width: 768px) 360px, 62vw">
-    <link rel="stylesheet" href="assets/css/site.css?v=20261014c">
+    <link rel="stylesheet" href="assets/css/site.css?v=20261014d">
 </head>
 
 <body>
@@ -93,7 +94,16 @@
                         <a class="btn btn--primary" href="index.html#inventory">Open the Hold</a>
                     </div>
                 </div>
-                <article class="volume" data-lore>
+                <div data-lore>
+                <div class="volume-bar">
+                    <p class="volume-bar__title">LORE</p>
+                    <div class="volume-bar__tools">
+                        <button type="button" data-size="-1" aria-label="Smaller text">A&minus;</button>
+                        <button type="button" data-size="1" aria-label="Larger text">A+</button>
+                        <button type="button" data-paper aria-pressed="false" title="Light parchment pages">Paper</button>
+                    </div>
+                </div>
+                <article class="volume">
                     <header class="volume__head">
                         <p class="eyebrow">From the Appendix</p>
                         <h1 class="volume__title">LORE</h1>
@@ -155,7 +165,7 @@
                     <p>And when it is gone —</p>
                     <p>there will be no tide left to blame.</p>
                     <p class="volume__break" aria-hidden="true">&#10086;</p>
-                    <p class="volume__margin"><em>I have written</em> <span class="volume__word">is</span><em>. I am old, and I have not changed it.</em></p>
+                    <p class="volume__margin">I have written this. I am old, and I have not changed it.</p>
                     <footer class="volume__end">
                         <p class="muted">Every trial won. The rest of the voyage is in the book.</p>
                         <div class="btn-row">
@@ -164,6 +174,7 @@
                         </div>
                     </footer>
                 </article>
+                </div>
                 <script>(function(){try{if((Number(localStorage.getItem("vs-hold"))||0)>=4)return}catch(e){}document.querySelector("[data-lore]").hidden=true;document.querySelector("[data-lore-seal]").hidden=false})();</script>
             </div>
         </section>
@@ -228,5 +239,6 @@
     </footer>
 
     <script src="assets/js/site.js?v=20261014a" defer></script>
+    <script src="assets/js/lore.js?v=20261014a" defer></script>
 </body>
 </html>
