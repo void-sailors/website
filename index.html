@@ -28,7 +28,7 @@
     <link rel="preload" href="assets/fonts/cinzel.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="assets/fonts/bluu-next-titling.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" as="image" type="image/webp" imagesrcset="assets/img/web/cover-320.webp 320w, assets/img/web/cover-484.webp 484w" imagesizes="(min-width: 1100px) 400px, (min-width: 768px) 360px, 62vw">
-    <link rel="stylesheet" href="assets/css/site.css?v=20261014a">
+    <link rel="stylesheet" href="assets/css/site.css?v=20261014b">
 
     <script type="application/ld+json">
     {
@@ -129,7 +129,7 @@
                     <p class="hero__motto">An adventure that trades stats for consequence, inside a contest where every alliance has a price and death is permanent.</p>
                     <div class="btn-row">
                         <a class="btn btn--primary" href="book.html">Discover the Book</a>
-                        <a class="btn btn--ghost" href="gate.html">Face the Gate</a>
+                        <a class="btn btn--ghost" href="gate.html">Find Your Faction</a>
                     </div>
                     <p class="hero__meta">Release date coming soon &middot; Print and digital</p>
                 </div>
@@ -289,11 +289,11 @@
                         <img src="assets/img/web/hero-gatekeeper-360.webp" srcset="assets/img/web/hero-gatekeeper-360.webp 360w, assets/img/web/hero-gatekeeper-640.webp 640w" sizes="260px" width="360" height="540" alt="The Gatekeeper, a robed elder with a glowing staff" loading="lazy" decoding="async">
                         <figcaption><h3>The Gatekeeper</h3><p>Guardian of Sacred Passages</p></figcaption>
                     </figure>
-                    <figure class="card">
+                    <figure class="card" data-reward="twigs">
                         <img src="assets/img/web/hero-spag-360.webp" srcset="assets/img/web/hero-spag-360.webp 360w, assets/img/web/hero-spag-640.webp 640w" sizes="260px" width="360" height="540" alt="Spag, leaning on coiled rope in a wide-brimmed hat" loading="lazy" decoding="async">
                         <figcaption><h3>Spag</h3><p>Rigger of the Independent Sails</p></figcaption>
                     </figure>
-                    <figure class="card">
+                    <figure class="card" data-reward="shards">
                         <img src="assets/img/web/hero-alys-360.webp" srcset="assets/img/web/hero-alys-360.webp 360w, assets/img/web/hero-alys-640.webp 640w" sizes="260px" width="360" height="540" alt="&Auml;lys in a crimson naval uniform" loading="lazy" decoding="async">
                         <figcaption><h3>&Auml;lys</h3><p>Commander in Crimson</p></figcaption>
                     </figure>
@@ -301,7 +301,7 @@
                         <img src="assets/img/web/hero-markus-360.webp" srcset="assets/img/web/hero-markus-360.webp 360w, assets/img/web/hero-markus-640.webp 640w" sizes="260px" width="360" height="540" alt="Markus Dark, dressed in black, holding a violet orb on a night deck" loading="lazy" decoding="async">
                         <figcaption><h3>Markus Dark</h3><p>Unhappy Quartermaster</p></figcaption>
                     </figure>
-                    <figure class="card">
+                    <figure class="card" data-reward="cannonballs">
                         <img src="assets/img/web/hero-blue-360.webp" srcset="assets/img/web/hero-blue-360.webp 360w, assets/img/web/hero-blue-640.webp 640w" sizes="260px" width="360" height="540" alt="Blue, a bearded pirate in a blue bandana, holding a hammer and a skull" loading="lazy" decoding="async">
                         <figcaption><h3>Blue</h3><p>Builder of Mismatched Hulls</p></figcaption>
                     </figure>
@@ -322,7 +322,7 @@
                     <hr class="rule">
                     <p>Inventory in VoidSailors is finite, visible, and meaningful. Cargo decides what you can do, who you can help, and what you must abandon.</p>
                     <p class="muted">Every item stands for labor, trade, or sacrifice, which turns packing the hold into a strategic and moral choice rather than a background mechanic.</p>
-                    <p class="hold__invite">Each item hides a trial. Win one and the next unlocks. Start with the cannonballs.</p>
+                    <p class="hold__invite">Each item hides a trial. Win one and the next unlocks, and three sailors hidden among <a href="#heroes">The Heroes</a> step out of the fog. Start with the cannonballs.</p>
                 </div>
                 <div class="items reveal" data-hold>
                     <button class="item" type="button" data-game="cannonballs" data-state="locked">
@@ -503,6 +503,6 @@
     </footer>
 
     <script src="assets/js/site.js?v=20261014a" defer></script>
-    <script src="assets/js/hold.js?v=20261014a" defer></script>
+    <script src="assets/js/hold.js?v=20261014b" defer></script>
 </body>
 </html>
