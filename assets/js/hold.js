@@ -14,7 +14,23 @@
   let won = store.get(); // how many trials are complete
 
   const items = hold.querySelectorAll("[data-game]");
+  // Hero cards that stay grey until their trial is won. The real name and title are kept to restore later.
+  const heroes = [...document.querySelectorAll("[data-reward]")].map((card) => {
+    const img = card.querySelector("img"), h = card.querySelector("h3"), p = card.querySelector("figcaption p");
+    return { card, img, h, p, game: card.dataset.reward, alt: img.alt, name: h.textContent, title: p.textContent };
+  });
+  const paintHeroes = () => {
+    heroes.forEach((x) => {
+      const hidden = ORDER.indexOf(x.game) >= won;
+      if (!hidden && x.card.dataset.state === "hidden") x.card.classList.add("is-met");
+      x.card.dataset.state = hidden ? "hidden" : "met";
+      x.h.textContent = hidden ? "?" : x.name;
+      x.p.textContent = hidden ? `Win the ${NAMES[x.game]} to meet this sailor` : x.title;
+      x.img.alt = hidden ? "A sailor not yet met" : x.alt;
+    });
+  };
   const paint = () => {
+    paintHeroes();
     items.forEach((btn) => {
       const i = ORDER.indexOf(btn.dataset.game);
       const state = i < won ? "won" : i === won ? "open" : "locked";
@@ -50,7 +66,8 @@
   const win = (message) => {
     const i = ORDER.indexOf(current);
     if (i === won) { won += 1; store.set(won); paint(); }
-    ui.status.textContent = message;
+    const met = heroes.find((x) => x.game === current);
+    ui.status.textContent = met ? `${message} ${met.name} now sails among The Heroes.` : message;
     ui.status.dataset.tone = "win";
     const next = ORDER[i + 1];
     ui.actions.replaceChildren(next

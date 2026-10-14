@@ -399,6 +399,14 @@ p { margin: 0 0 var(--s4); }
 .card { scroll-snap-align: start; position: relative; margin: 0; border-radius: calc(var(--radius) * 1.618); overflow: hidden; border: 1px solid var(--line); background: var(--deep); }
 .card img { width: 100%; aspect-ratio: 1 / 1.618; object-fit: cover; transition: transform 1.2s var(--ease); }
 .card:hover img { transform: scale(1.04); }
+/* A hero not yet met: grey portrait, a "?" and the trial that brings them out. */
+.card[data-state="hidden"] { cursor: help; }
+.card[data-state="hidden"] img { filter: grayscale(1) brightness(.35) blur(2px); }
+.card[data-state="hidden"]::before { content: "?"; position: absolute; inset: 0 0 34%; z-index: 1; display: grid; place-items: center; font-family: var(--font-display); font-size: 4.2rem; font-weight: 600; color: rgba(201, 211, 227, .75); text-shadow: 0 2px 13px rgba(0, 0, 0, .8); }
+.card[data-state="hidden"] h3 { display: none; }
+.card[data-state="hidden"] p { font-family: var(--font-text); letter-spacing: normal; font-style: italic; color: var(--mist-dim); }
+.card.is-met img { animation: met 1.6s var(--ease); }
+@keyframes met { from { filter: grayscale(1) brightness(.35) blur(2px); } }
 .card figcaption { position: absolute; inset: auto 0 0; padding: var(--s6) var(--s4) var(--s4); background: linear-gradient(transparent, color-mix(in srgb, var(--void) 92%, transparent) 55%); }
 .card h3 { font-size: 1.25rem; margin: 0 0 var(--s1); }
 .card p { margin: 0; font-family: var(--font-display); letter-spacing: .04em; color: var(--mist); font-size: .9rem; line-height: 1.35; }
@@ -648,7 +656,7 @@ button.item:not([data-state="locked"]):hover, button.item:not([data-state="locke
 .round-socials a:hover, .round-socials a:focus-visible { transform: translateY(-2px); box-shadow: 0 8px 21px -8px var(--brass); }
 .round-socials svg { width: 19px; height: 19px; fill: currentColor; }
 .round-socials__play { fill: var(--void); }
-@media (prefers-reduced-motion: reduce) { .item.is-denied, .trial[open] { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .item.is-denied, .trial[open], .card.is-met img { animation: none; } }
 
 /* I. Cannonballs */
 .orbs { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--s3); max-width: 340px; margin: 0 auto; }

@@ -19,6 +19,7 @@
   const resumeBtn = document.querySelector("[data-sample-resume]");
   const TITLE = chapter.querySelector(".chapter__title").textContent.trim();
   const END = chapter.querySelector(".chapter__end").innerHTML;
+  const POS = chapter.dataset.posKey || "vs-sample-pos"; // each chapter keeps its own place
   const calm = matchMedia("(prefers-reduced-motion: reduce)");
 
   const store = {
@@ -162,7 +163,7 @@
     prevBtn.disabled = cur === 0;
     nextBtn.disabled = cur >= last();
     nudge.hidden = atEnd || seen / textPages < 0.6;
-    store.set("vs-sample-pos", JSON.stringify(pages[Math.min(cur, textPages - 1)].start));
+    store.set(POS, JSON.stringify(pages[Math.min(cur, textPages - 1)].start));
   }
 
   function leaf(front, back, side) {
@@ -268,7 +269,7 @@
   }
 
   function savedPos() {
-    try { const p = JSON.parse(store.get("vs-sample-pos")); return p && p.b >= 0 ? p : null; } catch (e) { return null; }
+    try { const p = JSON.parse(store.get(POS)); return p && p.b >= 0 ? p : null; } catch (e) { return null; }
   }
 
   /* ---------- Controls ---------- */
@@ -355,7 +356,7 @@
       pages.forEach((pg, k) => { if (!pg.end && cmp(pg.start, saved) <= 0) i = k; });
       resumeBtn.querySelector("span").textContent = i + 1;
       resumeBtn.hidden = false;
-      store.set("vs-sample-pos", JSON.stringify(saved)); // layout() above recorded page one; keep the real place
+      store.set(POS, JSON.stringify(saved)); // layout() above recorded page one; keep the real place
     }
   });
 })();
