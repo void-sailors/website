@@ -1,4 +1,4 @@
-/* VoidSailors: the free chapter reader. Lays the chapter out as book pages and turns them. */
+/* VoidSailors: the free chapter reader. Lays the chapter out as book pages and turns them; phones read it as one long scroll. */
 (() => {
   "use strict";
 
@@ -41,6 +41,7 @@
   let pages = [];
   let cur = 0;
   let spread = false;
+  let scroll = false; // phones: one long page, like LORE
   let busy = false;
   let size = { w: 0, h: 0 };
 
@@ -143,6 +144,43 @@
     return el;
   }
 
+  /* ---------- The scroll (phones) ---------- */
+  function renderScroll() {
+    const el = blankPage("scroll");
+    el.querySelector(".page__head").remove();
+    el.querySelector(".page__folio").remove();
+    const text = el.querySelector(".page__text");
+    text.append(opener());
+    blocks.forEach((blk, b) => {
+      const p = para({ b, from: 0, to: blk.words.length });
+      p.dataset.b = b;
+      text.append(p);
+    });
+    const end = document.createElement("div");
+    end.className = "scroll-end";
+    end.innerHTML = END;
+    text.append(end);
+    slotL.replaceChildren(el);
+    slotR.replaceChildren();
+  }
+
+  // The reading place on the scroll: the first paragraph not yet above the header.
+  function scrollPos() {
+    const top = parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 76;
+    for (const p of slotL.querySelectorAll("p[data-b]")) {
+      if (p.getBoundingClientRect().bottom > top) return { b: Number(p.dataset.b), w: 0 };
+    }
+    return { b: blocks.length, w: 0 };
+  }
+
+  function scrollTo(pos, smooth) {
+    const p = slotL.querySelector(`p[data-b="${Math.min(pos.b, blocks.length - 1)}"]`);
+    const target = pos.b > 0 && p ? p : reader;
+    target.scrollIntoView({ block: "start", behavior: smooth && !calm.matches ? "smooth" : "instant" });
+  }
+
+  const inView = () => { const r = reader.getBoundingClientRect(); return r.top < innerHeight && r.bottom > 0; };
+
   /* ---------- Showing and turning ---------- */
   const step = () => (spread ? 2 : 1);
   const last = () => (spread ? (pages.length - 1) - ((pages.length - 1) % 2) : pages.length - 1);
@@ -191,7 +229,7 @@
 
   async function turn(dir) {
     const t = cur + dir * step();
-    if (busy || t < 0 || t > last()) return;
+    if (scroll || busy || t < 0 || t > last()) return;
     busy = true;
     if (calm.matches) {
       show(t);
@@ -240,11 +278,27 @@
 
   /* ---------- Sizing ---------- */
   function layout() {
-    const keep = pages.length ? pages[Math.min(cur, pages.length - 2)].start : { b: 0, w: 0 };
+    const keep = scroll ? scrollPos() : pages.length ? pages[Math.min(cur, pages.length - 2)].start : { b: 0, w: 0 };
+    const wasReading = (scroll || pages.length) && inView();
     const vw = document.documentElement.clientWidth;
     const vh = innerHeight;
     size = { w: vw, h: vh };
     spread = vw >= 960 && vh >= 620;
+    scroll = vw < 600;
+    reader.classList.toggle("is-scroll", scroll);
+    book.classList.toggle("is-scroll", scroll);
+    book.setAttribute("aria-hidden", String(!scroll)); // the scroll is the real text; the book is a picture of it
+    if (scroll) {
+      reader.style.setProperty("--bw", Math.min(vw - 32, 600) + "px");
+      reader.style.setProperty("--pad", Math.round(Math.max(20, Math.min(56, (vw - 32) * 0.07))) + "px");
+      reader.style.setProperty("--fs", SIZES[sizeIx] + "px");
+      sizeBtns[0].disabled = sizeIx === 0;
+      sizeBtns[1].disabled = sizeIx === SIZES.length - 1;
+      pages = [];
+      renderScroll();
+      if (wasReading) scrollTo(keep, false);
+      return;
+    }
     // Phones give every spare pixel to the page; the nudge line can sit below the fold there.
     const phone = !spread && vw < 600;
     // Header room (the page's scroll padding), the bar, the page controls, the reader's gaps and padding, and room for the nudge line.
@@ -305,13 +359,14 @@
   let swiped = false;
   book.addEventListener("pointerdown", (e) => { x0 = e.clientX; y0 = e.clientY; });
   book.addEventListener("pointerup", (e) => {
-    if (x0 === null) return;
+    if (x0 === null || scroll) return;
     const dx = e.clientX - x0;
     const dy = e.clientY - y0;
     x0 = null;
     if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) { swiped = true; turn(dx < 0 ? 1 : -1); }
   });
   book.addEventListener("click", (e) => {
+    if (scroll) return;
     if (swiped) { swiped = false; return; }
     if (e.target.closest("a, button")) return;
     const r = book.getBoundingClientRect();
@@ -319,7 +374,7 @@
   });
 
   document.addEventListener("keydown", (e) => {
-    if (e.altKey || e.ctrlKey || e.metaKey || e.target.closest("input, textarea, select, dialog")) return;
+    if (scroll || e.altKey || e.ctrlKey || e.metaKey || e.target.closest("input, textarea, select, dialog")) return;
     const r = reader.getBoundingClientRect();
     if (r.top > innerHeight / 2 || r.bottom < innerHeight / 2) return; // only while the book is on screen
     if (e.key === "ArrowRight" || e.key === "PageDown") { e.preventDefault(); turn(1); }
@@ -328,12 +383,27 @@
 
   const open = (pos) => (e) => {
     e.preventDefault();
+    if (scroll) { scrollTo(pos(), true); return; }
     goTo(pos());
     reader.scrollIntoView({ behavior: calm.matches ? "auto" : "smooth" });
     nextBtn.focus({ preventScroll: true });
   };
   document.querySelectorAll("[data-sample-start]").forEach((a) => a.addEventListener("click", open(() => ({ b: 0, w: 0 }))));
   if (resumeBtn) resumeBtn.addEventListener("click", open(() => savedPos() || { b: 0, w: 0 }));
+
+  // On the scroll, the place is saved as you read. Only the reader's own scrolling counts,
+  // not the browser putting a reloaded page back where it was before the chapter was laid out.
+  let saving = 0;
+  let touched = false;
+  ["pointerdown", "touchstart", "wheel", "keydown"].forEach((t) => addEventListener(t, () => { touched = true; }, { passive: true, once: true }));
+  addEventListener("scroll", () => {
+    if (!scroll || !touched || saving) return;
+    saving = setTimeout(() => {
+      saving = 0;
+      const r = reader.getBoundingClientRect();
+      if (r.top < 0 && r.bottom > 0) store.set(POS, JSON.stringify(scrollPos()));
+    }, 250);
+  }, { passive: true });
 
   let timer = 0;
   addEventListener("resize", () => {
@@ -352,9 +422,12 @@
   fonts.then(() => {
     layout();
     if (saved && resumeBtn && (saved.b > 0 || saved.w > 0)) {
-      let i = 0;
-      pages.forEach((pg, k) => { if (!pg.end && cmp(pg.start, saved) <= 0) i = k; });
-      resumeBtn.querySelector("span").textContent = i + 1;
+      if (scroll) resumeBtn.textContent = "Continue Reading";
+      else {
+        let i = 0;
+        pages.forEach((pg, k) => { if (!pg.end && cmp(pg.start, saved) <= 0) i = k; });
+        resumeBtn.querySelector("span").textContent = i + 1;
+      }
       resumeBtn.hidden = false;
       store.set(POS, JSON.stringify(saved)); // layout() above recorded page one; keep the real place
     }

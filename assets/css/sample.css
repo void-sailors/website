@@ -92,13 +92,13 @@
 .page__endbox { margin: auto 0; } /* centred, but never clipped at the top on a short page */
 .book.is-short .page--end .launch__cover { display: none; }
 .page--end .launch__cover { width: 72px; height: auto; margin: 0 auto 1em; filter: drop-shadow(0 8px 13px rgba(0, 0, 0, .35)); }
-.page--end .eyebrow { color: var(--page-acc); font-size: .62rem; margin-bottom: .4em; }
-.page--end h2 { color: var(--page-head); font-size: 1.35em; margin-bottom: .6em; }
-.page--end p { text-indent: 0; margin: 0 0 .8em; font-size: .92em; line-height: 1.5; }
-.page--end .chapter__hook { font-style: italic; }
-.page--end .btn-row { flex-direction: column; align-items: center; gap: 10px; margin-top: .6em; }
-.page--end .btn { width: min(100%, 260px); }
-.page--end .btn--ghost { color: var(--page-head); }
+:is(.page--end, .scroll-end) .eyebrow { color: var(--page-acc); font-size: .62rem; margin-bottom: .4em; }
+:is(.page--end, .scroll-end) h2 { color: var(--page-head); font-size: 1.35em; margin-bottom: .6em; }
+:is(.page--end, .scroll-end) p { text-indent: 0; margin: 0 0 .8em; font-size: .92em; line-height: 1.5; }
+:is(.page--end, .scroll-end) .chapter__hook { font-style: italic; }
+:is(.page--end, .scroll-end) .btn-row { flex-direction: column; align-items: center; gap: 10px; margin-top: .6em; }
+:is(.page--end, .scroll-end) .btn { width: min(100%, 260px); }
+:is(.page--end, .scroll-end) .btn--ghost { color: var(--page-head); }
 
 .reader__nav { width: var(--bw, 100%); display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: var(--s3); }
 .reader__turn:disabled { opacity: .3; cursor: default; }
@@ -119,11 +119,24 @@
   .page__folio { bottom: 9px; }
 }
 
+/* Phones: the chapter reads as one long scroll, like LORE; tablets and desktops keep the book.
+   Plain box shadows here, since a filter on a page this tall would cost phones smooth scrolling. */
+.book.is-scroll { height: auto; perspective: none; filter: none; cursor: auto; user-select: text; -webkit-user-select: text; touch-action: auto; }
+.book.is-scroll .book__slot--l { position: static; width: 100%; height: auto; }
+.page--scroll { position: relative; inset: auto; overflow: visible; border-radius: 6px; padding: var(--s4) var(--pad) var(--s5);
+  box-shadow: inset 0 0 0 1px var(--line), 0 0 21px rgba(var(--glow), .28), 0 21px 34px rgba(0, 0, 0, .55); }
+.page--scroll .page__text { position: static; overflow: visible; }
+.page--scroll .page__opener { padding-top: var(--s3); }
+.page--scroll p.is-first { display: flow-root; } /* the drop cap stays inside the first paragraph, so the next one starts flush */
+.reader.is-scroll .reader__nav, .reader.is-scroll .reader__nudge { display: none; }
+.scroll-end { margin-top: 2em; padding-top: 1.6em; border-top: 1px solid color-mix(in srgb, var(--page-acc) 45%, transparent); text-align: center; }
+.scroll-end .btn-row { justify-content: center; }
+
 /* After the cliffhanger: one question, then the author's socials as round icons. */
 .chapter__ask { margin: var(--s4) 0 var(--s2); font-style: italic; }
-.page--end .chapter__ask { margin: .9em 0 .5em; }
-.page--end .round-socials a { color: var(--page-head); border-color: var(--page-acc); }
-.page--end .round-socials__play { fill: var(--paper); }
+:is(.page--end, .scroll-end) .chapter__ask { margin: .9em 0 .5em; }
+:is(.page--end, .scroll-end) .round-socials a { color: var(--page-head); border-color: var(--page-acc); }
+:is(.page--end, .scroll-end) .round-socials__play { fill: var(--paper); }
 /* Short pages (small phones, low laptop screens): keep the hook, the button and the socials; the window behind the button repeats the rest. */
 .book.is-short .page--end .eyebrow, .book.is-short .page--end .chapter__status { display: none; }
 .book.is-short .page--end h2 { font-size: 1.2em; margin-bottom: .4em; }
