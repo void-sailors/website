@@ -72,6 +72,12 @@
       const s = document.createElement("span");
       s.textContent = text;
       p.append(s);
+    } else if (blk.sys && /\bGREEN\b/.test(text)) {
+      // The faction the game hands out shows in its own colour.
+      text.split(/\b(GREEN)\b/).forEach((part, k) => {
+        if (k % 2) { const g = document.createElement("span"); g.className = "sys__green"; g.textContent = part; p.append(g); }
+        else if (part) p.append(part);
+      });
     } else {
       p.textContent = text;
     }
