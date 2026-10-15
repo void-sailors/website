@@ -728,10 +728,19 @@ button.item:not([data-state="locked"]):hover, button.item:not([data-state="locke
   --sheet: color-mix(in srgb, var(--deep) 88%, rgb(var(--glow))); --sheet-2: var(--deep);
   max-width: 40rem; margin: 0 auto; padding: clamp(2rem, 1.2rem + 4vw, 4.2rem) clamp(1.3rem, .8rem + 3vw, 3.6rem);
   color: var(--ink); background: radial-gradient(ellipse at 50% 0%, var(--sheet), var(--sheet-2)); border-radius: 6px;
-  box-shadow: 0 0 0 1px var(--line), 0 34px 89px rgba(0, 0, 0, .55); font-family: var(--font-text); font-size: var(--lore-size, 1.125rem); line-height: 1.75;
-  transition: color .5s ease, box-shadow .5s ease; }
+  box-shadow: 0 0 0 1px var(--line), 0 34px 89px rgba(0, 0, 0, .55); font-family: var(--font-text); font-size: var(--lore-size, 1.125rem); line-height: 1.75; }
 .lore-paper .volume { --ink: #2b2219; --ink-head: #2b2219; --ink-dim: #6e5c45; --acc: #9a7428; --mark: #8a3a1e; --sheet: #f8f1e2; --sheet-2: #e4d3b0;
   box-shadow: 0 0 0 1px rgba(154, 116, 40, .45), 0 34px 89px rgba(0, 0, 0, .55); }
+/* Paper on or off fades exactly like the chapter reader: .7s ease-in-out, only on a tap (lore.js adds .is-fading). */
+@property --ink { syntax: "<color>"; inherits: true; initial-value: #c9d3e3; }
+@property --ink-head { syntax: "<color>"; inherits: true; initial-value: #ffffff; }
+@property --ink-dim { syntax: "<color>"; inherits: true; initial-value: #8f9bb1; }
+@property --acc { syntax: "<color>"; inherits: true; initial-value: #d4a757; }
+@property --mark { syntax: "<color>"; inherits: true; initial-value: #d4a757; }
+@property --sheet { syntax: "<color>"; inherits: true; initial-value: #141a28; }
+@property --sheet-2 { syntax: "<color>"; inherits: true; initial-value: #0f1420; }
+.volume.is-fading { transition: --ink .7s ease-in-out, --ink-head .7s ease-in-out, --ink-dim .7s ease-in-out, --acc .7s ease-in-out,
+  --mark .7s ease-in-out, --sheet .7s ease-in-out, --sheet-2 .7s ease-in-out, box-shadow .7s ease-in-out; }
 .volume-bar { max-width: 40rem; margin: 0 auto var(--s3); display: flex; align-items: center; justify-content: space-between; gap: var(--s3); }
 .volume-bar__title { margin: 0; font-family: var(--font-display); font-size: .8rem; letter-spacing: .18em; text-transform: uppercase; color: var(--brass); }
 .volume-bar__tools { display: flex; gap: var(--s2); }
@@ -742,7 +751,7 @@ button.item:not([data-state="locked"]):hover, button.item:not([data-state="locke
 .volume .eyebrow { color: var(--acc); }
 .volume__title { font-family: var(--font-mark); color: var(--ink-head); font-size: clamp(2.8rem, 2rem + 4vw, 4.6rem); letter-spacing: .18em; margin: var(--s2) 0 0; text-shadow: none; }
 .volume__sub { font-family: var(--font-ink); font-size: clamp(1.6rem, 1.3rem + 1.4vw, 2.3rem); color: var(--mark); margin: 0; line-height: 1.2; }
-:where(.volume) p { margin: 0 0 .9em; font-style: normal; font-size: inherit; color: var(--ink); transition: color .5s ease; }
+:where(.volume) p { margin: 0 0 .9em; font-style: normal; font-size: inherit; color: var(--ink); }
 .volume__first::first-letter { font-family: var(--font-mark); font-size: 2.6em; line-height: 1; padding-right: .04em; color: var(--mark); }
 .lore-page { padding-top: var(--s5); }
 .volume__law { font-family: var(--font-display); font-weight: 600; text-align: center; font-size: 1.12em; line-height: 1.45; letter-spacing: .04em; color: var(--mark); margin: 1.4em 0 !important; }
