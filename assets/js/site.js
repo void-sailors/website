@@ -220,7 +220,7 @@
         const res = await fetch(endpoint, { method: "POST", body });
         const data = await res.json().catch(() => ({}));
         if (!res.ok || !data.ok) throw Object.assign(new Error("refused"), { reader: data.error });
-        status.textContent = "Welcome aboard. Your first bottle is on its way, so check your inbox to confirm.";
+        status.textContent = "Welcome aboard. Your first bottle is on its way, so keep an eye on your inbox.";
         form.reset();
       } catch (err) {
         status.textContent = err.reader || "That didn’t go through. Please try again.";
