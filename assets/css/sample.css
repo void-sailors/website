@@ -29,8 +29,10 @@
 .reader:not([hidden]) ~ .chapter { display: none; }
 /* Pages wear the site's colours, so they follow the faction theme; Paper switches to a light parchment. */
 .reader { --page-ink: var(--mist); --page-head: var(--heading); --page-dim: var(--mist-dim); --paper: color-mix(in srgb, var(--deep) 88%, rgb(var(--glow))); --paper-2: var(--deep); --page-acc: var(--brass); --page-sys: rgb(var(--glow)); --page-alert: #ff5a6e;
+  --page-game: #e3b856; --page-green: #4fd17c;
   display: grid; grid-template-columns: minmax(0, 1fr); justify-items: center; align-content: start; gap: var(--s3); padding: var(--s3) 16px var(--s4); min-height: calc(100svh - var(--s7)); }
-.reader.is-paper { --page-ink: #2b2219; --page-head: #2b2219; --page-dim: #7b6a55; --paper: #f4ecdb; --paper-2: #e9dcc2; --page-acc: #9a7428; --page-sys: #3d6fb8; --page-alert: #b3182d; }
+.reader.is-paper { --page-ink: #2b2219; --page-head: #2b2219; --page-dim: #7b6a55; --paper: #f4ecdb; --paper-2: #e9dcc2; --page-acc: #9a7428; --page-sys: #3d6fb8; --page-alert: #b3182d;
+  --page-game: var(--page-ink); --page-green: var(--page-ink); } /* Paper is the printed book: game messages in plain ink */
 /* Switching Paper on or off: one calm cross-fade of the page colours, never a flash.
    Registering the colours lets the browser blend them; browsers without @property simply swap. */
 @property --page-ink { syntax: "<color>"; inherits: true; initial-value: #c9d3e3; }
@@ -41,8 +43,11 @@
 @property --page-acc { syntax: "<color>"; inherits: true; initial-value: #d4a757; }
 @property --page-sys { syntax: "<color>"; inherits: true; initial-value: #96b4ff; }
 @property --page-alert { syntax: "<color>"; inherits: true; initial-value: #ff5a6e; }
+@property --page-game { syntax: "<color>"; inherits: true; initial-value: #e3b856; }
+@property --page-green { syntax: "<color>"; inherits: true; initial-value: #4fd17c; }
 .reader.is-fading { transition: --page-ink .7s ease-in-out, --page-head .7s ease-in-out, --page-dim .7s ease-in-out, --paper .7s ease-in-out,
-  --paper-2 .7s ease-in-out, --page-acc .7s ease-in-out, --page-sys .7s ease-in-out, --page-alert .7s ease-in-out; }
+  --paper-2 .7s ease-in-out, --page-acc .7s ease-in-out, --page-sys .7s ease-in-out, --page-alert .7s ease-in-out,
+  --page-game .7s ease-in-out, --page-green .7s ease-in-out; }
 
 .reader__bar { width: var(--bw, 100%); display: flex; align-items: center; justify-content: space-between; gap: var(--s3); }
 .reader__title { margin: 0; font-family: var(--font-display); font-size: .8rem; letter-spacing: .18em; text-transform: uppercase; color: var(--brass); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -78,7 +83,9 @@
 /* Chapter opening, book style: a two-line drop cap in the faction's brass, then small caps. */
 .page__text p.is-first::first-letter, .chapter__text > p:first-child::first-letter {
   float: left; margin: .07em .09em 0 0; font-family: var(--font-display); font-weight: 600; font-size: 3.55em; line-height: .82; color: var(--page-acc, var(--brass)); }
-.page__text .sys { margin: .55em 0; text-indent: 0; text-align: center; font-size: .78em; line-height: 1.5; letter-spacing: .08em; }
+.page__text .sys { margin: .55em 0; text-indent: 0; text-align: center; font-size: .78em; line-height: 1.5; letter-spacing: .08em; color: var(--page-game); }
+/* The game speaking: its messages in gold, and the faction colour it hands out in that colour. */
+.sys__green { color: var(--page-green); }
 .sys--plate span { display: inline-block; padding: .15em .9em; border: 1px solid currentColor; border-radius: 4px; color: var(--page-sys); }
 .page__text .sys--clock { color: var(--page-sys); }
 .page__text .sys--alert { color: var(--page-alert); font-weight: 700; }
