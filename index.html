@@ -403,8 +403,8 @@
                         <p class="crew__kicker">Newsletter &middot; <abbr title="Message in the Bottle">M.I.B.</abbr></p>
                         <h3>Mailing in a Bottle</h3>
                         <p class="muted">One email when launch day is set, plus cover reveals and news from the Void. No spam, and you can unsubscribe anytime.</p>
-                        <!-- Mailing list: paste your provider's form URL into MAIL_ENDPOINT in assets/js/site.js (one edit
-                             covers every signup form; set data-field if the field isn't "email"). Until then, nothing is sent. -->
+                        <!-- Mailing list: every signup form posts to MAIL_ENDPOINT in assets/js/site.js, the Cloudflare Worker
+                             in tools/mailing-worker.js that adds readers to Sender.net. Until it is set, nothing is sent. -->
                         <form class="crew-form" data-endpoint="" data-field="email" method="post" novalidate>
                             <label class="sr-only" for="crew-email">Email address</label>
                             <input id="crew-email" type="email" name="email" autocomplete="email" inputmode="email" placeholder="you@example.com" required>
@@ -502,7 +502,7 @@
         </div>
     </footer>
 
-    <script src="assets/js/site.js?v=20261014a" defer></script>
+    <script src="assets/js/site.js?v=20261015a" defer></script>
     <script src="assets/js/hold.js?v=20261014c" defer></script>
 </body>
 </html>

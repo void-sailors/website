@@ -191,8 +191,9 @@
   }
 
   /* ---------- Join the Crew mailing list ----------
-     Launch the mailing list by pasting the provider's form URL into MAIL_ENDPOINT: every signup form
-     on the site uses it (a form's own data-endpoint wins if set). Until then nothing leaves the browser. */
+     Every signup form posts to MAIL_ENDPOINT (a form's own data-endpoint wins if set): the Cloudflare
+     Worker in tools/mailing-worker.js, which adds the reader to Sender.net and answers {ok, error}.
+     While it is empty, nothing leaves the browser. */
   const MAIL_ENDPOINT = "";
   document.querySelectorAll(".crew-form").forEach((form) => {
     const status = form.querySelector(".crew-form__status");
@@ -212,13 +213,19 @@
       }
       const body = new FormData();
       body.append(form.dataset.field || "email", email.value.trim());
+      const button = form.querySelector('button[type="submit"]');
       status.textContent = "Sending…";
+      button.disabled = true;
       try {
-        await fetch(endpoint, { method: "POST", body, mode: "no-cors" });
+        const res = await fetch(endpoint, { method: "POST", body });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok || !data.ok) throw Object.assign(new Error("refused"), { reader: data.error });
         status.textContent = "Welcome aboard. Your first bottle is on its way, so check your inbox to confirm.";
         form.reset();
       } catch (err) {
-        status.textContent = "That didn’t go through. Please try again.";
+        status.textContent = err.reader || "That didn’t go through. Please try again.";
+      } finally {
+        button.disabled = false;
       }
     });
   });
