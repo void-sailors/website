@@ -191,10 +191,11 @@
   }
 
   /* ---------- Join the Crew mailing list ----------
-     Every signup form posts to MAIL_ENDPOINT (a form's own data-endpoint wins if set): the Cloudflare
-     Worker in tools/mailing-worker.js, which adds the reader to Sender.net and answers {ok, error}.
-     While it is empty, nothing leaves the browser. */
-  const MAIL_ENDPOINT = "";
+     Every signup form sends the address straight to the Sender.net form "Join the Crew" (bo2xAA), the
+     same address Sender's own embed posts to, so the site keeps its design and loads no Sender script.
+     Sender then emails the double opt-in confirmation; the welcome email follows once the reader confirms.
+     A form's own data-endpoint wins if set; with MAIL_ENDPOINT empty, nothing leaves the browser. */
+  const MAIL_ENDPOINT = "https://stats.sender.net/forms/bo2xAA/subscribe";
   document.querySelectorAll(".crew-form").forEach((form) => {
     const status = form.querySelector(".crew-form__status");
     const email = form.querySelector('input[type="email"]');
@@ -211,19 +212,17 @@
         status.textContent = "Mailing in a Bottle opens soon. Until then, catch the news on the socials.";
         return;
       }
-      const body = new FormData();
-      body.append(form.dataset.field || "email", email.value.trim());
+      const body = JSON.stringify({ [form.dataset.field || "email"]: email.value.trim(), url: location.href, site_visit: true });
       const button = form.querySelector('button[type="submit"]');
       status.textContent = "Sending…";
       button.disabled = true;
       try {
-        const res = await fetch(endpoint, { method: "POST", body });
-        const data = await res.json().catch(() => ({}));
-        if (!res.ok || !data.ok) throw Object.assign(new Error("refused"), { reader: data.error });
-        status.textContent = "Welcome aboard. Your first bottle is on its way, so keep an eye on your inbox.";
+        const res = await fetch(endpoint, { method: "POST", headers: { "Content-Type": "application/json" }, body });
+        if (!res.ok) throw new Error(`Sender answered ${res.status}`);
+        status.textContent = "Welcome aboard. Check your inbox and confirm your address to receive the first bottle.";
         form.reset();
       } catch (err) {
-        status.textContent = err.reader || "That didn’t go through. Please try again.";
+        status.textContent = "That didn’t go through. Please try again.";
       } finally {
         button.disabled = false;
       }
