@@ -219,7 +219,7 @@
       try {
         const res = await fetch(endpoint, { method: "POST", headers: { "Content-Type": "application/json" }, body });
         if (!res.ok) throw new Error(`Sender answered ${res.status}`);
-        status.textContent = "Welcome aboard. Check your inbox and confirm your address to receive the first bottle.";
+        status.textContent = "Welcome aboard. Look for our confirmation email in your inbox (or junk folder, just in case), then tap Set Sail to receive the first bottle.";
         form.reset();
       } catch (err) {
         status.textContent = "That didn’t go through. Please try again.";
