@@ -170,7 +170,7 @@
       <input id="crew-pop-email" type="email" name="email" autocomplete="email" inputmode="email" placeholder="you@example.com" required>
       <input class="sr-only" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
       <button class="btn btn--primary" type="submit">Sign On</button>
-      <p class="crew-form__note">You must be 13 or older to subscribe.</p>
+      <p class="crew-form__note">You must be 13 or older to subscribe. See our <a href="/privacy.html">Privacy Policy</a>.</p>
       <p class="crew-form__status" role="status" aria-live="polite"></p>
     </form>
     <p class="crew-pop__or">Or follow the voyage</p>
