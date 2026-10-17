@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Privacy Policy | VoidSailors</title>
-    <meta name="description" content="How voidsailors.com, Mailing in a Bottle and BookFunnel downloads handle your information. No ads, no analytics, no tracking cookies.">
+    <meta name="description" content="How voidsailors.com, Mailing in a Bottle and BookFunnel downloads handle your information. No ads, no tracking cookies, no visitor profiles.">
     <meta name="author" content="E. J. Perry">
     <meta name="robots" content="index, follow">
     <meta name="theme-color" content="#0b0f1a">
@@ -86,7 +86,7 @@
                 <p class="eyebrow">The Fine Print</p>
                 <h1>Privacy Policy</h1>
                 <p class="lede">VoidSailors keeps very little about you, and nothing it keeps is for sale.</p>
-                <p class="muted">Effective <time datetime="2026-10-16">October 16, 2026</time></p>
+                <p class="muted">Effective <time datetime="2026-10-17">October 17, 2026</time></p>
             </div>
         </section>
 
@@ -95,7 +95,7 @@
                 <aside class="panel policy__brief reveal" aria-labelledby="brief-title">
                     <h2 id="brief-title">The Short Version</h2>
                     <ul>
-                        <li>No ads, no analytics, no tracking cookies.</li>
+                        <li>No ads and no tracking cookies. Visits are counted anonymously, without cookies.</li>
                         <li>Your quiz result, faction colors, trial progress and reading settings stay on your own device.</li>
                         <li>An email address reaches us only when you join Mailing in a Bottle or claim a book through BookFunnel.</li>
                         <li>We never sell, rent or trade personal data.</li>
@@ -110,7 +110,8 @@
                     <h2 id="collect">What We Collect</h2>
                     <p><strong>Your email address,</strong> but only when you hand it over: by signing up for Mailing in a Bottle, our newsletter, or by entering it on a BookFunnel page to claim a free book or an advance reader copy (ARC). We ask for nothing else, such as your name, phone or postal address.</p>
                     <p><strong>Basic server records.</strong> Like every website, ours is delivered by hosting companies whose servers note each request: your IP address, browser type, the page asked for and the time. They use these records to run and secure their networks. We do not combine them with anything else or use them to identify visitors.</p>
-                    <p><strong>Nothing more.</strong> The site runs no analytics, advertising pixels, social-media trackers or tracking cookies. Fonts, images and the trailer come from voidsailors.com itself, so visiting a page sends no request to Google, Facebook or any other third party.</p>
+                    <p><strong>Anonymous visit counts.</strong> To learn which pages readers enjoy and how quickly they load, the site uses Cloudflare Web Analytics, described under <a href="#analytics">Visit Counts</a> below.</p>
+                    <p><strong>Nothing more.</strong> The site runs no advertising pixels, social-media trackers or tracking cookies. Fonts, images and the trailer come from voidsailors.com itself; apart from that one small Cloudflare script, opening a page sends no request to Google, Facebook or any other third party.</p>
 
                     <h2 id="device">What Stays on Your Device</h2>
                     <p>A few features remember your choices using your browser&rsquo;s local storage. This information never leaves your device and we cannot see it:</p>
@@ -121,6 +122,11 @@
                         <li>reader settings for the free chapter: text size, Paper mode and the page where you stopped.</li>
                     </ul>
                     <p>Clearing your browser&rsquo;s site data erases all of it. The site works without it; it simply forgets your progress. Sharing a crest card happens through your phone&rsquo;s own share sheet, and the picture is created in your browser rather than uploaded to us.</p>
+
+                    <h2 id="analytics">Visit Counts</h2>
+                    <p>Each page loads a small script from <a href="https://www.cloudflare.com/web-analytics/" target="_blank" rel="noopener">Cloudflare Web Analytics</a>. It reports the page viewed, the site that referred you, your browser, device type and approximate country, and how fast the page loaded. It sets no cookies, saves nothing on your device, builds no profile and does not follow you around the web, so we see only totals, such as how many visits arrived from Instagram this week.</p>
+                    <p>Like any server, Cloudflare receives your IP address when the report arrives, yet Web Analytics does not use it to identify or fingerprint anyone, and Cloudflare does not use this data for advertising. Its handling is set out in <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener">Cloudflare&rsquo;s privacy policy</a>. A content blocker simply leaves your visit uncounted; every feature keeps working.</p>
+                    <p>Our legal basis is a legitimate interest in understanding how the site is read, which anonymous totals serve without intruding on you.</p>
 
                     <h2 id="newsletter">Mailing in a Bottle</h2>
                     <p>When you sign up, your address goes straight to <a href="https://www.sender.net/privacy-policy/" target="_blank" rel="noopener">Sender.net</a>, the service that stores the list and delivers our emails, along with the address of the page you signed up on. Sender then emails you a link to confirm, and you join the list only after you click it. No Sender script loads on our pages; your browser contacts Sender only at the moment you press the signup button.</p>
@@ -138,7 +144,7 @@
                     <p>We share personal data only with the services that make the site work, each limited to its own task:</p>
                     <ul>
                         <li><strong>GitHub Pages</strong> hosts the website.</li>
-                        <li><strong>Cloudflare</strong> manages our domain.</li>
+                        <li><strong>Cloudflare</strong> manages our domain and counts visits anonymously.</li>
                         <li><strong>Sender.net</strong> stores the mailing list and sends the newsletter.</li>
                         <li><strong>BookFunnel</strong> delivers free books and ARCs.</li>
                     </ul>
@@ -209,5 +215,7 @@
     </footer>
 
     <script src="/assets/js/site.js?v=20261016b" defer></script>
+    <!-- Cloudflare Web Analytics: cookieless visit counts and page-speed readings. See privacy.html#analytics. -->
+    <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "CF_BEACON_TOKEN"}'></script>
 </body>
 </html>
