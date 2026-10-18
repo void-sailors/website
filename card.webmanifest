@@ -5,7 +5,7 @@
   "description": "VoidSailors: Where Truth Lies, a GameLit novel by E. J. Perry. Five days. Four factions. No second runs.",
   "lang": "en",
   "start_url": "/card.html",
-  "scope": "/card",
+  "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#0b0f1a",

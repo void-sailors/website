@@ -1,7 +1,7 @@
 /* VoidSailors: the free chapter reader (sample.html only). */
 
 /* ---------- Intro ---------- */
-.sample-intro { padding-top: calc(68px + var(--s6)); padding-bottom: var(--s5); }
+.sample-intro { padding-top: calc(var(--head) + var(--s6)); padding-bottom: var(--s5); }
 .sample-intro__grid { display: grid; gap: var(--s5); align-items: center; justify-items: center; text-align: center; }
 .sample-intro__cover { width: min(46vw, 200px); height: auto; filter: drop-shadow(0 0 8px rgba(var(--glow), .8)) drop-shadow(0 0 34px rgba(var(--glow), .45)) drop-shadow(0 21px 34px rgba(0, 0, 0, .6)); }
 .sample-intro h1 { font-family: var(--font-mark); font-weight: 400; font-size: clamp(2rem, 1.4rem + 2.6vw, 3.4rem); line-height: 1.05; margin-bottom: var(--s4); }

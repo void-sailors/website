@@ -77,6 +77,25 @@
   syncToggles();
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(syncToggles);
 
+  /* ---------- Home-screen app ----------
+     Opened from the VoidSailors icon, every page runs inside the app with no browser bar,
+     so the nav bar gets a round button back to the card (the app's home). */
+  const inApp = (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) || navigator.standalone === true;
+  const brandLink = document.querySelector(".nav .brand");
+  if (inApp) root.classList.add("is-app");
+  if (inApp && brandLink && !document.body.classList.contains("card-page")) {
+    const lead = document.createElement("span");
+    lead.className = "app-lead";
+    const back = document.createElement("a");
+    back.className = "icon-btn app-back";
+    back.href = "/card.html";
+    back.setAttribute("aria-label", "Back to the VoidSailors card");
+    back.title = "Back to the card";
+    back.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>';
+    brandLink.replaceWith(lead);
+    lead.append(back, brandLink);
+  }
+
   /* ---------- Header + mobile menu ---------- */
   // Up button: shown once the visitor is a screen and a half down.
   const up = document.createElement("button");
