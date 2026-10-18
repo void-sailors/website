@@ -29,8 +29,8 @@
   --font-ink: "Pinyon Script", "Snell Roundhand", "Apple Chancery", cursive;
 
   --wrap: 1180px;
-  /* Room for the clock and notch when the site runs as the home-screen app; 0 in a browser. */
-  --safe-top: env(safe-area-inset-top, 0px);
+  /* Room for the clock and notch in the home-screen app (set below); always 0 in a browser. */
+  --safe-top: 0px;
   --head: calc(68px + var(--safe-top));
   --gutter: var(--s4);
   --radius: 8px;
@@ -174,7 +174,7 @@ p { margin: 0 0 var(--s4); }
 .skip { position: absolute; left: var(--s3); top: -60px; z-index: 200; padding: var(--s2) var(--s3); background: var(--brass); color: var(--brass-ink); border-radius: var(--radius); }
 .skip:focus { top: var(--s3); }
 
-.wrap { width: 100%; max-width: var(--wrap); margin-inline: auto; padding-inline: max(var(--gutter), env(safe-area-inset-left, 0px)) max(var(--gutter), env(safe-area-inset-right, 0px)); }
+.wrap { width: 100%; max-width: var(--wrap); margin-inline: auto; padding-inline: var(--gutter); }
 .section { position: relative; padding-block: var(--s6); }
 .eyebrow { font-family: var(--font-display); font-size: var(--t-small); letter-spacing: .24em; text-transform: uppercase; color: var(--brass); margin-bottom: var(--s3); }
 .lede { font-size: 1.25rem; max-width: 34em; }
@@ -796,5 +796,9 @@ button.item:not([data-state="locked"]):hover, button.item:not([data-state="locke
 .app-back svg { width: 20px; height: 20px; }
 .app-back:hover { color: var(--heading); }
 @media (max-width: 429px) { .is-app .brand span { display: none; } }
-@media (display-mode: standalone) { @view-transition { navigation: auto; } }
+@media (display-mode: standalone) {
+  :root { --safe-top: env(safe-area-inset-top, 0px); --head: calc(68px + var(--safe-top)); }
+  .wrap { padding-inline: max(var(--gutter), env(safe-area-inset-left, 0px)) max(var(--gutter), env(safe-area-inset-right, 0px)); }
+  @view-transition { navigation: auto; }
+}
 @media (prefers-reduced-motion: reduce) { ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; } }

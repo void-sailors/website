@@ -2,7 +2,7 @@
 <html lang="en" class="no-js">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Page Not Found | VoidSailors</title>
     <meta name="description" content="This page drifted off into the Void. Head back to VoidSailors, a GameLit novel by E. J. Perry.">
     <meta name="author" content="E. J. Perry">
@@ -22,7 +22,9 @@
     <link rel="icon" href="/assets/img/web/favicon-32.png" type="image/png" sizes="32x32">
     <link rel="apple-touch-icon" href="/assets/img/web/apple-touch-icon.png">
 
-    <script>try{var t=localStorage.getItem("vs-theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+    <script>try{var t=localStorage.getItem("vs-theme");if(t)document.documentElement.dataset.theme=t}catch(e){}
+    /* Home-screen app only: let the page run under the clock; site.css keeps the header clear of it. */
+    try{if(matchMedia("(display-mode: standalone)").matches||navigator.standalone){var v=document.querySelector('meta[name="viewport"]');if(v)v.content+=", viewport-fit=cover"}}catch(e){}</script>
     <link rel="preload" href="/assets/fonts/cinzel.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/assets/fonts/bluu-next-titling.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/assets/css/site.css?v=20261018a">
