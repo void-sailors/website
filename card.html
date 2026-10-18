@@ -50,7 +50,7 @@
     <link rel="preload" href="assets/fonts/bluu-next-titling.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" as="image" type="image/webp" href="assets/img/web/cover-320.webp">
     <link rel="stylesheet" href="assets/css/site.css?v=20261015b">
-    <link rel="stylesheet" href="assets/css/card.css?v=20261018a">
+    <link rel="stylesheet" href="assets/css/card.css?v=20261018b">
 </head>
 
 <body class="card-page">
@@ -73,7 +73,11 @@
 
     <!--==================== THE CARD ====================-->
     <main class="vcard" id="main">
-        <p class="eyebrow vcard__eyebrow">A GameLit novel by E. J. Perry</p>
+        <!-- Same corners as the site's nav bar: the mark on the left, the faction-colour button on the right. -->
+        <div class="vcard__bar">
+            <a class="brand vcard__brand" href="index.html" aria-label="VoidSailors home"><img src="assets/img/web/logo-96.webp" alt="" width="34" height="34"></a>
+            <button class="icon-btn theme-toggle" type="button" data-theme-toggle aria-label="Change faction colors" title="Change faction colors"><span class="theme-toggle__icon" aria-hidden="true">&#9873;</span></button>
+        </div>
 
         <div class="hero__cover vcard__cover">
             <div class="halo" aria-hidden="true">
@@ -91,6 +95,7 @@
         </div>
 
         <div class="vcard__copy">
+            <p class="eyebrow vcard__eyebrow">A GameLit novel by E. J. Perry</p>
             <h1 class="hero__title vcard__title">VoidSailors<sup>&trade;</sup></h1>
             <span class="hero__subtitle vcard__subtitle">Where Truth Lies</span>
             <p class="hero__hook vcard__hook">Five days. Four factions. No second runs.</p>
@@ -102,7 +107,7 @@
         </div>
 
         <ul class="vcard__dock">
-            <li><a href="gate.html"><span class="vcard__ring"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V4"/><path d="M5 4h11l-2 4 2 4H5"/></svg></span>Faction</a></li>
+            <li><a href="gate.html"><span class="vcard__ring"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21V11a8 8 0 0 1 16 0v10"/><path d="M8 21v-9a4 4 0 0 1 8 0v9"/><path d="M2.5 21h19"/></svg></span>The Gate</a></li>
             <li><a href="#crew" data-crew-open><span class="vcard__ring"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="m3.8 7 8.2 6 8.2-6"/></svg></span>Newsletter</a></li>
             <li><a href="https://www.instagram.com/ejperry_author/" target="_blank" rel="noopener"><span class="vcard__ring"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.3" fill="currentColor"/></svg></span>Instagram</a></li>
             <li><button type="button" data-share-open><span class="vcard__ring vcard__ring--share"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="6.5" height="6.5" rx="1"/><rect x="14" y="3.5" width="6.5" height="6.5" rx="1"/><rect x="3.5" y="14" width="6.5" height="6.5" rx="1"/><path d="M14 14h2.5v2.5H14zM18 18h2.5v2.5H18zM18 14h2.5M14 18v2.5" stroke-linecap="round"/></svg></span>Share</button></li>

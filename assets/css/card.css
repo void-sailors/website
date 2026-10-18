@@ -15,9 +15,12 @@
   padding: max(var(--s4), env(safe-area-inset-top)) max(var(--s4), env(safe-area-inset-right)) max(var(--s3), env(safe-area-inset-bottom)) max(var(--s4), env(safe-area-inset-left));
   text-align: center;
 }
-.vcard__eyebrow { margin: var(--s3) 0 0; font-size: .74rem; letter-spacing: .26em; animation: rise .6s var(--ease) both; }
+/* Top bar: mirrors the nav bar on every other page, so the colour button is where readers expect it. */
+.vcard__bar { display: flex; align-items: center; justify-content: space-between; align-self: stretch; animation: rise .6s var(--ease) both; }
+.vcard__brand img { width: 34px; height: 34px; border-radius: 7px; }
+.vcard__eyebrow { margin: 0 0 var(--s3); font-size: .7rem; letter-spacing: .26em; }
 
-.vcard .vcard__cover { order: 0; justify-self: auto; width: auto; height: clamp(160px, 31svh, 330px); aspect-ratio: 320 / 476; margin-block: var(--s3); }
+.vcard .vcard__cover { order: 0; justify-self: auto; width: auto; height: clamp(150px, 29svh, 320px); aspect-ratio: 320 / 476; margin-block: var(--s3); }
 .vcard__cover .hero__buy, .vcard__cover img { height: 100%; width: 100%; }
 
 .vcard__copy { animation: rise .7s var(--ease) .15s both; }
@@ -64,7 +67,8 @@
 
 /* Short screens (iPhone SE, 8): the cover and buttons give up a little height so everything still fits. */
 @media (max-height: 720px) {
-  .vcard .vcard__cover { height: clamp(150px, 26svh, 220px); margin-block: var(--s2); }
+  .vcard .vcard__cover { height: clamp(140px, 23svh, 200px); margin-block: 0; }
+  .vcard__eyebrow { margin-bottom: var(--s2); }
   .vcard__title { font-size: 2.3rem; }
   .vcard__subtitle { margin-bottom: var(--s2); }
   .vcard__actions { gap: var(--s2); }
@@ -73,5 +77,5 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .vcard__eyebrow, .vcard__copy, .vcard__actions, .vcard__dock { animation: none; }
+  .vcard__bar, .vcard__copy, .vcard__actions, .vcard__dock { animation: none; }
 }
