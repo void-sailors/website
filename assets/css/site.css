@@ -802,3 +802,7 @@ button.item:not([data-state="locked"]):hover, button.item:not([data-state="locke
   @view-transition { navigation: auto; }
 }
 @media (prefers-reduced-motion: reduce) { ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; } }
+
+/* Shown inside the card app's pop-up window: the window has its own title bar, so the page drops its nav bar and footer. */
+:root.is-embed { --safe-top: 0px; --head: 0px; scroll-padding-top: var(--s4); }
+.is-embed .header, .is-embed .footer, .is-embed .skip, .is-embed .to-top { display: none !important; }

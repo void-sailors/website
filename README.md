@@ -14,6 +14,7 @@ The official site for *VoidSailors: Where Truth Lies*, a GameLit novel by E. J. 
 `card.html` (shared as voidsailors.com/card) is a one-screen business card for the book that opens like an app once it is added to an iPhone home screen (Safari: Share, then Add to Home Screen).
 
 - `card.webmanifest` names it VoidSailors and opens it full screen. Its scope is the whole site, so every page opens inside the app; `site.js` marks the app with `.is-app` and adds a round back-to-card button to the nav bar, and pages fade into each other (app only). `--safe-top` in `site.css` keeps the header clear of the clock
+- In the app, the card's links (the Book, Chapter 1, the Gate and the rest) open as a full-screen pop-up window over the card instead of leaving it. The window loads the real page with `?embed`, which hides its nav bar and footer (`.is-embed`); links inside it ask the card for the next page, and the faction colour stays in sync. Browsers on phone, tablet and desktop never see this
 - `assets/css/card.css` and `assets/js/card.js` hold its layout and the Share window (QR code for voidsailors.com, drawn inline, plus the phone share sheet)
 - `card-sw.js` keeps an offline copy of the card only. Bump its `VERSION` when you change the file list or the `?v=` values the card loads
 - Icons and launch screens live in `assets/img/app/`; `tools/optimize_images.py` rebuilds the icons. The card is `noindex` and left out of the sitemap because it repeats the home page

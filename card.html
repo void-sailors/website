@@ -49,8 +49,8 @@
     <link rel="preload" href="assets/fonts/cinzel.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="assets/fonts/bluu-next-titling.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" as="image" type="image/webp" href="assets/img/web/cover-320.webp">
-    <link rel="stylesheet" href="assets/css/site.css?v=20261018a">
-    <link rel="stylesheet" href="assets/css/card.css?v=20261018b">
+    <link rel="stylesheet" href="assets/css/site.css?v=20261018b">
+    <link rel="stylesheet" href="assets/css/card.css?v=20261018c">
 </head>
 
 <body class="card-page">
@@ -136,7 +136,24 @@
         <p class="vcard-share__status" role="status" aria-live="polite"></p>
     </dialog>
 
-    <script src="assets/js/site.js?v=20261018a" defer></script>
-    <script src="assets/js/card.js?v=20261018a" defer></script>
+    <!--==================== POP-UP WINDOW (home-screen app only) ====================
+         In the app, the Book, Chapter 1, the Gate and the other pages open here, so the app never
+         hands over to the browser. card.js fills it; in a browser the links work as normal. -->
+    <dialog class="vpanel" id="panel" aria-labelledby="panel-title">
+        <div class="vpanel__bar">
+            <button class="icon-btn vpanel__close" type="button" data-close aria-label="Close and return to the card" title="Close">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <h2 class="vpanel__title" id="panel-title">VoidSailors</h2>
+            <button class="icon-btn theme-toggle" type="button" data-theme-toggle aria-label="Change faction colors" title="Change faction colors"><span class="theme-toggle__icon" aria-hidden="true">&#9873;</span></button>
+        </div>
+        <div class="vpanel__body">
+            <div class="vpanel__wait" aria-hidden="true"><img src="assets/img/web/logo-96.webp" alt="" width="55" height="55"></div>
+            <iframe title="VoidSailors" loading="eager"></iframe>
+        </div>
+    </dialog>
+
+    <script src="assets/js/site.js?v=20261018b" defer></script>
+    <script src="assets/js/card.js?v=20261018b" defer></script>
 </body>
 </html>

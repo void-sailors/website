@@ -81,9 +81,10 @@
      Opened from the VoidSailors icon, every page runs inside the app with no browser bar,
      so the nav bar gets a round button back to the card (the app's home). */
   const inApp = (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) || navigator.standalone === true;
+  const embedded = root.classList.contains("is-embed"); // a page shown in the card app's pop-up window
   const brandLink = document.querySelector(".nav .brand");
   if (inApp) root.classList.add("is-app");
-  if (inApp && brandLink && !document.body.classList.contains("card-page")) {
+  if (inApp && !embedded && brandLink && !document.body.classList.contains("card-page")) {
     const lead = document.createElement("span");
     lead.className = "app-lead";
     const back = document.createElement("a");
@@ -94,6 +95,27 @@
     back.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>';
     brandLink.replaceWith(lead);
     lead.append(back, brandLink);
+  }
+
+  // The card and its pop-up window share one screen, so a colour picked in one shows in the other at once.
+  if (inApp || embedded) {
+    window.addEventListener("storage", (e) => {
+      if (e.key !== THEME_KEY) return;
+      if (e.newValue) root.dataset.theme = e.newValue;
+      else delete root.dataset.theme;
+      document.dispatchEvent(new CustomEvent("vs:theme"));
+    });
+  }
+  // In the pop-up, links to other pages ask the card to show that page instead of leaving the window.
+  if (embedded) {
+    document.addEventListener("click", (e) => {
+      const link = e.target.closest && e.target.closest("a[href]");
+      if (!link || e.defaultPrevented || link.target === "_blank" || link.hasAttribute("data-crew-open") || link.hasAttribute("data-launch-open")) return;
+      const url = new URL(link.href, location.href);
+      if (url.origin !== location.origin || (url.pathname === location.pathname && url.hash)) return;
+      e.preventDefault();
+      window.parent.postMessage({ vsOpen: url.pathname + url.hash }, location.origin);
+    });
   }
 
   /* ---------- Header + mobile menu ---------- */
