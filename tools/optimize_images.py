@@ -4,7 +4,7 @@ Run from the repo root:  python3 tools/optimize_images.py
 Originals stay untouched; output goes to assets/img/web/.
 """
 from pathlib import Path
-from PIL import Image
+from PIL import Image, ImageDraw, ImageFilter
 
 SRC = Path("assets/img")
 OUT = SRC / "web"
@@ -47,7 +47,28 @@ for src, stem, widths, q in JOBS:
 # Favicons
 logo = Image.open(SRC / "fac.png").convert("RGBA")
 logo.resize((32, 32), Image.LANCZOS).save(OUT / "favicon-32.png", optimize=True)
-logo.resize((180, 180), Image.LANCZOS).convert("RGB").save(OUT / "apple-touch-icon.png", optimize=True)
+
+# Home-screen icons: the emblem without its gold frame, edge to edge on a dark field.
+# iPhone rounds the corners itself, so a framed icon would show a frame inside a frame.
+APP = SRC / "app"
+APP.mkdir(exist_ok=True)
+inner = Image.open(SRC / "fac.png").convert("RGB").crop((76, 74, 946, 928))
+
+def app_icon(size, scale=1.0):
+    S = 1024
+    canvas = Image.new("RGB", (S, S), (7, 3, 0))
+    w = round(S * scale)
+    art = inner.resize((w, w), Image.LANCZOS)
+    m = Image.new("L", (w, w), 0)
+    pad = round(w * .02)
+    ImageDraw.Draw(m).rounded_rectangle((pad, pad, w - pad, w - pad), radius=round(w * .2), fill=255)
+    canvas.paste(art, ((S - w) // 2,) * 2, m.filter(ImageFilter.GaussianBlur(w * .025)))
+    return canvas.resize((size, size), Image.LANCZOS).quantize(256, method=Image.Quantize.MEDIANCUT)
+
+app_icon(180).save(OUT / "apple-touch-icon.png", optimize=True)
+app_icon(192).save(APP / "icon-192.png", optimize=True)
+app_icon(512).save(APP / "icon-512.png", optimize=True)
+app_icon(512, .78).save(APP / "icon-maskable-512.png", optimize=True)  # Android crops to a circle
 
 # Social share card, 1200 x 630: cover on the deep-void background
 card = Image.new("RGB", (1200, 630), (11, 15, 26))

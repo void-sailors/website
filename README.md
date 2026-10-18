@@ -9,6 +9,15 @@ The official site for *VoidSailors: Where Truth Lies*, a GameLit novel by E. J. 
 - `assets/fonts/pinyon-script.woff2` (SIL OFL, licence beside it) writes the Gatekeeper's lines
 - `assets/img/web/` web-sized images. Regenerate them from the originals with `python3 tools/optimize_images.py`
 
+## The pocket card (home-screen app)
+
+`card.html` (shared as voidsailors.com/card) is a one-screen business card for the book that opens like an app once it is added to an iPhone home screen (Safari: Share, then Add to Home Screen).
+
+- `card.webmanifest` names it VoidSailors, opens it full screen and keeps its scope to `/card`, so other pages open in a sheet with a Done button that leads back to the card
+- `assets/css/card.css` and `assets/js/card.js` hold its layout and the Share window (QR code for voidsailors.com, drawn inline, plus the phone share sheet)
+- `card-sw.js` keeps an offline copy of the card only. Bump its `VERSION` when you change the file list or the `?v=` values the card loads
+- Icons and launch screens live in `assets/img/app/`; `tools/optimize_images.py` rebuilds the icons. The card is `noindex` and left out of the sitemap because it repeats the home page
+
 ## Turning on the mailing list
 
 Every signup form (the Join the Crew section, the Join the Crew window, and the Amazon "coming soon" window) reads one setting. Until it is set, the forms only show a "coming soon" note and send nothing.

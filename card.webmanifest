@@ -1,0 +1,19 @@
+{
+  "id": "/card.html",
+  "name": "VoidSailors",
+  "short_name": "VoidSailors",
+  "description": "VoidSailors: Where Truth Lies, a GameLit novel by E. J. Perry. Five days. Four factions. No second runs.",
+  "lang": "en",
+  "start_url": "/card.html",
+  "scope": "/card",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0b0f1a",
+  "theme_color": "#0b0f1a",
+  "icons": [
+    { "src": "/assets/img/web/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" },
+    { "src": "/assets/img/app/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/assets/img/app/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/assets/img/app/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
