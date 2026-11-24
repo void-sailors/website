@@ -248,6 +248,7 @@ p { margin: 0 0 var(--s4); }
 .theme-tag.is-on { opacity: 1; transform: none; visibility: visible; transition: opacity .3s var(--ease), transform .3s var(--ease); }
 .theme-tag__title { font-family: var(--font-display); font-weight: 600; font-size: .78rem; letter-spacing: .16em; text-transform: uppercase; color: var(--heading); }
 .theme-tag__note { white-space: pre-line; font-size: .82rem; line-height: 1.4; color: var(--mist); }
+.theme-tag:not(.is-earned) { border-color: color-mix(in srgb, var(--accent) 55%, transparent); }
 .theme-tag.is-earned { border-color: #ffd23f; box-shadow: 0 0 0 1px rgba(255, 210, 63, .18), 0 13px 34px -13px rgba(255, 210, 63, .45); }
 .theme-tag.is-earned .theme-tag__title { color: #ffd23f; }
 @media (prefers-reduced-motion: reduce) { .theme-tag { transition: none; transform: none; } }

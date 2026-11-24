@@ -80,17 +80,39 @@
   };
   /* A small tag under the button names each colour as it lands, so the sailor can tell
      their own (earned at the Gate) from the borrowed picks that share a faction's name. */
-  const SHADE = { Pirates: "Pirate gold", "C.A.T.s": "C.A.T. green", Nomads: "Nomad silver", Socialists: "Socialist crimson" };
+  /* Every faction speaks in its own voice: the earned line says how it was won and how it differs
+     from the pick; the borrowed line says how to win the real thing. */
+  const VOICE = {
+    Pirates: {
+      shade: "Pirate gold", earned: "Pirate gold, won at the Gate.\nNo borrowed flag shines like it.",
+      loan: "Gold on loan from the hold.\nWin your own at the Gate.",
+    },
+    "C.A.T.s": {
+      shade: "C.A.T. green", earned: "C.A.T. green, signed at the Gate.\nA contract no pick can match.",
+      loan: "Green on a short lease.\nSign for your own at the Gate.",
+    },
+    Socialists: {
+      shade: "Socialist crimson", earned: "Socialist crimson, earned at the Gate.\nRedder than any \u262D pick.",
+      loan: "Crimson on loan from the fleet.\nEarn your own at the Gate.",
+    },
+    Nomads: {
+      shade: "Nomad silver", earned: "Nomad silver, claimed at the Gate.\nTruer than any pick, and yours alone.",
+      loan: "Silver on loan for the road.\nFind your own at the Gate.",
+    },
+  };
   const tagText = (theme) => {
     const own = earnedTheme();
-    if (theme && theme === own) return ["\u2605 Your Faction", `${SHADE[FACTION_OF[theme]]}, earned at the Gate.\nNo pick runs this deep.`];
+    const mine = own && VOICE[FACTION_OF[own]];
+    if (theme && theme === own) return ["\u2605 Your Faction", mine.earned];
     if (CYCLE.includes(theme)) {
       const faction = FACTION_OF[theme];
-      if (own && FACTION_OF[own] === faction) return [`${faction} \u00B7 Borrowed`, "Your earned shade runs deeper.\nKeep tapping to wear it."];
-      if (own) return [`${faction} \u00B7 Borrowed`, `Your ${SHADE[FACTION_OF[own]]} waits at the end.`];
-      return [`${faction} \u00B7 Borrowed`, "True colors are earned at the Gate."];
+      const title = `${faction} \u00B7 Borrowed`;
+      const [onLoan, winIt] = VOICE[faction].loan.split("\n");
+      if (mine && FACTION_OF[own] === faction) return [title, `${onLoan}\nYours runs deeper. Keep tapping.`];
+      if (mine) return [title, `${onLoan}\nYour ${mine.shade} waits at the end.`];
+      return [title, `${onLoan}\n${winIt}`];
     }
-    return ["The Void \u00B7 Default", own ? `Your ${SHADE[FACTION_OF[own]]} comes last.` : "Earn your faction\u2019s colors at the Gate."];
+    return ["The Void \u00B7 Default", mine ? `Your ${mine.shade} comes last.` : "Earn your faction\u2019s colors at the Gate."];
   };
   const tagTimers = new WeakMap();
   const showTag = (btn, theme) => {
