@@ -202,9 +202,11 @@
   /* ---------- Share the crest ----------
      The card is drawn in two shapes: a 9:16 story (Instagram, TikTok, Facebook Stories) and a 4:5 post
      (feeds). Every path ends with the picture or the link in the sailor's hands, never a dead end:
-       phones and the card app   Share with Friends opens the share sheet (Instagram, TikTok, Facebook...).
+       phones and the card app   The More circle opens the whole share sheet with the picture.
                                  Save picture: iPhone uses the sheet's Save Image (to Photos); Android downloads.
-       computers                 Save Picture downloads. Facebook, X and Pinterest post the /crest/<faction> link,
+       circles (every device)    Instagram and TikTok: the share sheet with the picture on phones, a code to the
+                                 phone on computers. Facebook, X and WhatsApp post the /crest/<faction> link.
+       computers                 The Download circle saves the picture. Facebook, X and WhatsApp post the /crest/<faction> link,
                                  whose preview is the faction's card. Instagram and TikTok post from a phone, so
                                  their buttons show a code that opens this card on the phone, ready to share.
        in-app browsers           (a link opened inside Instagram, TikTok or Facebook) can't save files, so the
@@ -228,20 +230,17 @@
     catch (e) { return false; }
   })();
   // With a share sheet one button does it all: the sheet already lists every app the sailor uses.
+  // The circles stay on every device; only what each one does changes (see the click handler).
+  // The last circle: More (the whole share sheet) where there is one, Download on computers.
   if (pop && shareable) {
-    pop.querySelector('[data-share="picture"]').hidden = false;
-    pop.querySelector("[data-save-main]").hidden = true;
+    pop.querySelector('[data-when="sheet"]').hidden = false;
     pop.querySelector(".share-pop__quiet").hidden = false;
-    pop.querySelector(".share-pop__links").hidden = true;
-  } else if (pop && inAppBrowser) {
+  } else if (pop && !inAppBrowser) {
+    pop.querySelector('[data-when="computer"]').hidden = false;
+  }
+  if (pop && !shareable && inAppBrowser) {
     // The apps' own browsers can't download: the long press is the way, so it is shown first and nothing pretends.
-    pop.querySelector(".share-pop__links").hidden = true;
     pop.querySelector(".share-pop__inapp").hidden = false;
-    pop.querySelector("[data-save-main]").hidden = true;
-    const quiet = pop.querySelector(".share-pop__quiet");
-    quiet.hidden = false;
-    quiet.querySelector('[data-share="save"]').hidden = true;
-    quiet.querySelector("span").hidden = true;
   }
 
   const fileName = () => `voidsailors-${result}-${size}.png`;
@@ -278,14 +277,14 @@
     const links = {
       x: `https://x.com/intent/tweet?text=${e(`${text} #VoidSailors`)}&url=${e(url)}`,
       facebook: `https://www.facebook.com/sharer/sharer.php?u=${e(url)}`,
-      pinterest: `https://www.pinterest.com/pin/create/button/?url=${e(url)}&media=${e(`${SITE}/assets/img/share/${result}-pin.jpg`)}&description=${e(`${text} VoidSailors, a GameLit novel by E. J. Perry.`)}`,
+      whatsapp: `https://wa.me/?text=${e(`${text} ${url}`)}`,
     };
     pop.querySelectorAll("[data-net]").forEach((a) => { a.href = links[a.dataset.net]; });
   }
 
   // The buttons wait for the picture, so a tap always has something to send.
   function setReady(ready) {
-    pop.querySelectorAll('[data-share="picture"], [data-share="save"]').forEach((b) => { b.disabled = !ready; });
+    pop.querySelectorAll('[data-share="picture"], [data-share="save"], [data-share="app"]').forEach((b) => { b.disabled = !ready; });
   }
 
   function showSize(next) {
@@ -313,6 +312,7 @@
     setLinks();
     pop.querySelector(".share-pop__who").textContent = `You sail with the ${FACTIONS[result].name}`;
     pop.querySelector(".share-phone").hidden = true;
+    pop.querySelector('[data-share="qr"]')?.setAttribute("aria-pressed", "false");
     showSize(size);
     status("");
     pop.showModal();
@@ -342,22 +342,31 @@
     s.onerror = fail;
     document.head.appendChild(s);
   }));
+  /* The QR circle. On a computer the code carries the sailor's own card to their phone. On a phone it is
+     for the friend standing beside them: the code opens the faction's page, and from there the Gate. */
+  const onPhone = shareable || inAppBrowser;
   async function showPhone(app) {
     const box = pop.querySelector(".share-phone");
-    box.querySelector("[data-app-name]").textContent = app;
+    const forFriend = !app && onPhone;
+    box.querySelector(".share-phone__title").textContent = app ? `Post it on ${app} from your phone`
+      : forFriend ? "Let a friend scan this" : "Open your card on your phone";
+    box.querySelector(".share-phone__hint").textContent = forFriend
+      ? "Their phone opens your faction, then the Gate is theirs to face."
+      : "Scan with your phone camera. Your crest opens there, ready to share.";
+    pop.querySelector('[data-share="qr"]')?.setAttribute("aria-pressed", "true");
     const code = box.querySelector(".share-phone__code");
     box.hidden = false;
     try {
       const qrcode = await loadQr();
       const qr = qrcode(0, "M");
-      qr.addData(phoneLink());
+      qr.addData(forFriend ? crestLink() : phoneLink());
       qr.make();
       code.innerHTML = qr.createSvgTag({ cellSize: 4, margin: 2, scalable: true });
     } catch (err) {
       code.textContent = "";
     }
     box.scrollIntoView({ block: "nearest", behavior: reduceMotion ? "auto" : "smooth" });
-    status(`Prefer this computer? Save Picture, then upload it on ${app}.`, true);
+    status(app ? `Prefer this computer? Download the picture, then upload it on ${app}.` : "", !!app);
   }
 
   /* gate.html#share (from the card app's Share window) reopens a sailor's own verdict and the share window.
@@ -385,7 +394,27 @@
       const btn = e.target.closest("[data-share]");
       const act = btn?.dataset.share;
       if (!act) return;
-      if (act === "phone") return showPhone(btn.dataset.app);
+      if (act === "qr") {
+        const box = pop.querySelector(".share-phone");
+        if (!box.hidden && btn.getAttribute("aria-pressed") === "true") { box.hidden = true; btn.setAttribute("aria-pressed", "false"); return; }
+        return showPhone(null);
+      }
+      if (act === "app") {
+        const app = btn.dataset.app;
+        // Computers: Instagram and TikTok post from a phone, so the code carries the card there.
+        if (!shareable && !inAppBrowser) return showPhone(app);
+        if (inAppBrowser) { status(`Press and hold the picture to save it, then post it on ${app}.`, true); return; }
+        // Phones: a website can't open Instagram or TikTok with a picture directly; the share sheet can.
+        const card = await cards[size];
+        if (!card) return;
+        status(`Choose ${app} in the list.`, true);
+        try { await shareFile(card); status(""); }
+        catch (err) {
+          if (err.name === "AbortError") { status(""); return; }
+          status(err.name === "NotAllowedError" ? `Tap ${app} once more.` : `Press and hold the picture to save it, then post it on ${app}.`, true);
+        }
+        return;
+      }
       if (act === "copy") {
         try {
           await navigator.clipboard.writeText(`${caption()} ${crestLink()} #VoidSailors`);
@@ -413,7 +442,7 @@
       } catch (err) {
         if (err.name === "AbortError") return;
         // The tap expired before the sheet could open: one more tap fixes it.
-        if (err.name === "NotAllowedError") { status("Tap Share with Friends once more."); return; }
+        if (err.name === "NotAllowedError") { status("Tap once more."); return; }
         if (iOS) status("Press and hold the picture to save it, then post it from Photos.", true);
         else { download(card); status("Picture saved. Post it from your gallery."); }
       }
