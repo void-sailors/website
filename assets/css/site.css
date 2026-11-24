@@ -236,6 +236,12 @@ p { margin: 0 0 var(--s4); }
 .theme-toggle[data-mode="manual"] .theme-toggle__icon { --icon: #fff; }
 .theme-toggle[data-mode="earned"] { border-color: #ffd23f; box-shadow: 0 0 21px -8px #ffd23f; }
 .theme-toggle[data-mode="earned"] .theme-toggle__icon { --icon: #ffd23f; }
+/* The sailor's own colours carry a gold star, so an earned palette never looks like the borrowed pick of the same faction. */
+.theme-toggle[data-mode="earned"]::after {
+  content: "\2605"; position: absolute; top: -3px; right: -3px; display: grid; place-items: center;
+  width: 17px; height: 17px; border-radius: 50%; background: #ffd23f; color: #1a1406;
+  font-size: 10px; line-height: 1; box-shadow: 0 0 0 2px var(--void), 0 0 10px rgba(255, 210, 63, .6);
+}
 /* The tag that names each colour as the button lands on it; gold when it is the sailor's own faction. */
 .theme-toggle { position: relative; }
 .theme-tag {
