@@ -224,13 +224,11 @@
   /* ---------- Share the crest ----------
      The card is drawn in two shapes: a 9:16 story (Instagram, TikTok, Facebook Stories) and a 4:5 post
      (feeds). Every path ends with the picture or the link in the sailor's hands, never a dead end:
-       phones and the card app   The More circle opens the whole share sheet with the picture.
-                                 Save picture: iPhone uses the sheet's Save Image (to Photos); Android downloads.
+       the card's arrow          Saves the picture: iPhone uses the sheet's Save Image (to Photos); others download.
        circles (every device)    Instagram and TikTok: the share sheet with the picture on phones, a code to the
-                                 phone on computers. Facebook, X and WhatsApp post the /crest/<faction> link.
-       computers                 The Download circle saves the picture. Facebook, X and WhatsApp post the /crest/<faction> link,
-                                 whose preview is the faction's card. Instagram and TikTok post from a phone, so
-                                 their buttons show a code that opens this card on the phone, ready to share.
+                                 phone on computers. Facebook, X and WhatsApp post the /crest/<faction> link,
+                                 whose preview is the faction's card. QR and copy link round them off.
+       phones and the card app   The help box stays in view for any app that is missing or won't open.
        in-app browsers           (a link opened inside Instagram, TikTok or Facebook) can't save files, so the
                                  sailor is shown how to long-press the picture or open the page in their browser.
      Nothing is uploaded: the picture is made in the browser. */
@@ -251,15 +249,15 @@
     try { return !!navigator.canShare?.({ files: [new File([""], "crest.jpg", { type: "image/jpeg" })] }); }
     catch (e) { return false; }
   })();
-  // With a share sheet one button does it all: the sheet already lists every app the sailor uses.
-  // The circles stay on every device; only what each one does changes (see the click handler).
-  // The last circle: More (the whole share sheet) where there is one, Download on computers.
+  // The circles are the same on every device; only what each one does changes (see the click handler).
+  // The arrow in the card's corner saves it everywhere. Phones and the card app keep the help box in view
+  // (Eli: it covers any app that is missing from the list or won't open).
   if (pop && shareable) {
-    pop.querySelector('[data-when="sheet"]').hidden = false;
     pop.querySelector(".share-pop__quiet").hidden = false;
-  } else if (pop && !inAppBrowser) {
-    pop.querySelector('[data-when="computer"]').hidden = false;
+    pop.querySelector(".share-help").hidden = false;
   }
+  // Computers keep the Save picture circle beside the others (Eli).
+  else if (pop && !inAppBrowser) pop.querySelector('[data-when="computer"]').hidden = false;
   if (pop && !shareable && inAppBrowser) {
     // The apps' own browsers can't download: the long press is the way, so it is shown first and nothing pretends.
     pop.querySelector(".share-pop__inapp").hidden = false;
@@ -308,7 +306,7 @@
 
   // The buttons wait for the picture, so a tap always has something to send.
   function setReady(ready) {
-    pop.querySelectorAll('[data-share="picture"], [data-share="save"], [data-share="app"]').forEach((b) => { b.disabled = !ready; });
+    pop.querySelectorAll('[data-share="save"], [data-share="app"]').forEach((b) => { b.disabled = !ready; });
   }
 
   function showSize(next) {
@@ -337,7 +335,7 @@
     pop.querySelector(".share-pop__who").textContent = `You sail with the ${FACTIONS[result].name}`;
     pop.querySelector(".share-phone").hidden = true;
     pop.querySelector('[data-share="qr"]')?.setAttribute("aria-pressed", "false");
-    hideHelp();
+    offerApp(null);
     guide(null);
     showSize(size);
     status("");
@@ -373,26 +371,18 @@
     guideEl.hidden = false;
   }
 
-  /* After the sheet closes, the way on is always in reach: if the app wasn't in the list, or the sailor
-     saved the picture instead, the help box saves it to Photos and opens the app itself. */
+  /* The help box stays in view on phones. Once the sheet has been opened for Instagram or TikTok, it also
+     offers to open that app, so a saved card is one tap from being posted. */
   const APP_HOME = { Instagram: "https://www.instagram.com/", TikTok: "https://www.tiktok.com/" };
-  const help = pop?.querySelector(".share-help") || {};
-  const quietSave = shareable ? pop?.querySelector(".share-pop__quiet") : null;
-  const hideHelp = () => { help.hidden = true; if (quietSave) quietSave.hidden = false; };
-  function showHelp(app, shared) {
-    // One title for every app, the circles' and the rest in the share sheet (Eli: it also covers an app that won't open).
-    help.querySelector(".share-help__title").textContent = shared ? "Saved it instead?" : "App missing or didn't open?";
-    help.querySelector(".share-help__hint").textContent = shared
-      ? "The card waits in your photos, ready to post."
-      : "Keep the card in your photos first, then post it from the app.";
-    help.querySelector('[data-share="save"]').hidden = shared;
-    help.querySelector(".share-help__dot").hidden = shared || !app;
-    const open = help.querySelector(".share-help__open");
-    open.hidden = !app;
-    if (app) { open.href = APP_HOME[app]; open.textContent = `Open ${app}`; }
-    help.hidden = false;
-    if (quietSave) quietSave.hidden = true; // the box carries its own Save picture
-    help.scrollIntoView({ block: "nearest", behavior: reduceMotion ? "auto" : "smooth" });
+  const help = pop?.querySelector(".share-help");
+  function offerApp(app) {
+    const row = help?.querySelector(".share-help__links");
+    if (!row) return;
+    row.hidden = !app;
+    if (!app) return;
+    const open = row.querySelector(".share-help__open");
+    open.href = APP_HOME[app];
+    open.textContent = `Open ${app}`;
   }
 
   // The code that carries the card to the sailor's phone (Instagram and TikTok post from there).
@@ -451,7 +441,7 @@
     pop.querySelector("[data-close]").addEventListener("click", () => pop.close());
     pop.addEventListener("click", async (e) => {
       if (e.target === pop) return pop.close();
-      const sizeBtn = e.target.closest("[data-size]");
+      const sizeBtn = e.target.closest(".share-size [data-size]");
       if (sizeBtn) return showSize(sizeBtn.dataset.size);
       const btn = e.target.closest("[data-share]");
       const act = btn?.dataset.share;
@@ -469,17 +459,14 @@
         // Phones: a website can't open Instagram or TikTok with a picture directly; the share sheet can.
         const card = await cards[size];
         if (!card) return;
-        hideHelp();
         status("");
         guide(`Choose ${app}`, iOS
           ? `Swipe the row of apps to find it. Or tap Save Image and post it from ${app}.`
           : `Scroll the apps to find it. Or save the picture and post it from ${app}.`);
-        try { await shareFile(card); guide(null); showHelp(app, true); }
-        catch (err) {
-          guide(null);
-          if (err.name === "NotAllowedError") { status(`Tap ${app} once more.`, true); return; }
-          showHelp(app, false);
-        }
+        try { await shareFile(card); }
+        catch (err) { if (err.name === "NotAllowedError") status(`Tap ${app} once more.`, true); }
+        guide(null);
+        offerApp(app);
         return;
       }
       if (act === "copy") {
@@ -502,18 +489,6 @@
         }
         download(card);
         status(shareable ? "Picture saved to your downloads." : "Picture saved. Post it anywhere you like.");
-        return;
-      }
-      // Only the picture goes to the share sheet: Instagram and others drop the image when text rides along.
-      hideHelp();
-      try {
-        await shareFile(card);
-      } catch (err) {
-        if (err.name === "AbortError") { showHelp(null, false); return; }
-        // The tap expired before the sheet could open: one more tap fixes it.
-        if (err.name === "NotAllowedError") { status("Tap once more."); return; }
-        if (iOS) status("Press and hold the picture to save it, then post it from Photos.", true);
-        else { download(card); status("Picture saved. Post it from your gallery."); }
       }
     });
   }
