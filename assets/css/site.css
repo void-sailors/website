@@ -705,7 +705,7 @@ button.item:not([data-state="locked"]):hover, button.item:not([data-state="locke
 .share-preview img { display: block; width: 100%; height: 100%; object-fit: cover; transition: opacity .3s; }
 .share-preview.is-loading img { opacity: 0; }
 .share-links { flex-wrap: wrap; }
-@media (max-width: 400px) { .share-links { display: grid; grid-template-columns: repeat(3, 44px); gap: 14px 24px; justify-content: center; } }
+@media (max-width: 400px) { .share-links { display: grid; grid-template-columns: repeat(4, 44px); gap: 14px 22px; justify-content: center; } }
 /* Phones: the share button must show without scrolling, in the browser and in the card app's window,
    so the picture shrinks to whatever height is left and the line naming the apps steps aside. */
 @media (max-width: 540px) {

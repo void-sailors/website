@@ -235,9 +235,6 @@
     pop.querySelector('[data-share="picture"]').hidden = false;
     pop.querySelector("[data-save-main]").hidden = true;
     pop.querySelector(".share-pop__quiet").hidden = false;
-  } else if (pop && !inAppBrowser) {
-    // Computers only: a QR circle that carries the card to the sailor's phone.
-    pop.querySelectorAll("[data-desktop-only]").forEach((el) => { el.hidden = false; });
   }
   if (pop && !shareable && inAppBrowser) {
     // The apps' own browsers can't download: the long press is the way, so it is shown first and nothing pretends.
@@ -344,16 +341,24 @@
     s.onerror = fail;
     document.head.appendChild(s);
   }));
+  /* The QR circle. On a computer the code carries the sailor's own card to their phone. On a phone it is
+     for the friend standing beside them: the code opens the faction's page, and from there the Gate. */
+  const onPhone = shareable || inAppBrowser;
   async function showPhone(app) {
     const box = pop.querySelector(".share-phone");
-    box.querySelector(".share-phone__title").textContent = app ? `Post it on ${app} from your phone` : "Open your card on your phone";
+    const forFriend = !app && onPhone;
+    box.querySelector(".share-phone__title").textContent = app ? `Post it on ${app} from your phone`
+      : forFriend ? "Let a friend scan this" : "Open your card on your phone";
+    box.querySelector(".share-phone__hint").textContent = forFriend
+      ? "Their phone opens your faction, then the Gate is theirs to face."
+      : "Scan with your phone camera. Your crest opens there, ready to share.";
     pop.querySelector('[data-share="qr"]')?.setAttribute("aria-pressed", "true");
     const code = box.querySelector(".share-phone__code");
     box.hidden = false;
     try {
       const qrcode = await loadQr();
       const qr = qrcode(0, "M");
-      qr.addData(phoneLink());
+      qr.addData(forFriend ? crestLink() : phoneLink());
       qr.make();
       code.innerHTML = qr.createSvgTag({ cellSize: 4, margin: 2, scalable: true });
     } catch (err) {
