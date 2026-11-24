@@ -2,13 +2,13 @@
    Scope is /card only, so the rest of the site is never cached here.
    Always tries the network first, so a site update shows up the next time the card opens with a signal.
    Bump VERSION when the list below changes. */
-const VERSION = "vs-card-20261124f";
+const VERSION = "vs-card-20261124h";
 const FILES = [
   "card.html",
   "card.webmanifest",
-  "assets/css/site.css?v=20261124f",
-  "assets/css/card.css?v=20261124b",
-  "assets/js/site.js?v=20261018b",
+  "assets/css/site.css?v=20261124h",
+  "assets/css/card.css?v=20261124c",
+  "assets/js/site.js?v=20261124h",
   "assets/js/card.js?v=20261124b",
   "assets/fonts/cinzel.woff2",
   "assets/fonts/bluu-next-titling.woff2",
