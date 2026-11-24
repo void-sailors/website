@@ -200,36 +200,55 @@
   });
 
   /* ---------- Share the crest ----------
-     The card is drawn in two shapes: a 9:16 story (Instagram, TikTok, Facebook, Snapchat) and a 4:5 post
-     (feeds on Instagram, Facebook, Threads and X). Phones hand the picture to the share sheet; every device
-     can save it. Links go to /crest/<faction>, whose preview is that faction's card, so a link dropped on
-     X, Facebook, Threads, WhatsApp or Reddit shows the crest too. Nothing is uploaded: the picture is made here. */
+     The card is drawn in two shapes: a 9:16 story (Instagram, TikTok, Facebook Stories) and a 4:5 post
+     (feeds). Every path ends with the picture or the link in the sailor's hands, never a dead end:
+       phones and the card app   Share with Friends opens the share sheet (Instagram, TikTok, Facebook...).
+                                 Save picture: iPhone uses the sheet's Save Image (to Photos); Android downloads.
+       computers                 Save Picture downloads. Facebook, X and Pinterest post the /crest/<faction> link,
+                                 whose preview is the faction's card. Instagram and TikTok post from a phone, so
+                                 their buttons show a code that opens this card on the phone, ready to share.
+       in-app browsers           (a link opened inside Instagram, TikTok or Facebook) can't save files, so the
+                                 sailor is shown how to long-press the picture or open the page in their browser.
+     Nothing is uploaded: the picture is made in the browser. */
   const pop = document.getElementById("share-pop");
   const SITE = "https://voidsailors.com";
   const FIT = {
     story: "For Instagram, TikTok and Facebook Stories",
-    post: "For Instagram, Facebook, Threads and X feeds",
+    post: "For Instagram, Facebook and X feeds",
   };
   let size = "story";
-  let cards = {}; // format -> Promise<{ blob, url }>
+  let cards = {}; // format -> Promise<{ blob, url, data }>
   let statusTimer;
 
+  const ua = navigator.userAgent || "";
+  const inAppBrowser = /Instagram|FBAN|FBAV|FB_IAB|FBIOS|TikTok|musical_ly|Bytedance|Snapchat|Pinterest\//i.test(ua);
+  const iOS = /iP(hone|ad|od)/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
   const shareable = (() => {
     try { return !!navigator.canShare?.({ files: [new File([""], "crest.png", { type: "image/png" })] }); }
     catch (e) { return false; }
   })();
-  // With a share sheet (phones, tablets, the home-screen app) one button does it all: the sheet already
-  // lists every app the sailor uses. Without one (most computers), saving leads and four networks follow.
+  // With a share sheet one button does it all: the sheet already lists every app the sailor uses.
   if (pop && shareable) {
     pop.querySelector('[data-share="picture"]').hidden = false;
     pop.querySelector("[data-save-main]").hidden = true;
     pop.querySelector(".share-pop__quiet").hidden = false;
     pop.querySelector(".share-pop__links").hidden = true;
+  } else if (pop && inAppBrowser) {
+    // The apps' own browsers can't download: the long press is the way, so it is shown first and nothing pretends.
+    pop.querySelector(".share-pop__links").hidden = true;
+    pop.querySelector(".share-pop__inapp").hidden = false;
+    pop.querySelector("[data-save-main]").hidden = true;
+    const quiet = pop.querySelector(".share-pop__quiet");
+    quiet.hidden = false;
+    quiet.querySelector('[data-share="save"]').hidden = true;
+    quiet.querySelector("span").hidden = true;
   }
 
   const fileName = () => `voidsailors-${result}-${size}.png`;
   const crestLink = () => `${SITE}/crest/${result}`;
   const caption = () => `I sail with the ${FACTIONS[result].name}. Which faction claims you?`;
+  // The hash never reaches a server, so the sailor's name stays between their own devices.
+  const phoneLink = () => `${SITE}/gate.html#share/${result}/${encodeURIComponent(sailor)}`;
 
   // Start drawing both shapes as soon as the verdict is in, so the share sheet opens on the first tap.
   function prepareCards() {
@@ -238,30 +257,35 @@
     if (!window.VSCrestCard) return;
     for (const format of ["story", "post"]) {
       cards[format] = window.VSCrestCard.render({ faction: result, format, sailor })
-        .then((canvas) => new Promise((ok, fail) => canvas.toBlob((blob) => blob ? ok({ blob, url: URL.createObjectURL(blob) }) : fail(new Error("no image")), "image/png")));
+        .then((canvas) => new Promise((ok, fail) => canvas.toBlob((blob) => blob
+          ? ok({ blob, url: URL.createObjectURL(blob), data: canvas.toDataURL("image/png") })
+          : fail(new Error("no image")), "image/png")));
       cards[format].catch(() => {});
     }
   }
 
-  const status = (text) => {
+  const status = (text, keep) => {
     const el = pop.querySelector(".share-pop__status");
     el.textContent = text;
     clearTimeout(statusTimer);
-    if (text) statusTimer = setTimeout(() => { el.textContent = ""; }, 4200);
+    if (text && !keep) statusTimer = setTimeout(() => { el.textContent = ""; }, 6000);
   };
 
   function setLinks() {
     const url = crestLink();
     const text = caption();
-    const tagged = `${text} #VoidSailors`;
     const e = encodeURIComponent;
     const links = {
-      x: `https://x.com/intent/tweet?text=${e(tagged)}&url=${e(url)}`,
+      x: `https://x.com/intent/tweet?text=${e(`${text} #VoidSailors`)}&url=${e(url)}`,
       facebook: `https://www.facebook.com/sharer/sharer.php?u=${e(url)}`,
-      threads: `https://www.threads.net/intent/post?text=${e(`${tagged} ${url}`)}`,
       pinterest: `https://www.pinterest.com/pin/create/button/?url=${e(url)}&media=${e(`${SITE}/assets/img/share/${result}-pin.jpg`)}&description=${e(`${text} VoidSailors, a GameLit novel by E. J. Perry.`)}`,
     };
     pop.querySelectorAll("[data-net]").forEach((a) => { a.href = links[a.dataset.net]; });
+  }
+
+  // The buttons wait for the picture, so a tap always has something to send.
+  function setReady(ready) {
+    pop.querySelectorAll('[data-share="picture"], [data-share="save"]').forEach((b) => { b.disabled = !ready; });
   }
 
   function showSize(next) {
@@ -273,8 +297,14 @@
     frame.dataset.size = size;
     img.alt = `${sailor}'s crest card: sails with the ${FACTIONS[result].name}`;
     frame.classList.add("is-loading");
-    cards[size]?.then((c) => { if (size === next) { img.src = c.url; frame.classList.remove("is-loading"); } })
-      .catch(() => frame.classList.remove("is-loading"));
+    setReady(false);
+    cards[size]?.then((c) => {
+      if (size !== next) return;
+      // A data: address, so a long press can save it even inside the apps' own browsers.
+      img.src = c.data;
+      frame.classList.remove("is-loading");
+      setReady(true);
+    }).catch(() => frame.classList.remove("is-loading"));
   }
 
   function openShare() {
@@ -282,6 +312,7 @@
     if (!cards.story) prepareCards();
     setLinks();
     pop.querySelector(".share-pop__who").textContent = `You sail with the ${FACTIONS[result].name}`;
+    pop.querySelector(".share-phone").hidden = true;
     showSize(size);
     status("");
     pop.showModal();
@@ -290,22 +321,59 @@
   // Browsers without the dialog still get the picture.
   function saveFallback() {
     if (!cards.story) prepareCards();
-    cards.story?.then((c) => save(c));
+    cards.story?.then((c) => download(c));
   }
 
-  function save(card) {
+  function download(card) {
     const a = document.createElement("a");
     a.href = card.url;
     a.download = fileName();
     document.body.appendChild(a); a.click(); a.remove();
   }
 
-  // gate.html#share (the card app's Share window links here): a sailor who already faced the Gate
-  // goes straight to their faction and the share window.
-  if (location.hash === "#share" && FACTIONS[store.get("vs-faction")] && store.get(NAME_KEY)) {
-    result = store.get("vs-faction");
-    renderVerdict();
-    openShare();
+  const shareFile = (card) => navigator.share({ files: [new File([card.blob], fileName(), { type: "image/png" })] });
+
+  // The code that carries the card to the sailor's phone (Instagram and TikTok post from there).
+  let qrLib;
+  const loadQr = () => qrLib || (qrLib = new Promise((ok, fail) => {
+    const s = document.createElement("script");
+    s.src = "assets/js/vendor/qrcode.min.js";
+    s.onload = () => (window.qrcode ? ok(window.qrcode) : fail(new Error("no qr")));
+    s.onerror = fail;
+    document.head.appendChild(s);
+  }));
+  async function showPhone(app) {
+    const box = pop.querySelector(".share-phone");
+    box.querySelector("[data-app-name]").textContent = app;
+    const code = box.querySelector(".share-phone__code");
+    box.hidden = false;
+    try {
+      const qrcode = await loadQr();
+      const qr = qrcode(0, "M");
+      qr.addData(phoneLink());
+      qr.make();
+      code.innerHTML = qr.createSvgTag({ cellSize: 4, margin: 2, scalable: true });
+    } catch (err) {
+      code.textContent = "";
+    }
+    box.scrollIntoView({ block: "nearest", behavior: reduceMotion ? "auto" : "smooth" });
+    status(`Prefer this computer? Save Picture, then upload it on ${app}.`, true);
+  }
+
+  /* gate.html#share (from the card app's Share window) reopens a sailor's own verdict and the share window.
+     gate.html#share/<faction>/<name> (the code above) does the same on the phone that scanned it. */
+  const shareHash = location.hash.match(/^#share(?:\/(\w+)\/(.+))?$/);
+  if (shareHash) {
+    let name = null;
+    try { name = shareHash[2] ? decodeURIComponent(shareHash[2]).slice(0, 24) : null; } catch (e) { /* bad link */ }
+    const faction = FACTIONS[shareHash[1]] ? shareHash[1] : store.get("vs-faction");
+    name = name || store.get(NAME_KEY);
+    if (FACTIONS[faction] && name) {
+      sailor = name;
+      result = faction;
+      renderVerdict();
+      openShare();
+    }
   }
 
   if (pop) {
@@ -314,24 +382,40 @@
       if (e.target === pop) return pop.close();
       const sizeBtn = e.target.closest("[data-size]");
       if (sizeBtn) return showSize(sizeBtn.dataset.size);
-      const act = e.target.closest("[data-share]")?.dataset.share;
+      const btn = e.target.closest("[data-share]");
+      const act = btn?.dataset.share;
       if (!act) return;
+      if (act === "phone") return showPhone(btn.dataset.app);
       if (act === "copy") {
         try {
           await navigator.clipboard.writeText(`${caption()} ${crestLink()} #VoidSailors`);
           status("Link copied, with a caption. Paste it anywhere.");
-        } catch (err) { status(crestLink()); }
+        } catch (err) { status(crestLink(), true); }
         return;
       }
       const card = await cards[size];
       if (!card) return;
-      if (act === "save") { save(card); status("Picture saved."); return; }
+      if (act === "save") {
+        if (inAppBrowser) { status("Press and hold the picture to save it.", true); return; }
+        // iPhone downloads land in Files, not Photos; the share sheet's Save Image puts it in Photos.
+        if (iOS && shareable) {
+          status("Choose Save Image to keep it in Photos.", true);
+          try { await shareFile(card); } catch (err) { if (err.name !== "AbortError") status("Press and hold the picture to save it.", true); }
+          return;
+        }
+        download(card);
+        status(shareable ? "Picture saved to your downloads." : "Picture saved. Post it anywhere you like.");
+        return;
+      }
       // Only the picture goes to the share sheet: Instagram and others drop the image when text rides along.
-      const file = new File([card.blob], fileName(), { type: "image/png" });
       try {
-        await navigator.share({ files: [file] });
+        await shareFile(card);
       } catch (err) {
-        if (err.name !== "AbortError") { save(card); status("Picture saved. Add it from your photos."); }
+        if (err.name === "AbortError") return;
+        // The tap expired before the sheet could open: one more tap fixes it.
+        if (err.name === "NotAllowedError") { status("Tap Share with Friends once more."); return; }
+        if (iOS) status("Press and hold the picture to save it, then post it from Photos.", true);
+        else { download(card); status("Picture saved. Post it from your gallery."); }
       }
     });
   }

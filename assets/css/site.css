@@ -687,7 +687,9 @@ button.item:not([data-state="locked"]):hover, button.item:not([data-state="locke
 /* Share Your Crest window (the Gate). */
 .round-socials button { display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 1px solid var(--brass); border-radius: 50%; background: none; color: var(--heading); cursor: pointer; transition: transform .3s var(--ease), box-shadow .3s var(--ease); }
 .round-socials button:hover, .round-socials button:focus-visible { transform: translateY(-2px); box-shadow: 0 8px 21px -8px var(--brass); }
-.round-socials button svg { fill: none; }
+.round-socials button svg { fill: currentColor; }
+.round-socials button svg[fill="none"] { fill: none; }
+.round-socials button[aria-pressed="true"] { background: var(--brass); color: var(--brass-ink); }
 .share-pop .trial__title { margin-bottom: var(--s4); }
 .share-pop .btn[hidden] { display: none; }
 .share-pop__who { padding-inline: 44px; } /* clear of the close button when it wraps */
@@ -719,11 +721,22 @@ button.item:not([data-state="locked"]):hover, button.item:not([data-state="locke
 }
 .share-pop__quiet { display: flex; justify-content: center; align-items: center; gap: var(--s3); margin: var(--s4) 0 0; color: var(--mist-dim); }
 .share-pop__quiet[hidden], .share-pop__links[hidden] { display: none; }
+.share-pop__quiet button[hidden], .share-pop__quiet span[hidden] { display: none; }
 .share-pop__quiet button { padding: var(--s2) var(--s1); border: 0; background: none; color: var(--mist); font: inherit; font-size: var(--t-small); text-decoration: underline; text-decoration-color: var(--brass); text-underline-offset: 4px; cursor: pointer; }
 .share-pop__quiet button:hover, .share-pop__quiet button:focus-visible { color: var(--heading); }
 .share-pop__status { min-height: 1.4em; margin: var(--s3) 0 0; font-size: var(--t-small); color: rgb(var(--glow)); overflow-wrap: anywhere; }
+.share-phone { margin: var(--s4) auto 0; padding: var(--s4); max-width: 320px; border: 1px solid var(--line); border-radius: var(--radius); background: rgba(0, 0, 0, .18); animation: rise .4s var(--ease) both; }
+.share-phone[hidden] { display: none; }
+.share-phone__title { margin: 0 0 var(--s3); font-family: var(--font-display); font-size: var(--t-small); letter-spacing: .1em; text-transform: uppercase; color: var(--heading); }
+.share-phone__code { width: 152px; height: 152px; margin: 0 auto; padding: 6px; border-radius: 8px; background: #fbf6ea; }
+.share-phone__code svg { display: block; width: 100%; height: 100%; }
+.share-phone__code svg rect[fill="white"], .share-phone__code svg rect[fill="#ffffff"] { fill: #fbf6ea; }
+.share-phone__hint { margin: var(--s3) 0 0; font-size: var(--t-small); color: var(--mist-dim); }
+.share-pop__inapp { max-width: 30em; margin: 0 auto var(--s4); font-size: var(--t-small); color: var(--mist); }
+.share-pop__inapp[hidden] { display: none; }
+.share-pop .btn:disabled { opacity: .55; cursor: progress; }
 .share-pop__tip { max-width: 30em; margin: var(--s4) auto 0; font-size: var(--t-small); color: var(--mist-dim); }
-@media (prefers-reduced-motion: reduce) { .item.is-denied, .trial[open], .card.is-met img { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .item.is-denied, .trial[open], .card.is-met img, .share-phone { animation: none; } }
 
 /* I. Cannonballs */
 .orbs { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--s3); max-width: 340px; margin: 0 auto; }
