@@ -16,7 +16,7 @@
   text-align: center;
 }
 /* Top bar: mirrors the nav bar on every other page, so the colour button is where readers expect it. */
-.vcard__bar { display: flex; align-items: center; justify-content: space-between; align-self: stretch; animation: rise .6s var(--ease) both; }
+.vcard__bar { position: relative; z-index: 5; display: flex; align-items: center; justify-content: space-between; align-self: stretch; animation: rise .6s var(--ease) both; }
 .vcard__brand img { width: 34px; height: 34px; border-radius: 7px; }
 .vcard__eyebrow { margin: 0 0 var(--s3); font-size: .7rem; letter-spacing: .26em; }
 
@@ -75,7 +75,7 @@
 .vpanel[open] { display: flex; animation: sheet-up .42s var(--ease) both; }
 .vpanel::backdrop { background: rgba(0, 0, 0, .6); }
 @keyframes sheet-up { from { transform: translateY(34%); opacity: 0; } to { transform: none; opacity: 1; } }
-.vpanel__bar {
+.vpanel__bar { position: relative; z-index: 2;
   display: grid; grid-template-columns: 44px 1fr 44px; align-items: center; gap: var(--s3);
   padding: calc(env(safe-area-inset-top, 0px) + var(--s2)) max(var(--s4), env(safe-area-inset-right, 0px)) var(--s2) max(var(--s4), env(safe-area-inset-left, 0px));
   border-bottom: 1px solid var(--line); background: color-mix(in srgb, var(--void) 92%, transparent);

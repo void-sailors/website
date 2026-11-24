@@ -30,7 +30,14 @@
   };
   const LABELS = { socialists: "Socialists", "nomads-pick": "Nomads", "pirates-pick": "Pirates", "cats-pick": "C.A.T.s" };
   const toggles = document.querySelectorAll("[data-theme-toggle]");
-  const earnedTheme = () => store.get(EARNED_KEY);
+  // A sailor who stood before the Gate owns that faction's colours, kept or not; they wait at the end of the cycle.
+  const GATE_THEMES = { pirates: "pirates", cats: "cats", socialists: "socialists-earned", nomads: "nomads" };
+  const earnedTheme = () => store.get(EARNED_KEY) || GATE_THEMES[store.get("vs-faction")] || null;
+  // Which faction each palette belongs to, so a pick can be matched against the sailor's own.
+  const FACTION_OF = {
+    pirates: "Pirates", "pirates-pick": "Pirates", cats: "C.A.T.s", "cats-pick": "C.A.T.s",
+    nomads: "Nomads", "nomads-pick": "Nomads", "socialists-earned": "Socialists", socialists: "Socialists",
+  };
   const nextTheme = () => {
     const i = CYCLE.indexOf(root.dataset.theme);
     return i === -1 ? CYCLE[0] : CYCLE[i + 1] || earnedTheme() || null;
@@ -53,7 +60,7 @@
     const earned = !!current && current === earnedTheme();
     const manual = CYCLE.includes(current);
     const next = nextTheme();
-    const label = `Faction colors: ${manual ? LABELS[current] : earned ? "earned" : "default"}. Next: ${LABELS[next] || (earnedTheme() ? "your earned colors" : "default")}`;
+    const label = `Faction colors: ${manual ? LABELS[current] + " (borrowed)" : earned ? "your faction, earned" : "default"}. Next: ${LABELS[next] || (earnedTheme() ? "your faction's earned colors" : "default")}`;
     toggles.forEach((b) => {
       const icon = b.querySelector(".theme-toggle__icon");
       icon.textContent = ICONS[current] || ICONS.void;
@@ -71,8 +78,67 @@
     syncToggles();
     document.dispatchEvent(new CustomEvent("vs:theme"));
   };
-  window.VoidSailors = { setTheme, earnedTheme };
-  toggles.forEach((b) => b.addEventListener("click", () => setTheme(nextTheme())));
+  /* A small tag under the button names each colour as it lands, so the sailor can tell
+     their own (earned at the Gate) from the borrowed picks that share a faction's name. */
+  /* Every faction speaks in its own voice: the earned line says how it was won and how it differs
+     from the pick; the borrowed line says how to win the real thing. */
+  const VOICE = {
+    Pirates: {
+      shade: "Pirate gold", earned: "Pirate gold, won at the Gate.\nNo borrowed flag shines like it.",
+      loan: "Gold on loan from the hold.\nWin your own at the Gate.",
+    },
+    "C.A.T.s": {
+      shade: "C.A.T. green", earned: "C.A.T. green, signed at the Gate.\nA contract no pick can match.",
+      loan: "Green on a short lease.\nSign for your own at the Gate.",
+    },
+    Socialists: {
+      shade: "Socialist crimson", earned: "Socialist crimson, earned at the Gate.\nRedder than any \u262D pick.",
+      loan: "Crimson on loan from the fleet.\nEarn your own at the Gate.",
+    },
+    Nomads: {
+      shade: "Nomad silver", earned: "Nomad silver, claimed at the Gate.\nTruer than any pick, and yours alone.",
+      loan: "Silver on loan for the road.\nFind your own at the Gate.",
+    },
+  };
+  const tagText = (theme) => {
+    const own = earnedTheme();
+    const mine = own && VOICE[FACTION_OF[own]];
+    if (theme && theme === own) return ["\u2605 Your Faction", mine.earned];
+    if (CYCLE.includes(theme)) {
+      const faction = FACTION_OF[theme];
+      const title = `${faction} \u00B7 Borrowed`;
+      const [onLoan, winIt] = VOICE[faction].loan.split("\n");
+      if (mine && FACTION_OF[own] === faction) return [title, `${onLoan}\nYours runs deeper. Keep tapping.`];
+      if (mine) return [title, `${onLoan}\nYour ${mine.shade} waits at the end.`];
+      return [title, `${onLoan}\n${winIt}`];
+    }
+    return ["The Void \u00B7 Default", mine ? `Your ${mine.shade} comes last.` : "Earn your faction\u2019s colors at the Gate."];
+  };
+  const tagTimers = new WeakMap();
+  const showTag = (btn, theme) => {
+    if (!btn) return;
+    let tag = btn.querySelector(".theme-tag");
+    if (!tag) {
+      tag = document.createElement("span");
+      tag.className = "theme-tag";
+      tag.setAttribute("role", "status");
+      tag.innerHTML = '<b class="theme-tag__title"></b><span class="theme-tag__note"></span>';
+      btn.append(tag);
+    }
+    const [title, note] = tagText(theme);
+    tag.querySelector(".theme-tag__title").textContent = title;
+    tag.querySelector(".theme-tag__note").textContent = note;
+    tag.classList.toggle("is-earned", !!theme && theme === earnedTheme());
+    tag.classList.add("is-on");
+    clearTimeout(tagTimers.get(btn));
+    tagTimers.set(btn, setTimeout(() => tag.classList.remove("is-on"), 3400));
+  };
+  window.VoidSailors = { setTheme, earnedTheme, showTag: (theme) => showTag([...toggles].find((b) => b.offsetParent), theme) };
+  toggles.forEach((b) => b.addEventListener("click", () => {
+    const theme = nextTheme();
+    setTheme(theme);
+    showTag(b, theme);
+  }));
   document.addEventListener("vs:theme", syncToggles); // the Gate previews colours without saving them
   syncToggles();
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(syncToggles);
