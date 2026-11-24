@@ -32,7 +32,7 @@
     <link rel="preload" href="assets/fonts/cinzel.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="assets/fonts/bluu-next-titling.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="assets/fonts/pinyon-script.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="assets/css/site.css?v=20261124h">
+    <link rel="stylesheet" href="assets/css/site.css?v=20261124i">
 
 </head>
 
@@ -144,6 +144,8 @@
         <!-- 5. Share the crest: a picture sized for stories or feeds, and a link that previews as the faction's card. -->
         <dialog class="trial share-pop" id="share-pop" aria-labelledby="share-pop-title">
             <button class="icon-btn trial__close" type="button" data-close aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+            <!-- While the phone's share sheet is open it covers the lower half; this guide shows at the top. -->
+            <div class="share-guide" hidden aria-live="polite"><p class="share-guide__title"></p><p class="share-guide__hint"></p></div>
             <p class="eyebrow share-pop__who">The Gate has spoken</p>
             <h2 class="trial__title" id="share-pop-title">Share Your Faction</h2>
             <p class="trial__rule">Show your friends where you stand, then dare them to face the Gate.</p>
@@ -176,6 +178,12 @@
                     <p class="share-phone__title">Open your card on your phone</p>
                     <div class="share-phone__code" aria-hidden="true"></div>
                     <p class="share-phone__hint">Scan with your phone camera. Your crest opens there, ready to share.</p>
+                </div>
+                <!-- After the share sheet closes: save to Photos and open Instagram or TikTok, so no tap ends nowhere. -->
+                <div class="share-help" hidden>
+                    <p class="share-help__title"></p>
+                    <p class="share-help__hint"></p>
+                    <p class="share-pop__quiet share-help__links"><button type="button" data-share="save">Save picture</button><span class="share-help__dot" aria-hidden="true">&middot;</span><a class="share-help__open" href="https://www.instagram.com/" target="_blank" rel="noopener">Open Instagram</a></p>
                 </div>
             </div>
             <p class="share-pop__status" role="status" aria-live="polite"></p>
@@ -224,6 +232,6 @@
 
     <script src="assets/js/site.js?v=20261124h" defer></script>
     <script src="assets/js/crest-card.js?v=20261124a" defer></script>
-    <script src="assets/js/gate.js?v=20261124h" defer></script>
+    <script src="assets/js/gate.js?v=20261124j" defer></script>
 </body>
 </html>

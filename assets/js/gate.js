@@ -248,7 +248,7 @@
   const inAppBrowser = /Instagram|FBAN|FBAV|FB_IAB|FBIOS|TikTok|musical_ly|Bytedance|Snapchat|Pinterest\//i.test(ua);
   const iOS = /iP(hone|ad|od)/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
   const shareable = (() => {
-    try { return !!navigator.canShare?.({ files: [new File([""], "crest.png", { type: "image/png" })] }); }
+    try { return !!navigator.canShare?.({ files: [new File([""], "crest.jpg", { type: "image/jpeg" })] }); }
     catch (e) { return false; }
   })();
   // With a share sheet one button does it all: the sheet already lists every app the sailor uses.
@@ -265,7 +265,9 @@
     pop.querySelector(".share-pop__inapp").hidden = false;
   }
 
-  const fileName = () => `voidsailors-${result}-${size}.png`;
+  // JPEG: phones file it as a photo, Instagram and TikTok take it as one, and it is a third the size of a PNG.
+  const fileName = () => `voidsailors-${result}-${size}.jpg`;
+  const JPEG = ["image/jpeg", 0.92];
   const crestLink = () => `${SITE}/crest/${result}`;
   const caption = () => `I sail with the ${FACTIONS[result].name}. Which faction claims you?`;
   // The hash never reaches a server, so the sailor's name stays between their own devices.
@@ -279,8 +281,8 @@
     for (const format of ["story", "post"]) {
       cards[format] = window.VSCrestCard.render({ faction: result, format, sailor })
         .then((canvas) => new Promise((ok, fail) => canvas.toBlob((blob) => blob
-          ? ok({ blob, url: URL.createObjectURL(blob), data: canvas.toDataURL("image/png") })
-          : fail(new Error("no image")), "image/png")));
+          ? ok({ blob, url: URL.createObjectURL(blob), data: canvas.toDataURL(...JPEG) })
+          : fail(new Error("no image")), ...JPEG)));
       cards[format].catch(() => {});
     }
   }
@@ -335,6 +337,8 @@
     pop.querySelector(".share-pop__who").textContent = `You sail with the ${FACTIONS[result].name}`;
     pop.querySelector(".share-phone").hidden = true;
     pop.querySelector('[data-share="qr"]')?.setAttribute("aria-pressed", "false");
+    hideHelp();
+    guide(null);
     showSize(size);
     status("");
     pop.showModal();
@@ -353,7 +357,43 @@
     document.body.appendChild(a); a.click(); a.remove();
   }
 
-  const shareFile = (card) => navigator.share({ files: [new File([card.blob], fileName(), { type: "image/png" })] });
+  const shareFile = (card) => navigator.share({ files: [new File([card.blob], fileName(), { type: JPEG[0] })] });
+
+  /* The phone's share sheet covers the lower half of the window, so while it is open the guide sits at the top,
+     where the sailor can still read it. On iPhone the row of apps lists the most used first: Instagram and
+     TikTok are often a swipe away. */
+  const guideEl = pop?.querySelector(".share-guide");
+  function guide(title, hint) {
+    if (!guideEl) return;
+    if (!title) { guideEl.hidden = true; return; }
+    guideEl.querySelector(".share-guide__title").textContent = title;
+    guideEl.querySelector(".share-guide__hint").textContent = hint;
+    guideEl.style.minHeight = `${pop.querySelector(".share-size").offsetTop}px`;
+    pop.scrollTop = 0;
+    guideEl.hidden = false;
+  }
+
+  /* After the sheet closes, the way on is always in reach: if the app wasn't in the list, or the sailor
+     saved the picture instead, the help box saves it to Photos and opens the app itself. */
+  const APP_HOME = { Instagram: "https://www.instagram.com/", TikTok: "https://www.tiktok.com/" };
+  const help = pop?.querySelector(".share-help") || {};
+  const quietSave = shareable ? pop?.querySelector(".share-pop__quiet") : null;
+  const hideHelp = () => { help.hidden = true; if (quietSave) quietSave.hidden = false; };
+  function showHelp(app, shared) {
+    // One title for every app, the circles' and the rest in the share sheet (Eli: it also covers an app that won't open).
+    help.querySelector(".share-help__title").textContent = shared ? "Saved it instead?" : "App missing or didn't open?";
+    help.querySelector(".share-help__hint").textContent = shared
+      ? "The card waits in your photos, ready to post."
+      : "Keep the card in your photos first, then post it from the app.";
+    help.querySelector('[data-share="save"]').hidden = shared;
+    help.querySelector(".share-help__dot").hidden = shared || !app;
+    const open = help.querySelector(".share-help__open");
+    open.hidden = !app;
+    if (app) { open.href = APP_HOME[app]; open.textContent = `Open ${app}`; }
+    help.hidden = false;
+    if (quietSave) quietSave.hidden = true; // the box carries its own Save picture
+    help.scrollIntoView({ block: "nearest", behavior: reduceMotion ? "auto" : "smooth" });
+  }
 
   // The code that carries the card to the sailor's phone (Instagram and TikTok post from there).
   let qrLib;
@@ -429,11 +469,16 @@
         // Phones: a website can't open Instagram or TikTok with a picture directly; the share sheet can.
         const card = await cards[size];
         if (!card) return;
-        status(`Choose ${app} in the list.`, true);
-        try { await shareFile(card); status(""); }
+        hideHelp();
+        status("");
+        guide(`Choose ${app}`, iOS
+          ? `Swipe the row of apps to find it. Or tap Save Image and post it from ${app}.`
+          : `Scroll the apps to find it. Or save the picture and post it from ${app}.`);
+        try { await shareFile(card); guide(null); showHelp(app, true); }
         catch (err) {
-          if (err.name === "AbortError") { status(""); return; }
-          status(err.name === "NotAllowedError" ? `Tap ${app} once more.` : `Press and hold the picture to save it, then post it on ${app}.`, true);
+          guide(null);
+          if (err.name === "NotAllowedError") { status(`Tap ${app} once more.`, true); return; }
+          showHelp(app, false);
         }
         return;
       }
@@ -450,8 +495,9 @@
         if (inAppBrowser) { status("Press and hold the picture to save it.", true); return; }
         // iPhone downloads land in Files, not Photos; the share sheet's Save Image puts it in Photos.
         if (iOS && shareable) {
-          status("Choose Save Image to keep it in Photos.", true);
-          try { await shareFile(card); } catch (err) { if (err.name !== "AbortError") status("Press and hold the picture to save it.", true); }
+          guide("Tap Save Image", "Your card goes to Photos, ready for any app.");
+          try { await shareFile(card); guide(null); status("Saved to Photos."); }
+          catch (err) { guide(null); if (err.name !== "AbortError") status("Press and hold the picture to save it.", true); }
           return;
         }
         download(card);
@@ -459,10 +505,11 @@
         return;
       }
       // Only the picture goes to the share sheet: Instagram and others drop the image when text rides along.
+      hideHelp();
       try {
         await shareFile(card);
       } catch (err) {
-        if (err.name === "AbortError") return;
+        if (err.name === "AbortError") { showHelp(null, false); return; }
         // The tap expired before the sheet could open: one more tap fixes it.
         if (err.name === "NotAllowedError") { status("Tap once more."); return; }
         if (iOS) status("Press and hold the picture to save it, then post it from Photos.", true);
