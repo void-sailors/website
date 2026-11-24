@@ -714,11 +714,11 @@ button.item:not([data-state="locked"]):hover, button.item:not([data-state="locke
   .share-pop .trial__rule { margin-bottom: var(--s4); }
   .share-pop__fit { display: none; }
   .share-size { margin-bottom: var(--s4); }
-  .share-preview { height: clamp(150px, calc(100svh - 430px), 320px); }
+  .share-preview { height: clamp(150px, calc(100svh - 470px), 320px); }
 }
 @media (max-width: 540px) and (max-height: 620px) {
   .share-pop .trial__rule { display: none; }
-  .share-preview { height: clamp(130px, calc(100svh - 350px), 320px); }
+  .share-preview { height: clamp(130px, calc(100svh - 390px), 320px); }
 }
 .share-pop__quiet { display: flex; justify-content: center; align-items: center; gap: var(--s3); margin: var(--s4) 0 0; color: var(--mist-dim); }
 .share-pop__quiet[hidden], .share-pop__links[hidden] { display: none; }
