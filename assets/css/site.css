@@ -780,7 +780,21 @@ button.item:not([data-state="locked"]):hover, button.item:not([data-state="locke
 .share-pop__inapp[hidden] { display: none; }
 .share-pop .btn:disabled { opacity: .55; cursor: progress; }
 .share-pop__tip { max-width: 30em; margin: var(--s4) auto 0; font-size: var(--t-small); color: var(--mist-dim); }
-@media (prefers-reduced-motion: reduce) { .item.is-denied, .trial[open], .card.is-met img, .share-phone { animation: none; } }
+/* The guide covers the window's heading while the phone's share sheet covers the rest. */
+.share-guide { position: absolute; inset: 0 0 auto; z-index: 2; display: flex; flex-direction: column; justify-content: center; gap: var(--s2); padding: var(--s5) var(--s5) var(--s4); border-radius: inherit; background: radial-gradient(circle at 50% 0%, rgba(var(--glow), .22), transparent 70%), var(--deep); animation: rise .3s var(--ease) both; }
+.share-guide[hidden] { display: none; }
+.share-guide__title { margin: 0; font-family: var(--font-display); font-size: var(--t-h3, 1.4rem); letter-spacing: .08em; text-transform: uppercase; color: var(--heading); }
+.share-guide__hint { margin: 0 auto; max-width: 24em; color: var(--mist); }
+.share-help { margin: var(--s4) auto 0; padding: var(--s4); max-width: 320px; border: 1px solid var(--line); border-radius: var(--radius); background: rgba(0, 0, 0, .18); animation: rise .4s var(--ease) both; }
+.share-help[hidden] { display: none; }
+.share-help__title { margin: 0 0 var(--s2); font-family: var(--font-display); font-size: var(--t-small); letter-spacing: .1em; text-transform: uppercase; color: var(--heading); }
+.share-help__hint { margin: 0; font-size: var(--t-small); color: var(--mist-dim); }
+.share-help__links { flex-wrap: wrap; gap: 0 var(--s2); margin-top: var(--s2); }
+.share-help__links > * { white-space: nowrap; }
+@media (max-width: 400px) { .share-help { padding-inline: var(--s3); } .share-help__dot { display: none; } .share-help__links { gap: 0 var(--s4); } }
+.share-help__links a { padding: var(--s2) var(--s1); color: var(--mist); font-size: var(--t-small); text-decoration: underline; text-decoration-color: var(--brass); text-underline-offset: 4px; }
+.share-help__links a:hover, .share-help__links a:focus-visible { color: var(--heading); }
+@media (prefers-reduced-motion: reduce) { .item.is-denied, .trial[open], .card.is-met img, .share-phone, .share-help, .share-guide { animation: none; } }
 
 /* I. Cannonballs */
 .orbs { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--s3); max-width: 340px; margin: 0 auto; }
