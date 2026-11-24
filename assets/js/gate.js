@@ -161,7 +161,31 @@
     setTimeout(renderVerdict, 3400);
   }
 
-  function renderVerdict() {
+  /* The moment of earning: a burst of the faction's own colour flares behind the crest, a few sparks
+     of glitter catch the light, and both settle into the card's resting glow. Once per verdict. */
+  function celebrate() {
+    const card = $(".verdict__card");
+    card.querySelector(".burst")?.remove();
+    if (reduceMotion) return;
+    const burst = document.createElement("span");
+    burst.className = "burst";
+    burst.setAttribute("aria-hidden", "true");
+    burst.innerHTML = '<span class="burst__glow"></span><span class="burst__ring"></span>';
+    for (let i = 0; i < 14; i++) {
+      const spark = document.createElement("span");
+      spark.className = "burst__spark";
+      const a = Math.random() * Math.PI * 2, r = 18 + Math.random() * 34; // % from the crest's centre
+      spark.style.cssText = `left:${50 + Math.cos(a) * r * 0.9}%;top:${40 + Math.sin(a) * r * 0.75}%;--s:${5 + Math.random() * 6}px;--d:${(0.6 + Math.random() * 1.4).toFixed(2)}s`;
+      burst.append(spark);
+    }
+    card.prepend(burst);
+    card.classList.remove("is-earned");
+    void card.offsetWidth; // restart the flare on a second walk through the Gate
+    card.classList.add("is-earned");
+    setTimeout(() => burst.remove(), 4400);
+  }
+
+  function renderVerdict(opts = {}) {
     const f = FACTIONS[result];
     show("verdict");
     $(".verdict__card .who").textContent = sailor;
@@ -172,15 +196,18 @@
     $(".verdict__creed").textContent = f.creed;
     store.set("vs-faction", result);
     prepareCards();
-    // The ceremony previews the faction colours; "Keep These Colors" makes them stick.
-    preview(f.theme);
-    keepBtn.disabled = false;
-    keepBtn.lastChild.textContent = "Keep These Colors";
+    if (opts.reopen) {
+      preview(f.theme); // reopening a verdict to share it shows its colours without changing the sailor's choice
+    } else {
+      // Earned colours are the sailor's at once: no button to press. The tag names them once the burst settles.
+      window.VoidSailors?.setTheme(f.theme, { earned: true });
+      celebrate();
+      setTimeout(() => window.VoidSailors?.showTag?.(f.theme), 2400);
+    }
     $(".verdict .eyebrow").focus?.();
   }
 
   const root = document.documentElement;
-  const keepBtn = document.querySelector('[data-action="colors"]');
   const preview = (theme) => {
     if (theme && theme !== "void") root.dataset.theme = theme; else delete root.dataset.theme;
     document.dispatchEvent(new CustomEvent("vs:theme"));
@@ -190,12 +217,6 @@
   document.querySelector(".verdict").addEventListener("click", (e) => {
     const action = e.target.closest("[data-action]")?.dataset.action;
     if (!action) return;
-    if (action === "colors") {
-      window.VoidSailors?.setTheme(FACTIONS[result].theme, { earned: true });
-      window.VoidSailors?.showTag?.(FACTIONS[result].theme); // names them as the sailor's own, apart from the borrowed picks
-      keepBtn.disabled = true;
-      keepBtn.lastChild.textContent = "Colors Kept";
-    }
     if (action === "again") { restore(); show("intro"); input.focus(); }
     if (action === "share") openShare();
   });
@@ -381,7 +402,7 @@
     if (FACTIONS[faction] && name) {
       sailor = name;
       result = faction;
-      renderVerdict();
+      renderVerdict({ reopen: true });
       openShare();
     }
   }

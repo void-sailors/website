@@ -116,7 +116,8 @@
   };
   const tagTimers = new WeakMap();
   const showTag = (btn, theme) => {
-    if (!btn) return;
+    // An old cached stylesheet would drop the tag inside the round button, so only speak when the new one is in.
+    if (!btn || getComputedStyle(btn).position !== "relative") return;
     let tag = btn.querySelector(".theme-tag");
     if (!tag) {
       tag = document.createElement("span");
