@@ -556,6 +556,27 @@ p { margin: 0 0 var(--s4); }
 @keyframes orbit { from { transform: rotate(var(--a)) translateY(-89px) rotate(calc(var(--a) * -1)); opacity: 1; } to { transform: rotate(calc(var(--a) + 360deg)) translateY(0) rotate(calc(var(--a) * -1 - 360deg)) scale(.2); opacity: 0; } }
 .verdict { text-align: center; }
 .verdict__card { position: relative; width: min(100%, 340px); aspect-ratio: 1 / 1.618; margin: 0 auto var(--s5); padding: var(--s5) var(--s4); border-radius: calc(var(--radius) * 1.618); border: 1px solid var(--brass); background: radial-gradient(circle at 50% 30%, color-mix(in srgb, var(--accent) 22%, transparent), transparent 65%), var(--deep); display: grid; grid-template-rows: auto 1fr auto auto; justify-items: center; gap: var(--s2); box-shadow: 0 34px 89px -34px var(--accent); animation: rise .9s var(--ease) both; }
+/* The burst of earned colour behind the crest (gate.js celebrate()). */
+.verdict__card > :not(.burst) { position: relative; z-index: 1; }
+.burst { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.burst__glow, .burst__ring { position: absolute; left: 50%; top: 40%; border-radius: 50%; translate: -50% -50%; opacity: 0; }
+.burst__glow {
+  width: 135%; aspect-ratio: 1;
+  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 45%, #fff) 0%, color-mix(in srgb, var(--accent) 85%, transparent) 20%, color-mix(in srgb, var(--accent) 35%, transparent) 42%, transparent 68%);
+  animation: burst-glow 3.4s .45s linear both;
+}
+.burst__ring { width: 60%; aspect-ratio: 1; border: 2px solid color-mix(in srgb, var(--accent) 70%, #fff); box-shadow: 0 0 21px var(--accent); animation: burst-ring 1.8s .5s cubic-bezier(.16, 1, .3, 1) both; }
+.burst__spark {
+  position: absolute; width: var(--s); height: var(--s); translate: -50% -50%; opacity: 0;
+  background: color-mix(in srgb, var(--accent) 35%, #fff); box-shadow: 0 0 8px 1px var(--accent);
+  clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%);
+  animation: burst-spark 1.5s var(--d) ease-out both;
+}
+@keyframes burst-glow { 0% { opacity: 0; transform: scale(.3); animation-timing-function: cubic-bezier(.16, 1, .3, 1); } 14% { opacity: 1; transform: scale(1); } 34% { opacity: .85; transform: scale(1.06); animation-timing-function: ease-in-out; } 100% { opacity: 0; transform: scale(1.12); } }
+@keyframes burst-ring { 0% { opacity: .9; transform: scale(.4); } 100% { opacity: 0; transform: scale(1.9); } }
+@keyframes burst-spark { 0% { opacity: 0; transform: scale(0) rotate(0); } 30% { opacity: 1; transform: scale(1.6) rotate(45deg); } 100% { opacity: 0; transform: translateY(-14px) scale(.4) rotate(90deg); } }
+.verdict__card.is-earned { animation: rise .9s var(--ease) both, earned-flare 3.4s .45s ease-out both; }
+@keyframes earned-flare { 0%, 100% { box-shadow: 0 34px 89px -34px var(--accent); } 20% { box-shadow: 0 0 89px -8px var(--accent), 0 34px 89px -34px var(--accent); } }
 .verdict__card img { width: 72%; height: 100%; object-fit: contain; min-height: 0; }
 .verdict__card .who { font-family: var(--font-display); font-size: var(--t-small); letter-spacing: .2em; text-transform: uppercase; color: var(--mist-dim); }
 .verdict__card .name { font-family: var(--font-display); font-size: 1.6rem; color: var(--heading); }
