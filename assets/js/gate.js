@@ -218,14 +218,14 @@
     try { return !!navigator.canShare?.({ files: [new File([""], "crest.png", { type: "image/png" })] }); }
     catch (e) { return false; }
   })();
-  const pictureBtn = pop?.querySelector('[data-share="picture"]');
-  const saveBtn = pop?.querySelector('[data-share="save"]');
-  // Where the share sheet exists it leads; elsewhere saving is the main action.
-  if (pictureBtn && shareable) {
-    pictureBtn.hidden = false;
-    const tip = pop.querySelector(".share-pop__tip");
-    if (tip) tip.textContent = "Instagram and TikTok take pictures rather than links. Tap Share with Friends and pick the app.";
-  } else if (saveBtn) saveBtn.className = "btn btn--primary";
+  // With a share sheet (phones, tablets, the home-screen app) one button does it all: the sheet already
+  // lists every app the sailor uses. Without one (most computers), saving leads and four networks follow.
+  if (pop && shareable) {
+    pop.querySelector('[data-share="picture"]').hidden = false;
+    pop.querySelector("[data-save-main]").hidden = true;
+    pop.querySelector(".share-pop__quiet").hidden = false;
+    pop.querySelector(".share-pop__links").hidden = true;
+  }
 
   const fileName = () => `voidsailors-${result}-${size}.png`;
   const crestLink = () => `${SITE}/crest/${result}`;
@@ -259,10 +259,7 @@
       x: `https://x.com/intent/tweet?text=${e(tagged)}&url=${e(url)}`,
       facebook: `https://www.facebook.com/sharer/sharer.php?u=${e(url)}`,
       threads: `https://www.threads.net/intent/post?text=${e(`${tagged} ${url}`)}`,
-      bluesky: `https://bsky.app/intent/compose?text=${e(`${tagged} ${url}`)}`,
       pinterest: `https://www.pinterest.com/pin/create/button/?url=${e(url)}&media=${e(`${SITE}/assets/img/share/${result}-pin.jpg`)}&description=${e(`${text} VoidSailors, a GameLit novel by E. J. Perry.`)}`,
-      reddit: `https://www.reddit.com/submit?url=${e(url)}&title=${e(text)}`,
-      whatsapp: `https://wa.me/?text=${e(`${text} ${url}`)}`,
     };
     pop.querySelectorAll("[data-net]").forEach((a) => { a.href = links[a.dataset.net]; });
   }
@@ -303,6 +300,14 @@
     document.body.appendChild(a); a.click(); a.remove();
   }
 
+  // gate.html#share (the card app's Share window links here): a sailor who already faced the Gate
+  // goes straight to their faction and the share window.
+  if (location.hash === "#share" && FACTIONS[store.get("vs-faction")] && store.get(NAME_KEY)) {
+    result = store.get("vs-faction");
+    renderVerdict();
+    openShare();
+  }
+
   if (pop) {
     pop.querySelector("[data-close]").addEventListener("click", () => pop.close());
     pop.addEventListener("click", async (e) => {
@@ -314,7 +319,7 @@
       if (act === "copy") {
         try {
           await navigator.clipboard.writeText(`${caption()} ${crestLink()} #VoidSailors`);
-          status("Caption and link copied. Paste them anywhere.");
+          status("Link copied, with a caption. Paste it anywhere.");
         } catch (err) { status(crestLink()); }
         return;
       }

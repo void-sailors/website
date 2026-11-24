@@ -8,8 +8,21 @@
   document.querySelectorAll("[data-share-open]").forEach((b) => b.addEventListener("click", () => {
     if (!share || typeof share.showModal !== "function") { location.href = SITE; return; }
     status.textContent = "";
+    syncFactionLink(); // the Gate may have been faced since the card opened
     share.showModal();
   }));
+  /* A sailor who has faced the Gate shares their faction; everyone else is invited to find one.
+     In the app the link opens the Gate's share window in the pop-up, so the Share window steps aside. */
+  const factionLink = share && share.querySelector("[data-faction-share]");
+  const syncFactionLink = () => {
+    if (!factionLink) return;
+    let known = false;
+    try { known = !!(localStorage.getItem("vs-faction") && localStorage.getItem("vs-sailor")); } catch (e) { /* private mode */ }
+    factionLink.textContent = known ? "Share Your Faction" : "Find Your Faction";
+    factionLink.href = known ? "gate.html#share" : "gate.html";
+  };
+  syncFactionLink();
+  if (factionLink) factionLink.addEventListener("click", () => share.close());
   if (share) {
     share.querySelector("[data-close]").addEventListener("click", () => share.close());
     share.addEventListener("click", (e) => { if (e.target === share) share.close(); });
