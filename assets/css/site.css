@@ -747,6 +747,15 @@ button.item:not([data-state="locked"]):hover, button.item:not([data-state="locke
 .share-preview[data-size="post"] { aspect-ratio: 4 / 5; }
 .share-preview img { display: block; width: 100%; height: 100%; object-fit: cover; transition: opacity .3s; }
 .share-preview.is-loading img { opacity: 0; }
+/* The save arrow: a quiet light square tucked inside the card's lower right corner. It suggests, never shouts;
+   on a computer it grows a little and brightens under the pointer. */
+.share-preview__save { position: absolute; right: 5px; bottom: 5px; display: grid; place-items: center; width: 24px; height: 24px; padding: 0; border: 1px solid rgba(255, 255, 255, .16); border-radius: 6px; background: rgba(255, 255, 255, .09); color: var(--mist); opacity: .85; cursor: pointer; -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); transition: transform .25s var(--ease), background .25s, color .25s, border-color .25s, opacity .25s; }
+.share-preview__save svg { width: 13px; height: 13px; }
+@media (min-width: 541px) { .share-preview__save { right: 8px; bottom: 8px; width: 30px; height: 30px; } .share-preview__save svg { width: 16px; height: 16px; } }
+@media (hover: hover) { .share-preview__save:hover { transform: scale(1.15); opacity: 1; background: rgba(255, 255, 255, .16); border-color: rgba(var(--glow), .5); color: var(--heading); } }
+.share-preview__save:focus-visible { opacity: 1; color: var(--heading); outline: 2px solid var(--brass); outline-offset: 2px; }
+.share-preview__save:active { transform: scale(.94); }
+.share-preview.is-loading .share-preview__save, .share-preview__save:disabled { opacity: 0; pointer-events: none; }
 .share-links { flex-wrap: wrap; }
 @media (max-width: 400px) { .share-links { display: grid; grid-template-columns: repeat(4, 44px); gap: 14px 22px; justify-content: center; } }
 /* Phones: the share button must show without scrolling, in the browser and in the card app's window,
