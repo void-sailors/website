@@ -134,8 +134,8 @@
                 </div>
                 <p class="verdict__creed"></p>
                 <div class="btn-row">
-                    <button class="btn btn--primary" type="button" data-action="colors">Keep These Colors</button>
-                    <button class="btn btn--ghost" type="button" data-action="share">Share Crest Card</button>
+                    <button class="btn btn--primary" type="button" data-action="share">Share Your Faction</button>
+                    <button class="btn btn--ghost" type="button" data-action="colors">Keep These Colors</button>
                     <button class="btn btn--ghost" type="button" data-action="again">Walk Through Again</button>
                 </div>
                 <p class="muted" style="margin-top:var(--s5)"><a href="index.html#crew" data-crew-open>Join the crew</a> to hear when the book launches.</p>
@@ -145,8 +145,9 @@
         <!-- 5. Share the crest: a picture sized for stories or feeds, and a link that previews as the faction's card. -->
         <dialog class="trial share-pop" id="share-pop" aria-labelledby="share-pop-title">
             <button class="icon-btn trial__close" type="button" data-close aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
-            <p class="eyebrow">Share Your Crest</p>
-            <h2 class="trial__title" id="share-pop-title">Fly Your Colors</h2>
+            <p class="eyebrow share-pop__who">The Gate has spoken</p>
+            <h2 class="trial__title" id="share-pop-title">Share Your Faction</h2>
+            <p class="trial__rule">Show your friends where you stand, then dare them to face the Gate.</p>
             <div class="share-size" role="radiogroup" aria-label="Picture shape">
                 <button type="button" role="radio" aria-checked="true" data-size="story">Story <small>9:16</small></button>
                 <button type="button" role="radio" aria-checked="false" data-size="post">Post <small>4:5</small></button>
@@ -154,10 +155,10 @@
             <p class="share-pop__fit" aria-live="polite">For Instagram, TikTok and Facebook Stories</p>
             <div class="share-preview"><img alt="" width="1080" height="1920"></div>
             <div class="btn-row trial__actions">
-                <button class="btn btn--primary" type="button" data-share="picture" hidden>Share Picture</button>
+                <button class="btn btn--primary" type="button" data-share="picture" hidden>Share with Friends</button>
                 <button class="btn btn--ghost" type="button" data-share="save">Save Picture</button>
             </div>
-            <p class="crew-pop__or">Or post a link</p>
+            <p class="crew-pop__or">Or send a link</p>
             <ul class="round-socials share-links">
                     <li><a data-net="x" href="/gate.html" target="_blank" rel="noopener" aria-label="Share on X" title="X"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg></a></li>
                     <li><a data-net="facebook" href="/gate.html" target="_blank" rel="noopener" aria-label="Share on Facebook" title="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"/></svg></a></li>

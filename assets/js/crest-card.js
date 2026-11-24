@@ -27,7 +27,7 @@
   };
 
   const SIZES = { story: [1080, 1920], post: [1080, 1350], pin: [1000, 1500], link: [1200, 630] };
-  const CTA = "Which faction would claim you?";
+  const CTA = "Which faction claims you?";
   const DISPLAY = "Cinzel, Georgia, serif";
   const TEXT = "'Source Serif 4', Georgia, serif";
   const MARK = "'Bluu Next Titling', Cinzel, Georgia, serif";
@@ -125,13 +125,13 @@
       const ch = 520, cw = ch / 1.5;
       g.drawImage(crest, 330 - cw / 2, (H - ch) / 2, cw, ch);
       const x = 820, max = 620;
-      line(g, "TRIAGE BY THE GATE", x, 150, { size: 26, weight: 500, family: DISPLAY, color: c.dim, spacing: 0.22, max });
+      line(g, "THE GATE HAS SPOKEN", x, 150, { size: 26, weight: 500, family: DISPLAY, color: c.dim, spacing: 0.22, max });
       line(g, "I SAIL WITH THE", x, 250, { size: 34, weight: 500, family: DISPLAY, color: c.mist, spacing: 0.14, max });
       line(g, f.name, x, 345, { size: 92, weight: 700, family: DISPLAY, color: c.heading, max });
       line(g, f.motto.toUpperCase(), x, 400, { size: 24, weight: 500, family: DISPLAY, color: c.brass, spacing: 0.12, max });
       rule(g, x, 432, 200, c);
       line(g, CTA, x, 482, { size: 30, style: "italic", family: TEXT, color: c.heading, max });
-      line(g, "VoidSailors  ·  voidsailors.com", x, 552, { size: 26, family: TEXT, color: c.dim, max });
+      line(g, "VoidSailors  ·  Find yours at voidsailors.com", x, 552, { size: 26, family: TEXT, color: c.dim, max });
       return canvas;
     }
 
@@ -139,7 +139,7 @@
     const [top, ch] = L.crest, cw = ch / 1.5, max = W - L.inset * 2 - 80;
     backdrop(g, W, H, c, faction, [W / 2, top + ch * 0.45, ch * 0.75]);
     frame(g, W, H, c, L.inset);
-    line(g, "TRIAGE BY THE GATE", W / 2, L.label, { size: format === "story" ? 34 : 28, weight: 500, family: DISPLAY, color: c.dim, spacing: 0.22, max });
+    line(g, "THE GATE HAS SPOKEN", W / 2, L.label, { size: format === "story" ? 34 : 28, weight: 500, family: DISPLAY, color: c.dim, spacing: 0.22, max });
     if (who) line(g, who, W / 2, L.who, { size: format === "story" ? 64 : 54, style: "italic", family: TEXT, color: c.heading, max });
     g.drawImage(crest, (W - cw) / 2, who ? top : top - 30, cw, ch);
     line(g, who ? "SAILS WITH THE" : "I SAIL WITH THE", W / 2, L.sails, { size: format === "story" ? 40 : 34, weight: 500, family: DISPLAY, color: c.mist, spacing: 0.16, max });
@@ -149,7 +149,7 @@
     line(g, CTA, W / 2, L.cta, { size: format === "story" ? 42 : 36, style: "italic", family: TEXT, color: c.heading, max });
     if (L.logo && logo) g.drawImage(logo, W / 2 - 22, L.logo, 44, 44);
     line(g, "VoidSailors", W / 2, L.mark, { size: format === "story" ? 56 : 46, family: MARK, color: c.heading, max });
-    line(g, "voidsailors.com", W / 2, L.url, { size: format === "story" ? 32 : 28, family: TEXT, color: c.brass, spacing: 0.04, max });
+    line(g, "Find yours at voidsailors.com", W / 2, L.url, { size: format === "story" ? 32 : 28, family: TEXT, color: c.brass, spacing: 0.04, max });
     return canvas;
   }
 

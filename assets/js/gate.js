@@ -224,12 +224,12 @@
   if (pictureBtn && shareable) {
     pictureBtn.hidden = false;
     const tip = pop.querySelector(".share-pop__tip");
-    if (tip) tip.textContent = "Instagram and TikTok take pictures rather than links. Tap Share Picture and choose the app.";
+    if (tip) tip.textContent = "Instagram and TikTok take pictures rather than links. Tap Share with Friends and pick the app.";
   } else if (saveBtn) saveBtn.className = "btn btn--primary";
 
   const fileName = () => `voidsailors-${result}-${size}.png`;
   const crestLink = () => `${SITE}/crest/${result}`;
-  const caption = () => `I sail with the ${FACTIONS[result].name}. Which faction would claim you?`;
+  const caption = () => `I sail with the ${FACTIONS[result].name}. Which faction claims you?`;
 
   // Start drawing both shapes as soon as the verdict is in, so the share sheet opens on the first tap.
   function prepareCards() {
@@ -284,6 +284,7 @@
     if (!pop || typeof pop.showModal !== "function") return saveFallback();
     if (!cards.story) prepareCards();
     setLinks();
+    pop.querySelector(".share-pop__who").textContent = `You sail with the ${FACTIONS[result].name}`;
     showSize(size);
     status("");
     pop.showModal();
