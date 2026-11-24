@@ -171,6 +171,7 @@
     $(".verdict__card .motto").textContent = f.motto;
     $(".verdict__creed").textContent = f.creed;
     store.set("vs-faction", result);
+    prepareCards();
     // The ceremony previews the faction colours; "Keep These Colors" makes them stick.
     preview(f.theme);
     keepBtn.disabled = false;
@@ -180,10 +181,6 @@
 
   const root = document.documentElement;
   const keepBtn = document.querySelector('[data-action="colors"]');
-  try {
-    const probe = new File([""], "crest.png", { type: "image/png" });
-    if (navigator.canShare?.({ files: [probe] })) document.querySelector('[data-action="download"]').textContent = "Share Crest Card";
-  } catch (e) { /* older browsers keep "Save Crest Card" */ }
   const preview = (theme) => {
     if (theme && theme !== "void") root.dataset.theme = theme; else delete root.dataset.theme;
     document.dispatchEvent(new CustomEvent("vs:theme"));
@@ -199,77 +196,137 @@
       keepBtn.lastChild.textContent = "Colors Kept";
     }
     if (action === "again") { restore(); show("intro"); input.focus(); }
-    if (action === "download") downloadCard();
+    if (action === "share") openShare();
   });
 
-  // Draw a 1080 x 1920 story card on canvas and hand it to the visitor.
-  function downloadCard() {
-    const f = FACTIONS[result];
-    const css = getComputedStyle(document.documentElement);
-    const v = (n) => css.getPropertyValue(n).trim();
-    const W = 1080, H = 1920;
-    const c = document.createElement("canvas");
-    c.width = W; c.height = H;
-    const g = c.getContext("2d");
-    const bg = g.createLinearGradient(0, 0, 0, H);
-    bg.addColorStop(0, v("--void")); bg.addColorStop(1, v("--deep"));
-    g.fillStyle = bg; g.fillRect(0, 0, W, H);
-    const glow = g.createRadialGradient(W / 2, 760, 40, W / 2, 760, 620);
-    glow.addColorStop(0, "rgba(255,255,255,0.10)"); glow.addColorStop(1, "rgba(255,255,255,0)");
-    g.fillStyle = glow; g.fillRect(0, 0, W, H);
-    for (let i = 0; i < 140; i++) {
-      g.globalAlpha = 0.2 + Math.random() * 0.7;
-      g.fillStyle = `rgb(${v("--star")})`;
-      g.beginPath(); g.arc(Math.random() * W, Math.random() * H * 0.8, Math.random() * 2 + 0.6, 0, Math.PI * 2); g.fill();
+  /* ---------- Share the crest ----------
+     The card is drawn in two shapes: a 9:16 story (Instagram, TikTok, Facebook, Snapchat) and a 4:5 post
+     (feeds on Instagram, Facebook, Threads and X). Phones hand the picture to the share sheet; every device
+     can save it. Links go to /crest/<faction>, whose preview is that faction's card, so a link dropped on
+     X, Facebook, Threads, WhatsApp or Reddit shows the crest too. Nothing is uploaded: the picture is made here. */
+  const pop = document.getElementById("share-pop");
+  const SITE = "https://voidsailors.com";
+  const FIT = {
+    story: "For Instagram, TikTok and Facebook Stories",
+    post: "For Instagram, Facebook, Threads and X feeds",
+  };
+  let size = "story";
+  let cards = {}; // format -> Promise<{ blob, url }>
+  let statusTimer;
+
+  const shareable = (() => {
+    try { return !!navigator.canShare?.({ files: [new File([""], "crest.png", { type: "image/png" })] }); }
+    catch (e) { return false; }
+  })();
+  const pictureBtn = pop?.querySelector('[data-share="picture"]');
+  const saveBtn = pop?.querySelector('[data-share="save"]');
+  // Where the share sheet exists it leads; elsewhere saving is the main action.
+  if (pictureBtn && shareable) {
+    pictureBtn.hidden = false;
+    const tip = pop.querySelector(".share-pop__tip");
+    if (tip) tip.textContent = "Instagram and TikTok take pictures rather than links. Tap Share Picture and choose the app.";
+  } else if (saveBtn) saveBtn.className = "btn btn--primary";
+
+  const fileName = () => `voidsailors-${result}-${size}.png`;
+  const crestLink = () => `${SITE}/crest/${result}`;
+  const caption = () => `I sail with the ${FACTIONS[result].name}. Which faction would claim you?`;
+
+  // Start drawing both shapes as soon as the verdict is in, so the share sheet opens on the first tap.
+  function prepareCards() {
+    Object.values(cards).forEach((p) => p.then((c) => URL.revokeObjectURL(c.url)).catch(() => {}));
+    cards = {};
+    if (!window.VSCrestCard) return;
+    for (const format of ["story", "post"]) {
+      cards[format] = window.VSCrestCard.render({ faction: result, format, sailor })
+        .then((canvas) => new Promise((ok, fail) => canvas.toBlob((blob) => blob ? ok({ blob, url: URL.createObjectURL(blob) }) : fail(new Error("no image")), "image/png")));
+      cards[format].catch(() => {});
     }
-    g.globalAlpha = 1;
-    g.strokeStyle = v("--brass"); g.lineWidth = 3;
-    g.strokeRect(55, 55, W - 110, H - 110);
-    g.textAlign = "center";
-    g.fillStyle = v("--mist");
-    g.font = "500 40px Cinzel, Georgia, serif";
-    g.fillText("TRIAGE BY THE GATE", W / 2, 200);
-    g.font = "64px 'Source Serif 4', Georgia, serif";
-    g.fillStyle = v("--heading");
-    g.fillText(sailor, W / 2, 300);
-    const img = new Image();
-    img.onload = () => {
-      const iw = 620, ih = iw * 1.5;
-      g.drawImage(img, (W - iw) / 2, 380, iw, ih);
-      g.fillStyle = v("--mist");
-      g.font = "500 40px Cinzel, Georgia, serif";
-      g.fillText("SAILS WITH THE", W / 2, 1375);
-      g.fillStyle = v("--heading");
-      g.font = "700 96px Cinzel, Georgia, serif";
-      g.fillText(f.name, W / 2, 1475);
-      g.fillStyle = v("--brass");
-      g.font = "500 40px Cinzel, Georgia, serif";
-      g.fillText(f.motto.toUpperCase(), W / 2, 1550);
-      g.fillStyle = v("--mist");
-      g.font = "48px 'Bluu Next Titling', Cinzel, Georgia, serif";
-      g.fillText("VoidSailors", W / 2, 1740);
-      g.font = "32px 'Source Serif 4', Georgia, serif";
-      g.fillText("voidsailors.com", W / 2, 1795);
-      c.toBlob((blob) => {
-        if (!blob) return;
-        const fileName = `voidsailors-${result}-crest.png`;
-        const save = () => {
-          const a = document.createElement("a");
-          a.href = URL.createObjectURL(blob);
-          a.download = fileName;
-          document.body.appendChild(a); a.click(); a.remove();
-          setTimeout(() => URL.revokeObjectURL(a.href), 4000);
-        };
-        // Phones open the share sheet; everything else saves the image.
-        const file = new File([blob], fileName, { type: "image/png" });
-        if (!navigator.canShare?.({ files: [file] })) return save();
-        navigator.share({
-          files: [file],
-          title: "VoidSailors",
-          text: `${sailor} sails with the ${f.name}. Find your faction at https://voidsailors.com/gate.html`,
-        }).catch((e) => { if (e.name !== "AbortError") save(); });
-      }, "image/png");
+  }
+
+  const status = (text) => {
+    const el = pop.querySelector(".share-pop__status");
+    el.textContent = text;
+    clearTimeout(statusTimer);
+    if (text) statusTimer = setTimeout(() => { el.textContent = ""; }, 4200);
+  };
+
+  function setLinks() {
+    const url = crestLink();
+    const text = caption();
+    const tagged = `${text} #VoidSailors`;
+    const e = encodeURIComponent;
+    const links = {
+      x: `https://x.com/intent/tweet?text=${e(tagged)}&url=${e(url)}`,
+      facebook: `https://www.facebook.com/sharer/sharer.php?u=${e(url)}`,
+      threads: `https://www.threads.net/intent/post?text=${e(`${tagged} ${url}`)}`,
+      bluesky: `https://bsky.app/intent/compose?text=${e(`${tagged} ${url}`)}`,
+      pinterest: `https://www.pinterest.com/pin/create/button/?url=${e(url)}&media=${e(`${SITE}/assets/img/share/${result}-pin.jpg`)}&description=${e(`${text} VoidSailors, a GameLit novel by E. J. Perry.`)}`,
+      reddit: `https://www.reddit.com/submit?url=${e(url)}&title=${e(text)}`,
+      whatsapp: `https://wa.me/?text=${e(`${text} ${url}`)}`,
     };
-    img.src = f.crest;
+    pop.querySelectorAll("[data-net]").forEach((a) => { a.href = links[a.dataset.net]; });
+  }
+
+  function showSize(next) {
+    size = next;
+    pop.querySelectorAll("[data-size]").forEach((b) => b.setAttribute("aria-checked", String(b.dataset.size === size)));
+    pop.querySelector(".share-pop__fit").textContent = FIT[size];
+    const frame = pop.querySelector(".share-preview");
+    const img = frame.querySelector("img");
+    frame.dataset.size = size;
+    img.alt = `${sailor}'s crest card: sails with the ${FACTIONS[result].name}`;
+    frame.classList.add("is-loading");
+    cards[size]?.then((c) => { if (size === next) { img.src = c.url; frame.classList.remove("is-loading"); } })
+      .catch(() => frame.classList.remove("is-loading"));
+  }
+
+  function openShare() {
+    if (!pop || typeof pop.showModal !== "function") return saveFallback();
+    if (!cards.story) prepareCards();
+    setLinks();
+    showSize(size);
+    status("");
+    pop.showModal();
+  }
+
+  // Browsers without the dialog still get the picture.
+  function saveFallback() {
+    if (!cards.story) prepareCards();
+    cards.story?.then((c) => save(c));
+  }
+
+  function save(card) {
+    const a = document.createElement("a");
+    a.href = card.url;
+    a.download = fileName();
+    document.body.appendChild(a); a.click(); a.remove();
+  }
+
+  if (pop) {
+    pop.querySelector("[data-close]").addEventListener("click", () => pop.close());
+    pop.addEventListener("click", async (e) => {
+      if (e.target === pop) return pop.close();
+      const sizeBtn = e.target.closest("[data-size]");
+      if (sizeBtn) return showSize(sizeBtn.dataset.size);
+      const act = e.target.closest("[data-share]")?.dataset.share;
+      if (!act) return;
+      if (act === "copy") {
+        try {
+          await navigator.clipboard.writeText(`${caption()} ${crestLink()} #VoidSailors`);
+          status("Caption and link copied. Paste them anywhere.");
+        } catch (err) { status(crestLink()); }
+        return;
+      }
+      const card = await cards[size];
+      if (!card) return;
+      if (act === "save") { save(card); status("Picture saved."); return; }
+      // Only the picture goes to the share sheet: Instagram and others drop the image when text rides along.
+      const file = new File([card.blob], fileName(), { type: "image/png" });
+      try {
+        await navigator.share({ files: [file] });
+      } catch (err) {
+        if (err.name !== "AbortError") { save(card); status("Picture saved. Add it from your photos."); }
+      }
+    });
   }
 })();
