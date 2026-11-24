@@ -380,15 +380,16 @@
   const quietSave = shareable ? pop?.querySelector(".share-pop__quiet") : null;
   const hideHelp = () => { help.hidden = true; if (quietSave) quietSave.hidden = false; };
   function showHelp(app, shared) {
-    help.querySelector(".share-help__title").textContent = shared ? "Saved it instead?" : `${app} not in the list?`;
+    // One title for every app, the circles' and the rest in the share sheet (Eli: it also covers an app that won't open).
+    help.querySelector(".share-help__title").textContent = shared ? "Saved it instead?" : "App missing or didn't open?";
     help.querySelector(".share-help__hint").textContent = shared
       ? "The card waits in your photos, ready to post."
       : "Keep the card in your photos first, then post it from the app.";
     help.querySelector('[data-share="save"]').hidden = shared;
-    help.querySelector(".share-help__dot").hidden = shared;
+    help.querySelector(".share-help__dot").hidden = shared || !app;
     const open = help.querySelector(".share-help__open");
-    open.href = APP_HOME[app];
-    open.textContent = `Open ${app}`;
+    open.hidden = !app;
+    if (app) { open.href = APP_HOME[app]; open.textContent = `Open ${app}`; }
     help.hidden = false;
     if (quietSave) quietSave.hidden = true; // the box carries its own Save picture
     help.scrollIntoView({ block: "nearest", behavior: reduceMotion ? "auto" : "smooth" });
@@ -504,10 +505,11 @@
         return;
       }
       // Only the picture goes to the share sheet: Instagram and others drop the image when text rides along.
+      hideHelp();
       try {
         await shareFile(card);
       } catch (err) {
-        if (err.name === "AbortError") return;
+        if (err.name === "AbortError") { showHelp(null, false); return; }
         // The tap expired before the sheet could open: one more tap fixes it.
         if (err.name === "NotAllowedError") { status("Tap once more."); return; }
         if (iOS) status("Press and hold the picture to save it, then post it from Photos.", true);
