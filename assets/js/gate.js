@@ -192,6 +192,7 @@
     if (!action) return;
     if (action === "colors") {
       window.VoidSailors?.setTheme(FACTIONS[result].theme, { earned: true });
+      window.VoidSailors?.showTag?.(FACTIONS[result].theme); // names them as the sailor's own, apart from the borrowed picks
       keepBtn.disabled = true;
       keepBtn.lastChild.textContent = "Colors Kept";
     }

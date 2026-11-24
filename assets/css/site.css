@@ -236,6 +236,21 @@ p { margin: 0 0 var(--s4); }
 .theme-toggle[data-mode="manual"] .theme-toggle__icon { --icon: #fff; }
 .theme-toggle[data-mode="earned"] { border-color: #ffd23f; box-shadow: 0 0 21px -8px #ffd23f; }
 .theme-toggle[data-mode="earned"] .theme-toggle__icon { --icon: #ffd23f; }
+/* The tag that names each colour as the button lands on it; gold when it is the sailor's own faction. */
+.theme-toggle { position: relative; }
+.theme-tag {
+  position: absolute; top: calc(100% + 10px); right: -6px; z-index: 30; width: max-content; max-width: min(250px, calc(100vw - 32px));
+  display: grid; gap: 3px; padding: 10px 14px; border-radius: 10px; text-align: left; pointer-events: none;
+  background: color-mix(in srgb, var(--void, #0b0d16) 88%, transparent); border: 1px solid var(--line);
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); box-shadow: 0 13px 34px -13px rgba(0, 0, 0, .8);
+  opacity: 0; transform: translateY(-6px); visibility: hidden; transition: opacity .3s var(--ease), transform .3s var(--ease), visibility 0s .3s;
+}
+.theme-tag.is-on { opacity: 1; transform: none; visibility: visible; transition: opacity .3s var(--ease), transform .3s var(--ease); }
+.theme-tag__title { font-family: var(--font-display); font-weight: 600; font-size: .78rem; letter-spacing: .16em; text-transform: uppercase; color: var(--heading); }
+.theme-tag__note { white-space: pre-line; font-size: .82rem; line-height: 1.4; color: var(--mist); }
+.theme-tag.is-earned { border-color: #ffd23f; box-shadow: 0 0 0 1px rgba(255, 210, 63, .18), 0 13px 34px -13px rgba(255, 210, 63, .45); }
+.theme-tag.is-earned .theme-tag__title { color: #ffd23f; }
+@media (prefers-reduced-motion: reduce) { .theme-tag { transition: none; transform: none; } }
 .nav__toggle { display: none; }
 /* Envelope: the newsletter shortcut on screens where Join the Crew sits inside the menu. */
 .mail-btn { display: none; color: var(--brass); border-color: color-mix(in srgb, var(--brass) 45%, transparent); }
