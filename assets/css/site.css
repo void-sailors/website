@@ -690,19 +690,39 @@ button.item:not([data-state="locked"]):hover, button.item:not([data-state="locke
 .round-socials button svg { fill: none; }
 .share-pop .trial__title { margin-bottom: var(--s4); }
 .share-pop .btn[hidden] { display: none; }
+.share-pop__who { padding-inline: 44px; } /* clear of the close button when it wraps */
+.share-pop .btn { white-space: nowrap; }
+@media (max-width: 359px) { .share-pop .btn { letter-spacing: .1em; padding-inline: var(--s4); } .share-pop__who { padding-inline: 36px; } }
 .share-size { display: inline-flex; padding: 3px; border: 1px solid var(--brass); border-radius: 999px; }
 .share-size button { padding: .5em 1.3em; border: 0; border-radius: 999px; background: none; color: var(--mist); font-family: var(--font-display); font-size: var(--t-small); letter-spacing: .12em; text-transform: uppercase; cursor: pointer; transition: background .3s, color .3s; }
 .share-size button small { margin-left: .35em; font-size: .8em; letter-spacing: .04em; opacity: .7; }
 .share-size button[aria-checked="true"] { background: var(--brass); color: var(--brass-ink); }
 .share-pop__fit { min-height: 1.4em; margin: var(--s3) 0 var(--s4); font-size: var(--t-small); color: var(--mist-dim); }
-.share-preview { position: relative; height: min(40svh, 360px); aspect-ratio: 9 / 16; margin: 0 auto var(--s4); border-radius: 8px; overflow: hidden; background: var(--void); box-shadow: 0 21px 55px -21px rgba(var(--glow), .55), 0 0 0 1px var(--line); transition: aspect-ratio .35s var(--ease); }
+.share-preview { position: relative; height: clamp(220px, calc(100svh - 620px), 360px); aspect-ratio: 9 / 16; margin: 0 auto var(--s4); border-radius: 8px; overflow: hidden; background: var(--void); box-shadow: 0 21px 55px -21px rgba(var(--glow), .55), 0 0 0 1px var(--line); transition: aspect-ratio .35s var(--ease); }
 .share-preview[data-size="post"] { aspect-ratio: 4 / 5; }
 .share-preview img { display: block; width: 100%; height: 100%; object-fit: cover; transition: opacity .3s; }
 .share-preview.is-loading img { opacity: 0; }
-.share-links { display: grid; grid-template-columns: repeat(8, 44px); justify-content: center; }
-@media (max-width: 540px) { .share-links { grid-template-columns: repeat(4, 44px); gap: 14px 18px; } .share-preview { height: min(32svh, 300px); } .share-pop__fit { margin-bottom: var(--s3); } }
+.share-links { flex-wrap: wrap; }
+/* Phones: the share button must show without scrolling, in the browser and in the card app's window,
+   so the picture shrinks to whatever height is left and the line naming the apps steps aside. */
+@media (max-width: 540px) {
+  .share-pop { padding-top: var(--s5); }
+  .share-pop .trial__title { margin-bottom: var(--s2); }
+  .share-pop .trial__rule { margin-bottom: var(--s4); }
+  .share-pop__fit { display: none; }
+  .share-size { margin-bottom: var(--s4); }
+  .share-preview { height: clamp(150px, calc(100svh - 430px), 320px); }
+}
+@media (max-width: 540px) and (max-height: 620px) {
+  .share-pop .trial__rule { display: none; }
+  .share-preview { height: clamp(130px, calc(100svh - 350px), 320px); }
+}
+.share-pop__quiet { display: flex; justify-content: center; align-items: center; gap: var(--s3); margin: var(--s4) 0 0; color: var(--mist-dim); }
+.share-pop__quiet[hidden], .share-pop__links[hidden] { display: none; }
+.share-pop__quiet button { padding: var(--s2) var(--s1); border: 0; background: none; color: var(--mist); font: inherit; font-size: var(--t-small); text-decoration: underline; text-decoration-color: var(--brass); text-underline-offset: 4px; cursor: pointer; }
+.share-pop__quiet button:hover, .share-pop__quiet button:focus-visible { color: var(--heading); }
 .share-pop__status { min-height: 1.4em; margin: var(--s3) 0 0; font-size: var(--t-small); color: rgb(var(--glow)); overflow-wrap: anywhere; }
-.share-pop__tip { max-width: 30em; margin: var(--s2) auto 0; font-size: var(--t-small); color: var(--mist-dim); }
+.share-pop__tip { max-width: 30em; margin: var(--s4) auto 0; font-size: var(--t-small); color: var(--mist-dim); }
 @media (prefers-reduced-motion: reduce) { .item.is-denied, .trial[open], .card.is-met img { animation: none; } }
 
 /* I. Cannonballs */
